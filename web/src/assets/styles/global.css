@@ -1,0 +1,57 @@
+:root {
+  --bg-primary-color      : #607D8B; /* Background */
+  --bg-secondary-color    : #455A64; /* Background */
+  --card-primary-color    : #517686; /* Background */
+  --card-secondary-color  : #3d5a68;  /* Text */
+  --styling-color         : #03A9F4;  /* Button */
+  --primary-text-color    : #212121;  /* Text */
+  --secondary-text-color  : #2c2a2a;  /* Text */
+  --divider-color         : #BDBDBD;  /* Border */
+
+  font-size: 80%;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+html,
+body,
+#root {
+  height: 100vh;
+  width: 90vw;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+body,
+input,
+button,
+textarea,
+p, a {
+  font: 400 1.6rem Roboto;
+  color: var(--secondary-text-color);
+}
+
+h1 {
+  font: 700 2.5rem Roboto;
+  color: var(--primary-text-color)
+}
+
+body {
+  background: linear-gradient(var(--bg-primary-color), var(--bg-secondary-color));
+}
+
+.container {
+  width: 90vw;
+  max-width: 900px;
+}
+
+@media (min-width: 900px) {
+  :root {
+    font-size: 62.5%;
+  }
+}

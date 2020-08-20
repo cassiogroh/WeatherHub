@@ -1,0 +1,20 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.header-right {
+  display: flex;
+}
+
+.header-right p {
+  padding: 1rem;
+}
+
+.header-left p:hover,
+.header-right p:hover {
+  cursor: pointer;
+  font-weight: 700;
+}

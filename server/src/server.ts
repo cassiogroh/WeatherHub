@@ -1,15 +1,18 @@
-import express from 'express';
+// import 'reflect-metadata';
 
-import homePage from './routes';
+import express from 'express';
+import cors from 'cors';
+
+import routes from './routes/index';
 
 const app = express();
 
-app.get('/', homePage )
-
-
+app.use(cors());
+app.use(express.json());
+app.use(routes);
 
 const port = process.env.PORT || 3333;
 
-app.listen(port, () => `Server running on port ${port}`);
+app.listen(port, () => console.log(`Server running on port ${port}`));
 
 

@@ -6,7 +6,7 @@ const apiInfo = {
       'ISANTACA85',
       'ISANTACA56',
       'IBRUSQUE2',
-      'IBRUSQ14',
+      // 'IBRUSQ14',
       // 'IBRUSQ12',
       // 'ISCGUABI2',
       // 'IGUABIRU5',

@@ -2,7 +2,15 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 1rem;
+  margin: 2rem 0;
+  border: 2px solid var(--divider-color);
+  border-radius: 0.8rem;
+  background: radial-gradient(var(--card-primary-color), var(--card-secondary-color));
+  padding-left: 1rem;
+}
+
+.header-left p {
+  font-size: 2.4rem;
 }
 
 .header-right {
@@ -11,6 +19,7 @@ header {
 
 .header-right p {
   padding: 1rem;
+  font-size: 2.4rem;
 }
 
 .header-left p:hover,

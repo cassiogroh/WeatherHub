@@ -30,23 +30,20 @@
   transition: font-size .2s;
 }
 
-.station-card .card-top a:hover {
+/* .station-card .card-top a:hover {
   font-size: 1.8rem;
-}
+} */
 
 .station-card .card-top button {
-  background: url("../../assets/images/icons/delete.svg");
-  background-repeat: no-repeat;
+  background: url("../../assets/images/icons/delete.svg") no-repeat;
   height: 30px;
   width: 30px;
   border: none;
   cursor: pointer;
-  transition: transform .2s, background .2s;
+  transition: background .2s;
 }
 
-
 .station-card .card-top button:hover {
-  transform: scale(1.2);
   background: url("../../assets/images/icons/delete-hover.svg");
 }
 
@@ -68,10 +65,9 @@
   width: 23px;
   border: none;
   cursor: pointer;
-  transition: transform .2s, background .2s;
+  transition: background .2s;
 }
 
 .station-card .card-bottom button:hover {
   background: url("../../assets/images/icons/edit-hover.svg");
-  transform: scale(1.2);
 }

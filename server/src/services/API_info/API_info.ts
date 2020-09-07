@@ -6,15 +6,15 @@ const apiInfo = {
       'ISANTACA85',
       'ISANTACA56',
       'IBRUSQUE2',
-      // 'IBRUSQ14',
-      // 'IBRUSQ12',
-      // 'ISCGUABI2',
-      // 'IGUABIRU5',
-      // 'IGUABIRU6',
-      // 'ISCRIBEI2',
-      // 'IPRESI11',
-      // 'ISCVARGE2',
-      // 'ISCVARGE3'
+      'IBRUSQ14',
+      'IBRUSQ12',
+      'ISCGUABI2',
+      'IGUABIRU5',
+      'IGUABIRU6',
+      'ISCRIBEI2',
+      'IPRESI11',
+      'ISCVARGE2',
+      'ISCVARGE3'
   ]
 }
 

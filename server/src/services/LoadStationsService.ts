@@ -9,20 +9,34 @@ import fetch from 'node-fetch';
 //   firstTime?: boolean;
 // }
 
+interface StationProps {
+  neighborhood: string;
+  stationID: string;
+  dewpt: number;
+  elev: number;
+  heatIndex: number;
+  precipRate: number;
+  precipTotal: number;
+  pressure: number;
+  temp: number;
+  windChill: number;
+  windGust: number;
+  windSpeed: number;
+}
+
 // { index, userRequest, url, dbData, firstTime } : LoadStations  
 
 class LoadStationsService {
 
   public async execute() {
+    const unitSystem = apiInfo.units === 'm' ? 'metric' : 'imperial'; // Gets the unit system used to read data fetched
+
     let i = 0;
     let urls: string[] = [];
 
     apiInfo.stationsId.map(stationId => {
       urls[i++] = `https://api.weather.com/v2/pws/observations/current?stationId=${stationId}&format=json&units=${apiInfo.units}&apiKey=${apiInfo.apiKey}&numericPrecision=${apiInfo.numericPreicison}`;
     })
-
-    const unitSystem = apiInfo.units === 'm' ? 'metric' : 'imperial'; // Gets the unit system used to read data fetched
-    const stationsToLoad: any = {};
 
     const fetchedStations = await Promise.all(
       urls.map(url =>
@@ -33,8 +47,11 @@ class LoadStationsService {
           .catch(console.log)
       ));
 
-    i = 0;
-    const loadedStations = fetchedStations.map(station => {
+    const stationsArray: object[] = [];
+
+    fetchedStations.map(data => {
+      let station: StationProps = {} as StationProps;
+
       let {
         dewpt,
         elev,
@@ -46,28 +63,27 @@ class LoadStationsService {
         windChill,
         windGust,
         windSpeed
-      } = station.observations[0][unitSystem];
+      } = data.observations[0][unitSystem];
 
-      stationsToLoad['station' + i] = new Object();
-      stationsToLoad['station' + i].neighborhood = station.observations[0].neighborhood;
-      stationsToLoad['station' + i].stationID = station.observations[0].stationID;
-      stationsToLoad['station' + i].dewpt = dewpt;
-      stationsToLoad['station' + i].elev = elev;
-      stationsToLoad['station' + i].heatIndex = heatIndex;
-      stationsToLoad['station' + i].precipRate = precipRate;
-      stationsToLoad['station' + i].precipTotal = precipTotal;
-      stationsToLoad['station' + i].pressure = pressure;
-      stationsToLoad['station' + i].temp = temp;
-      stationsToLoad['station' + i].windChill = windChill;
-      stationsToLoad['station' + i].windGust = windGust;
-      stationsToLoad['station' + i].windSpeed = windSpeed;
-      i++;
+      station.neighborhood = data.observations[0].neighborhood;
+      station.stationID = data.observations[0].stationID;
+      station.dewpt = dewpt;
+      station.elev = elev;
+      station.heatIndex = heatIndex;
+      station.precipRate = precipRate;
+      station.precipTotal = precipTotal;
+      station.pressure = pressure;
+      station.temp = temp;
+      station.windChill = windChill;
+      station.windGust = windGust;
+      station.windSpeed = windSpeed;
 
-      return stationsToLoad;
+      stationsArray.push(station)
+      console.log(stationsArray)
     })
-    return loadedStations;
+
+    return stationsArray;
   }
 }
-
 
 export default LoadStationsService;

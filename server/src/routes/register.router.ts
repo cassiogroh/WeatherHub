@@ -8,8 +8,8 @@ const registerRouter = Router();
 registerRouter.post('/', async (request, response) => {
   const { name, email, password } = request.body;
 
-  const createUserService = new CreateUserService();
-  const user = await createUserService.execute({ name, email, password });
+  const createUser = new CreateUserService();
+  const user = await createUser.execute({ name, email, password });
   return response.json(user);
 });
 

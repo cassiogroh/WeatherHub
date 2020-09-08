@@ -14,8 +14,11 @@ class User {
   @Column()
   password: string;
 
-  @Column()
-  avatar: string;
+  @Column("varchar", { array: true })
+  stations: string[];
+
+  @Column("varchar", { array: true })
+  stations_names: string[];
 
   @CreateDateColumn()
   created_at: Date;

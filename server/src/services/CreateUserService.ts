@@ -26,7 +26,9 @@ export default class CreateUserService {
     const user = usersRepository.create({
       name,
       email,
-      password: hashedPassword
+      password: hashedPassword,
+      stations: ['ISANTACA85'],
+      stations_names: ['Brusque - Centro']
     })
 
     await usersRepository.save(user);

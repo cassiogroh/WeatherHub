@@ -1,5 +1,7 @@
 import { getRepository } from 'typeorm';
 
+import AppError from '../errors/AppError';
+
 import User from '../models/User';
 
 interface Request {
@@ -15,7 +17,7 @@ export default class DeleteUserService {
     })
 
     if (!checkUserExists) {
-      throw new Error('404 User not found')
+      throw new AppError('User not found', 404)
     }
 
     const user = checkUserExists;

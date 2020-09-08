@@ -1,15 +1,9 @@
-import apiInfo from '../utils/API_info';
 import fetch from 'node-fetch';
 
-// interface LoadStations {
-//   index: number;
-//   userRequest: boolean;
-//   url: string;
-//   dbData?: string[];
-//   firstTime?: boolean;
-// }
+import apiInfo from '../../utils/API_info';
 
 interface StationProps {
+  name: string;
   neighborhood: string;
   stationID: string;
   dewpt: number;
@@ -30,26 +24,14 @@ interface urlArray {
   url: string;
 }
 
-// { index, userRequest, url, dbData, firstTime } : LoadStations  
+export default async function populateStations(urlArray: urlArray[]): Promise<object[]> {
 
-class LoadStationsService {
+const unitSystem = apiInfo.units === 'm' ? 'metric' : 'imperial'; // Gets the unit system used to read data fetched
 
-  public async execute() {
-    const unitSystem = apiInfo.units === 'm' ? 'metric' : 'imperial'; // Gets the unit system used to read data fetched
-
-    const urlArray: urlArray[] = [];
-    
-    for (let i=0; i<apiInfo.stationsId.length; i++) {
-      urlArray[i] = {
-        stationID: apiInfo.stationsId[i],
-        url: `https://api.weather.com/v2/pws/observations/current?stationId=${apiInfo.stationsId[i]}&format=json&units=${apiInfo.units}&apiKey=${apiInfo.apiKey}&numericPrecision=${apiInfo.numericPreicison}`
-      }
-    }
-    
-    const offlineStations: string[] = [];
+const offlineStations: string[] = [];
 
     const fetchedStations = await Promise.allSettled(
-      urlArray.map((urls, index, url) =>
+      urlArray.map((urls, index) =>
         fetch(urls.url)
           .then(response => response.json())
           .catch(err => offlineStations.push(urlArray[index].stationID))
@@ -82,6 +64,7 @@ class LoadStationsService {
 
         station.neighborhood = data.value.observations[0].neighborhood;
         station.stationID = data.value.observations[0].stationID;
+        station.name = station.neighborhood;
         station.dewpt = dewpt;
         station.elev = elev;
         station.heatIndex = heatIndex;
@@ -98,6 +81,7 @@ class LoadStationsService {
       } else {
         station.stationID = offlineStations[i];
         station.status = 'offline';
+        station.name = 'Estação offline'
         stationsArray.push(station);
         i++;
       }
@@ -105,6 +89,3 @@ class LoadStationsService {
 
     return stationsArray;
   }
-}
-
-export default LoadStationsService;

@@ -15,7 +15,7 @@ const apiInfo = {
       // 'IPRESI11',
       // 'ISCVARGE2',
       // 'ISCVARGE3'
-      // 'IBRUSQ17', // Test only (station deactivated)
+      'IBRUSQ17', // Test only (station deactivated)
   ]
 }
 

@@ -33,4 +33,21 @@ userRouter.delete('/', async (request, response) => {
   return response.status(200).json({ message: `User ${username} deleted` })
 });
 
+// Add a station to user's dashboard
+userRouter.post('/add', async (request, response) => {
+  const { stationId } = request.body;
+
+  
+})
+
+// Remove a station from user's dashboard
+// userRouter.delete('/delete', async (request, response) => {
+
+// })
+
+// Edit the name of a station
+// userRouter.put('/edit', async (request, response) => {
+
+// })
+
 export default userRouter;

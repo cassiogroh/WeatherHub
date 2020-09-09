@@ -6,18 +6,13 @@ interface LoadStations {
   userId?: string;
 }
 
-interface urlArray {
-  stationID: string;
-  url: string;
-}
-
 class LoadStationsService {
 
   public async execute({ userRequest, userId }: LoadStations) {
 
     const urlArray  = await handleStationsRequest({ userRequest, userId })
     
-    const stationsArray = populateStations(urlArray);
+    const stationsArray = await populateStations({userRequest, urlArray, userId});
 
     return stationsArray;
   }

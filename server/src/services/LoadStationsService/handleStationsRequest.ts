@@ -1,12 +1,9 @@
-import { getRepository } from 'typeorm';
-
-import apiInfo from '../../utils/API_info';
-import User from '../../models/User';
-import AppError from '../../errors/AppError';
+import { apiInfo, getUrl } from '../../utils/API_info';
+import checkUserExists from '../../utils/checkUserExists';
 
 interface Request {
   userRequest: boolean;
-  userId?: string;
+  userId?: string | undefined;
 }
 
 interface urlArray {
@@ -24,19 +21,13 @@ export default async function handleStationsRequest({ userRequest, userId }: Req
     for (let i=0; i<apiInfo.stationsId.length; i++) {
       urlArray[i] = {
         stationID: apiInfo.stationsId[i],
-        url: `https://api.weather.com/v2/pws/observations/current?stationId=${apiInfo.stationsId[i]}&format=json&units=${apiInfo.units}&apiKey=${apiInfo.apiKey}&numericPrecision=${apiInfo.numericPreicison}`
+        url: getUrl(apiInfo.stationsId[i])
       }
     }
     
   } else {
     // Grabing data for use page
-    const usersRepository = getRepository(User);
-
-    const user = await usersRepository.findOne(userId);
-
-    if (!user) {
-      throw new AppError('User not found', 404)
-    }
+    const user = await checkUserExists({id: userId})
 
     const userStations = user.stations;
     // const userStationsNames = user.stations_names;
@@ -44,7 +35,7 @@ export default async function handleStationsRequest({ userRequest, userId }: Req
     for (let i=0; i<userStations.length; i++) {
       urlArray[i] = {
         stationID: userStations[i],
-        url: `https://api.weather.com/v2/pws/observations/current?stationId=${userStations[i]}&format=json&units=${apiInfo.units}&apiKey=${apiInfo.apiKey}&numericPrecision=${apiInfo.numericPreicison}`
+        url: getUrl(userStations[i])
       }
     }
   }

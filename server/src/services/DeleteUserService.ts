@@ -1,7 +1,6 @@
 import { getRepository } from 'typeorm';
 
-import AppError from '../errors/AppError';
-
+import checkUserExists from '../utils/checkUserExists';
 import User from '../models/User';
 
 interface Request {
@@ -10,17 +9,10 @@ interface Request {
 
 export default class DeleteUserService {
   public async execute({ id }: Request): Promise<string> {
+
     const usersRepository = getRepository(User);
-
-    const checkUserExists = await usersRepository.findOne({
-      where: { id },
-    })
-
-    if (!checkUserExists) {
-      throw new AppError('User not found', 404)
-    }
-
-    const user = checkUserExists;
+    
+    const user = await checkUserExists({ id });
 
     await usersRepository.remove(user);
 

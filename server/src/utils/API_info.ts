@@ -1,4 +1,4 @@
-const apiInfo = {
+export const apiInfo = {
   apiKey: '5ab387f9a952492eb387f9a952392ec0',
   units: 'm', // Metric system (switch to 'e' for imperial system)
   numericPreicison: 'decimal',
@@ -19,7 +19,10 @@ const apiInfo = {
   ]
 }
 
-export default apiInfo;
+export function getUrl( stationId: string): string {
+  const url = `https://api.weather.com/v2/pws/observations/current?stationId=${stationId}&format=json&units=${apiInfo.units}&apiKey=${apiInfo.apiKey}&numericPrecision=${apiInfo.numericPreicison}`;
+  return url;
+}
 
 // Available info
 // dewpt

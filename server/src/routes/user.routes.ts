@@ -2,8 +2,12 @@ import { Router } from 'express';
 
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
+import LoadStationsService from '../services/LoadStationsService/LoadStationsService';
 import CreateUserService from '../services/CreateUserService';
 import DeleteUserService from '../services/DeleteUserService';
+import AddNewStationService from '../services/AddNewStationService';
+import DeleteStationService from '../services/DeleteStationService';
+import RenameStationService from '../services/RenameStationService';
 
 const userRouter = Router();
 
@@ -13,41 +17,70 @@ userRouter.post('/', async (request, response) => {
 
   const createUser = new CreateUserService();
   const user = await createUser.execute({ name, email, password });
-  return response.json(user);
+  return response.status(200).json(user);
 });
+
 
 // Verify authentication
 userRouter.use(ensureAuthenticated)
 
-// User dashboard
+
+// User's dashboard
 userRouter.get('/', async (request, response) => {
-  return response.json('logado')
+  const { id } = request.body;
+
+  const loadStations = new LoadStationsService();
+  const userStations = await loadStations.execute({ userRequest: true, userId: id })
+  return response.status(200).json(userStations)
 })
+
 
 // Delete a user
 userRouter.delete('/', async (request, response) => {
   const { id } = request.body;
 
-  const deleteUserService = new DeleteUserService();
-  const username = await deleteUserService.execute({ id });
+  const deleteUser = new DeleteUserService();
+  const username = await deleteUser.execute({ id });
   return response.status(200).json({ message: `User ${username} deleted` })
 });
 
+
 // Add a station to user's dashboard
 userRouter.post('/add', async (request, response) => {
-  const { stationId } = request.body;
+  const { stationId, id } = request.body;
 
-  
+  const addNewStation = new AddNewStationService();
+  const userStations = await addNewStation.execute({
+    stationId,
+    id
+  });
+  return response.status(200).json(userStations);
 })
 
+
 // Remove a station from user's dashboard
-// userRouter.delete('/delete', async (request, response) => {
+userRouter.delete('/delete', async (request, response) => {
+  const { stationId, id } = request.body;
 
-// })
+  const deleteStation = new DeleteStationService();
+  const userStations = await deleteStation.execute({
+    stationId,
+    id
+  });
+  return response.status(200).json(userStations);
+})
 
-// Edit the name of a station
-// userRouter.put('/edit', async (request, response) => {
+// Rename a station
+userRouter.put('/rename-station', async (request, response) => {
+  const { stationId, newName, id } = request.body;
 
-// })
+  const renameStation = new RenameStationService();
+  const userStationsNames = await renameStation.execute({
+    stationId,
+    newName,
+    id
+  });
+  return response.status(200).json(userStationsNames);
+})
 
 export default userRouter;

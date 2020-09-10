@@ -6,7 +6,7 @@ const homeRouter = Router();
 
 homeRouter.get('/', async (request, response) => {
   const loadStationsService = new LoadStationsService();
-  const loadedStations = await loadStationsService.execute( {userRequest: false} )
+  const loadedStations = await loadStationsService.execute({});
   return response.json(loadedStations);
 })
 

@@ -1,7 +1,9 @@
+import { getCustomRepository } from 'typeorm';
 import fetch from 'node-fetch';
 
 import { apiInfo } from '../../utils/API_info';
-import checkUserExists from '../../utils/checkUserExists';
+import UsersRepository from '../../repositories/UsersRepository';
+
 import AppError from '../../errors/AppError';
 
 interface StationProps {
@@ -22,7 +24,6 @@ interface StationProps {
 }
 
 interface Request {
-  userRequest: boolean;
   urlArray: Array<{
     stationID: string;
     url: string;
@@ -30,86 +31,88 @@ interface Request {
   userId?: string;
 }
 
-export default async function populateStations({ userRequest, urlArray, userId }: Request): Promise<object[]> {
+export default async function populateStations({ urlArray, userId }: Request): Promise<object[]> {
 
-if (userRequest) {
-  var user = await checkUserExists({id: userId})
-}
+  const usersRepository = getCustomRepository(UsersRepository);
 
-const unitSystem = apiInfo.units === 'm' ? 'metric' : 'imperial'; // Gets the unit system used to read data fetched
+  if (userId) {
+    var user = await usersRepository.checkUserExists({ userId });
+  }
 
-const offlineStations: string[] = [];
+  const unitSystem = apiInfo.units === 'm' ? 'metric' : 'imperial'; // Gets the unit system used to read data fetched
 
-    const fetchedStations = await Promise.allSettled(
-      urlArray.map((urls, index) =>
-        fetch(urls.url)
-          .then(response => response.json())
-          .catch(err => offlineStations.push(urlArray[index].stationID))
-          // returns 1 as value if it catches an error with status fulfilled
-      )
+  const offlineStations: string[] = [];
+
+  const fetchedStations = await Promise.allSettled(
+    urlArray.map((urls, index) =>
+      fetch(urls.url)
+        .then(response => response.json())
+        .catch(err => offlineStations.push(urlArray[index].stationID))
+      // returns 1 as value if it catches an error with status fulfilled
     )
+  )
 
-    const stationsArray: object[] = [];
-    
-    if (offlineStations.length) {
-      var i = 0;
-    }
+  const stationsArray: object[] = [];
 
-    fetchedStations.map(data => {
-      let station: StationProps = {} as StationProps;
+  if (offlineStations.length) {
+    var i = 0;
+  }
 
-      if (data.status === 'fulfilled' && data.value !== 1) {
-        let {
-          dewpt,
-          elev,
-          heatIndex,
-          precipRate,
-          precipTotal,
-          pressure,
-          temp,
-          windChill,
-          windGust,
-          windSpeed
-        } = data.value.observations[0][unitSystem];
+  fetchedStations.map(data => {
+    let station: StationProps = {} as StationProps;
 
-        station.neighborhood = data.value.observations[0].neighborhood;
-        station.stationID = data.value.observations[0].stationID;
-        station.dewpt = dewpt;
-        station.elev = elev;
-        station.heatIndex = heatIndex;
-        station.precipRate = precipRate;
-        station.precipTotal = precipTotal;
-        station.pressure = pressure;
-        station.temp = temp;
-        station.windChill = windChill;
-        station.windGust = windGust;
-        station.windSpeed = windSpeed;
-        station.status = 'online';
+    if (data.status === 'fulfilled' && data.value !== 1) {
+      let {
+        dewpt,
+        elev,
+        heatIndex,
+        precipRate,
+        precipTotal,
+        pressure,
+        temp,
+        windChill,
+        windGust,
+        windSpeed
+      } = data.value.observations[0][unitSystem];
 
-        if (!userRequest) {
-          station.name = station.neighborhood;
-        } else {
-          const stationIndex = user.stations.findIndex(userStationId => userStationId === station.stationID)
+      station.neighborhood = data.value.observations[0].neighborhood;
+      station.stationID = data.value.observations[0].stationID;
+      station.dewpt = dewpt;
+      station.elev = elev;
+      station.heatIndex = heatIndex;
+      station.precipRate = precipRate;
+      station.precipTotal = precipTotal;
+      station.pressure = pressure;
+      station.temp = temp;
+      station.windChill = windChill;
+      station.windGust = windGust;
+      station.windSpeed = windSpeed;
+      station.status = 'online';
 
-          if (stationIndex < 0) {
-            throw new AppError('Station index does not match', 404)
-          }
+      if (!userId) {
+        station.name = station.neighborhood;
+      } else {
+        const stationIndex = user.stations.findIndex(userStationId => userStationId === station.stationID)
 
-          if (user.stations === user.stations_names) {
-            station.name = station.neighborhood;
-          }
-          station.name = user.stations_names[stationIndex];
+        if (stationIndex < 0) {
+          throw new AppError('Station index does not match', 404)
         }
 
-        stationsArray.push(station);
-      } else {
-        station.stationID = offlineStations[i];
-        station.status = 'offline';
-        station.name = 'Estação offline'
-        stationsArray.push(station);
-        i++;
+        if (user.stations === user.stations_names) {
+          station.name = station.neighborhood;
+        }
+        station.name = user.stations_names[stationIndex];
       }
-    })
 
-    return stationsArray;
-  }
+      stationsArray.push(station);
+    } else {
+      station.stationID = offlineStations[i];
+      station.status = 'offline';
+      station.name = 'Estação offline'
+      stationsArray.push(station);
+      i++;
+    }
+  })
+
+  return stationsArray;
+}

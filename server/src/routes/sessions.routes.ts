@@ -14,7 +14,7 @@ sessionsRouter.post('/', async (request, response) => {
     password
   });
 
-  return response.json({ user, token });
+  return response.status(200).json({ user, token });
 });
 
 export default sessionsRouter;

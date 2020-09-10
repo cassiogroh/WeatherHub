@@ -1,18 +1,17 @@
-import { getRepository } from 'typeorm';
+import { getCustomRepository } from 'typeorm';
 
-import checkUserExists from '../utils/checkUserExists';
-import User from '../models/User';
+import UsersRepository from '../repositories/UsersRepository';
 
 interface Request {
-  id: string;
+  userId: string;
 }
 
 export default class DeleteUserService {
-  public async execute({ id }: Request): Promise<string> {
+  public async execute({ userId }: Request): Promise<string> {
 
-    const usersRepository = getRepository(User);
-    
-    const user = await checkUserExists({ id });
+    const usersRepository = getCustomRepository(UsersRepository);
+
+    const user = await usersRepository.checkUserExists({ userId });
 
     await usersRepository.remove(user);
 

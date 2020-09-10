@@ -1,9 +1,10 @@
+import { getCustomRepository } from 'typeorm';
+
+import UsersRepository from '../../repositories/UsersRepository';
 import { apiInfo, getUrl } from '../../utils/API_info';
-import checkUserExists from '../../utils/checkUserExists';
 
 interface Request {
-  userRequest: boolean;
-  userId?: string | undefined;
+  userId?: string;
 }
 
 interface urlArray {
@@ -11,28 +12,29 @@ interface urlArray {
   url: string;
 }
 
-export default async function handleStationsRequest({ userRequest, userId }: Request): Promise<urlArray[]> {
+export default async function handleStationsRequest({ userId }: Request): Promise<urlArray[]> {
 
   const urlArray: urlArray[] = [];
-  
-  // Grabing data for home page
-  if (!userRequest) {
 
-    for (let i=0; i<apiInfo.stationsId.length; i++) {
+  // Grabing data for home page
+  if (!userId) {
+
+    for (let i = 0; i < apiInfo.stationsId.length; i++) {
       urlArray[i] = {
         stationID: apiInfo.stationsId[i],
         url: getUrl(apiInfo.stationsId[i])
       }
     }
-    
+
   } else {
     // Grabing data for use page
-    const user = await checkUserExists({id: userId})
+    const usersRepository = getCustomRepository(UsersRepository);
+
+    const user = await usersRepository.checkUserExists({ userId });
 
     const userStations = user.stations;
-    // const userStationsNames = user.stations_names;
 
-    for (let i=0; i<userStations.length; i++) {
+    for (let i = 0; i < userStations.length; i++) {
       urlArray[i] = {
         stationID: userStations[i],
         url: getUrl(userStations[i])
@@ -41,4 +43,4 @@ export default async function handleStationsRequest({ userRequest, userId }: Req
   }
 
   return urlArray;
-  }
+}

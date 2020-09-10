@@ -1,18 +1,17 @@
 import populateStations from './populateStations';
 import handleStationsRequest from './handleStationsRequest';
 
-interface LoadStations {
-  userRequest: boolean;
+interface Request {
   userId?: string;
 }
 
 class LoadStationsService {
 
-  public async execute({ userRequest, userId }: LoadStations) {
+  public async execute({ userId }: Request) {
 
-    const urlArray  = await handleStationsRequest({ userRequest, userId })
-    
-    const stationsArray = await populateStations({userRequest, urlArray, userId});
+    const urlArray = await handleStationsRequest({ userId })
+
+    const stationsArray = await populateStations({ urlArray, userId });
 
     return stationsArray;
   }

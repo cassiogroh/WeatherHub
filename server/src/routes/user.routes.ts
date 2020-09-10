@@ -27,32 +27,32 @@ userRouter.use(ensureAuthenticated)
 
 // User's dashboard
 userRouter.get('/', async (request, response) => {
-  const { id } = request.body;
+  const { userId } = request.body;
 
   const loadStations = new LoadStationsService();
-  const userStations = await loadStations.execute({ userRequest: true, userId: id })
+  const userStations = await loadStations.execute({ userId })
   return response.status(200).json(userStations)
 })
 
 
 // Delete a user
 userRouter.delete('/', async (request, response) => {
-  const { id } = request.body;
+  const { userId } = request.body;
 
   const deleteUser = new DeleteUserService();
-  const username = await deleteUser.execute({ id });
+  const username = await deleteUser.execute({ userId });
   return response.status(200).json({ message: `User ${username} deleted` })
 });
 
 
 // Add a station to user's dashboard
 userRouter.post('/add', async (request, response) => {
-  const { stationId, id } = request.body;
+  const { stationId, userId } = request.body;
 
   const addNewStation = new AddNewStationService();
   const userStations = await addNewStation.execute({
     stationId,
-    id
+    userId
   });
   return response.status(200).json(userStations);
 })
@@ -60,25 +60,25 @@ userRouter.post('/add', async (request, response) => {
 
 // Remove a station from user's dashboard
 userRouter.delete('/delete', async (request, response) => {
-  const { stationId, id } = request.body;
+  const { stationId, userId } = request.body;
 
   const deleteStation = new DeleteStationService();
   const userStations = await deleteStation.execute({
     stationId,
-    id
+    userId
   });
   return response.status(200).json(userStations);
 })
 
 // Rename a station
 userRouter.put('/rename-station', async (request, response) => {
-  const { stationId, newName, id } = request.body;
+  const { stationId, newName, userId } = request.body;
 
   const renameStation = new RenameStationService();
   const userStationsNames = await renameStation.execute({
     stationId,
     newName,
-    id
+    userId
   });
   return response.status(200).json(userStationsNames);
 })

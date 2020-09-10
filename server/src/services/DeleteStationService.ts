@@ -1,29 +1,29 @@
-import { getRepository } from 'typeorm';
+import { getCustomRepository } from 'typeorm';
 
-import User from '../models/User';
-import checkUserExists from '../utils/checkUserExists';
+import UsersRepository from '../repositories/UsersRepository';
 import AppError from '../errors/AppError';
 
 interface Request {
   stationId: string;
-  id: string;
+  userId: string;
 }
 
 export default class DeleteStationService {
-  public async execute({ stationId, id }: Request): Promise<string[]> {
+  public async execute({ stationId, userId }: Request): Promise<string[]> {
     stationId = stationId.toUpperCase();
 
-    const usersRepository = getRepository(User);
+    const usersRepository = getCustomRepository(UsersRepository);
 
-    const user = await checkUserExists({ id });
+    const user = await usersRepository.checkUserExists({ userId });
 
     const stationIndex = user.stations.findIndex(station => station === stationId);
-    
+
     if (stationIndex < 0) {
       throw new AppError('Station not found', 404);
     }
 
     user.stations.splice(stationIndex, 1);
+    user.stations_names.splice(stationIndex, 1);
 
     await usersRepository.save(user);
 

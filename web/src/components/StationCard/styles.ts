@@ -56,6 +56,8 @@ export const CardStats = styled.div`
     align-items: center;
 
     p {
+      width: 100%;
+      justify-content: center;
       margin-bottom: 5px;
     }
   }

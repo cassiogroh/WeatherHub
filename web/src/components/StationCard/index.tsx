@@ -3,6 +3,20 @@ import { FiTrash2, FiEdit, FiFrown } from 'react-icons/fi';
 
 import { Container, CardStats, CardBottom } from './styles';
 
+export interface ViewProps {
+  temp: boolean,
+  dewpt: boolean,
+  heatIndex: boolean,
+  windChill: boolean,
+  humidity: boolean,
+  precipTotal: boolean,
+  precipRate: boolean,
+  windGust: boolean,
+  windSpeed: boolean,
+  pressure: boolean,
+  elev: boolean,
+}
+
 export interface StationProps {
   status: 'online' | 'offline';
   stationID: string;
@@ -10,6 +24,7 @@ export interface StationProps {
   url: string;
   neighborhood?: string;
   dewpt?: number;
+  humidity?: number;
   elev?: number;
   heatIndex?: number;
   precipRate?: number;
@@ -19,6 +34,7 @@ export interface StationProps {
   windChill?: number;
   windGust?: number;
   windSpeed?: number;
+  propsView?: ViewProps;
 }
 
 const StationCard = ({
@@ -28,6 +44,7 @@ const StationCard = ({
   url,
   neighborhood,
   dewpt,
+  humidity,
   elev,
   heatIndex,
   precipRate,
@@ -36,27 +53,28 @@ const StationCard = ({
   temp,
   windChill,
   windGust,
-  windSpeed
+  windSpeed,
+  propsView
 }: StationProps ) => {
-
   return (
-    <>
-      <Container>
+    <Container>
         <CardStats>
           <a href={url}> { name } </a>
-
+          {console.log(propsView)}
+          
           {status === 'online' ?
           <>
-            <p>Temperatura <span>{temp} °C</span></p>
-            <p>Ponto de orvalho <span>{dewpt} °C</span></p>
-            <p>Índice de calor <span>{heatIndex} °C</span></p>
-            {/* <p>Sensação térmica <span>{windChill} °C</span></p>
-            <p>Precipitação Total <span>{precipTotal} mm</span></p>
-            <p>Taxa de precipitação <span>{precipRate} mm/h</span></p>
-            <p>Rajada de vento <span>{windGust} km/h</span></p>
-            <p>Velocidade do vento <span>{windSpeed} km/h</span></p>
-            <p>Pressão atmosférica <span>{pressure} hPa</span></p>
-            <p>Elevação <span>{elev} m</span></p> */}
+            { propsView?.temp && <p>Temperatura <span>{temp} °C</span></p>}
+            { propsView?.dewpt && <p>Ponto de orvalho <span>{dewpt} °C</span></p>}
+            { propsView?.heatIndex && <p>Índice de calor <span>{heatIndex} °C</span></p>}
+            { propsView?.windChill && <p>Sensação térmica <span>{windChill} °C</span></p>}
+            { propsView?.humidity && <p>Humidade relativa <span>{humidity} %</span></p>}
+            { propsView?.precipTotal && <p>Precipitação Total <span>{precipTotal} mm</span></p>}
+            { propsView?.precipRate && <p>Taxa de precipitação <span>{precipRate} mm/h</span></p>}
+            { propsView?.windGust && <p>Rajada de vento <span>{windGust} km/h</span></p>}
+            { propsView?.windSpeed && <p>Velocidade do vento <span>{windSpeed} km/h</span></p>}
+            { propsView?.pressure && <p>Pressão atmosférica <span>{pressure} hPa</span></p>}
+            { propsView?.elev && <p>Elevação <span>{elev} m</span></p>}
           </> :          
           <div>
             <p>Estação offline</p>
@@ -77,8 +95,7 @@ const StationCard = ({
             </button>
           </div>
         </CardBottom>
-      </Container>
-    </>
+    </Container>
   )
 };
 

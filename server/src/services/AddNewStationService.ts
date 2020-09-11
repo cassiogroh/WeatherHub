@@ -26,21 +26,25 @@ export default class AddNewStationService {
       }
     };
 
-    const checkStationIsValid = async (): Promise<void> => {
-      const response = await fetch(getUrl(stationId)).catch(err => {
+    const checkStationIsValid = async (): Promise<any> => {
+      const response = 
+      await fetch(getUrl(stationId))
+      .catch(err => {
         throw new AppError('Invalid station ID or station is currently offline', 401);
       });
 
       if (response.status !== 200) {
         throw new AppError('Invalid station ID or station is currently offline', 401);
-      };
+      } else {
+        return response.json();
+      }
     }
 
     checkStationExists();
-    await checkStationIsValid();
+    const response = await checkStationIsValid();
 
     user.stations.push(stationId);
-    user.stations_names.push(stationId);
+    user.stations_names.push(response.observations[0].neighborhood);
 
     await usersRepository.save(user);
 

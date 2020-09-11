@@ -10,6 +10,7 @@ interface StationProps {
   name: string;
   neighborhood: string;
   stationID: string;
+  url: string;
   dewpt: number;
   elev: number;
   heatIndex: number;
@@ -77,6 +78,7 @@ export default async function populateStations({ urlArray, userId }: Request): P
 
       station.neighborhood = data.value.observations[0].neighborhood;
       station.stationID = data.value.observations[0].stationID;
+      station.url = `http://www.wunderground.com/personal-weather-station/dashboard?ID=${station.stationID}`
       station.dewpt = dewpt;
       station.elev = elev;
       station.heatIndex = heatIndex;
@@ -99,16 +101,28 @@ export default async function populateStations({ urlArray, userId }: Request): P
         }
 
         if (user.stations === user.stations_names) {
-          station.name = station.neighborhood;
+          return station.name = station.neighborhood;
         }
         station.name = user.stations_names[stationIndex];
       }
 
       stationsArray.push(station);
     } else {
-      station.stationID = offlineStations[i];
       station.status = 'offline';
-      station.name = 'Estação offline'
+      station.stationID = offlineStations[i];
+      station.url = `http://www.wunderground.com/personal-weather-station/dashboard?ID=${offlineStations[i]}`
+
+      if (!userId) {
+        station.name = 'Estação offline'
+      } else {
+        const stationIndex = user.stations.findIndex(userStationId => userStationId === station.stationID)
+
+        if (stationIndex < 0) {
+          throw new AppError('Station index does not match', 404)
+        }
+        station.name = user.stations_names[stationIndex];
+      }
+
       stationsArray.push(station);
       i++;
     }

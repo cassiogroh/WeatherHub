@@ -1,10 +1,11 @@
 import React from 'react';
-import './Options.css';
+
+import { Container } from './styles';
 
 const Options = () => {
   return (
-    <>
-    </>
+    <Container>
+    </Container>
   )
 };
 

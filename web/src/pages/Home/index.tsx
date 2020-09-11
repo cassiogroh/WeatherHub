@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-
-import Header from '../../components/Header/Header';
-import StationCard, { StationProps } from '../../components/StationCard/StationCard';
-
 import api from '../../services/api';
 
-import './Home.css';
+import Header from '../../components/Header';
+import StationCard, { StationProps } from '../../components/StationCard';
+
+
+import { Container } from './styles';
 
 const Home = () => {
 
@@ -25,16 +25,20 @@ const Home = () => {
     <>
       <Header />
 
-      <div className="station-card-grid">
+      <Container>
         
         {
           !stations.length ? <h1>Carregando Estações...</h1> :
 
           stations.map((station: StationProps) => (
+            station.status === 'online' ?
             <StationCard
               key={station.stationID}
-              neighborhood={station.neighborhood}
+              status={station.status}
               stationID={station.stationID}
+              name={station.name}
+              url={station.url}
+              neighborhood={station.neighborhood}
               dewpt={station.dewpt}
               elev={station.elev}
               heatIndex={station.heatIndex}
@@ -45,12 +49,19 @@ const Home = () => {
               windChill={station.windChill}
               windGust={station.windGust}
               windSpeed={station.windSpeed}
-              />
+            /> :
+            <StationCard
+              key={station.stationID}
+              stationID={station.stationID}
+              status={station.status}
+              name={station.name}
+              url={station.url}
+            />
             )
           )
         }
         
-      </div>
+      </Container>
     </>
   )
 };

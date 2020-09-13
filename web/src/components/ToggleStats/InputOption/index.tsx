@@ -20,7 +20,9 @@ const InputOption: React.FC<InputProps> = ({ name, propName, handleInputCheck, c
       <input
         type='checkbox'
         ref={inputRef}
-        onClick={() => handleInputCheck(inputRef.current?.checked, propName)} defaultChecked={checked} />
+        onClick={() => handleInputCheck(inputRef.current?.checked, propName)}
+        defaultChecked={checked}
+      />
       {name}
     </Container>
   )

@@ -1,5 +1,4 @@
-import React from 'react';
-import Dropdown from 'react-dropdown';
+import React, { useCallback } from 'react';
 
 import InputOption from './InputOption';
 
@@ -11,7 +10,7 @@ interface Request {
 
 const ToggleStats: React.FC<Request> = ({handleInputCheck}) => {
   
-  function getDate (): string {
+  const getDate = useCallback((): string  => {
     const date = new Date();
     const options = {
       year: 'numeric',
@@ -22,9 +21,7 @@ const ToggleStats: React.FC<Request> = ({handleInputCheck}) => {
     };
     const formatedDate = date.toLocaleDateString('pt-BR', options);
     return formatedDate;
-  }
-
-  
+  }, [])
 
   return (
     <Container>
@@ -44,7 +41,7 @@ const ToggleStats: React.FC<Request> = ({handleInputCheck}) => {
         <InputOption name='Elevação' propName={'elev'} handleInputCheck={handleInputCheck} />
       </Options>
 
-      {`Sincronizado em ${getDate()} h`}
+      <p>Sincronizado em {getDate()} h</p>
     </Container>
   )
 }

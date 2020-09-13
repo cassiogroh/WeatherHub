@@ -25,11 +25,11 @@ const Home = () => {
     elev: false,
   });
   
-  const handleInputCheck = useCallback((value: boolean, propName: keyof(typeof propsView)) => {
-    const changedPropsView = {...propsView};
-    changedPropsView[propName] = value;
-    
-    setPropsView(changedPropsView);
+  const handleInputCheck = useCallback((value: boolean, propName: keyof(typeof propsView)): void => {
+      const changedPropsView = {...propsView};
+      changedPropsView[propName] = value;
+
+      setPropsView(changedPropsView);
   }, [propsView]);
 
   useEffect(() => {

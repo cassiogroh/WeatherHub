@@ -60,8 +60,6 @@ const StationCard = ({
     <Container>
         <CardStats>
           <a href={url}> { name } </a>
-          {console.log(propsView)}
-          
           {status === 'online' ?
           <>
             { propsView?.temp && <p>Temperatura <span>{temp} °C</span></p>}

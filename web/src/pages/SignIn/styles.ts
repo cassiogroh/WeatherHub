@@ -3,7 +3,6 @@ import styled, { keyframes } from 'styled-components';
 import backgroundImg from '../../assets/thunder-storm.svg';
 
 export const Container = styled.div`
-  height: 100vh;
 `;
 
 export const Content = styled.div`

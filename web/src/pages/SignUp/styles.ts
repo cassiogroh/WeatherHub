@@ -3,7 +3,6 @@ import styled, { keyframes } from 'styled-components';
 import backgroundImg from '../../assets/sign-up-background.png';
 
 export const Container = styled.div`
-  height: 100vh;
 `;
 
 export const Background = styled.div`
@@ -55,7 +54,5 @@ export const AnimationContainer = styled.div`
       margin-bottom: 24px;
       color: var(--text-color)
     }
-
-    
   }
 `;

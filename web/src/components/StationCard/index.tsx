@@ -35,9 +35,11 @@ export interface StationProps {
   windGust?: number;
   windSpeed?: number;
   propsView?: ViewProps;
+  handleEditStationName?: any;
+  handleDeleteStation?: any;
 }
 
-const StationCard = ({
+const StationCard: React.FC<StationProps> = ({
   status,
   stationID,
   name,
@@ -54,7 +56,9 @@ const StationCard = ({
   windChill,
   windGust,
   windSpeed,
-  propsView
+  propsView,
+  handleEditStationName,
+  handleDeleteStation
 }: StationProps ) => {
   return (
     <Container>
@@ -85,10 +89,10 @@ const StationCard = ({
           <p>ID: {stationID} </p>
           
           <div>
-            <button type='button'>
+            <button onClick={handleEditStationName && (() => handleEditStationName(stationID))} type='button'>
               <FiEdit size={23} />
             </button>
-            <button type='button' >
+            <button onClick={handleDeleteStation && (() => handleDeleteStation(stationID))} type='button' >
               <FiTrash2 size={23} />
             </button>
           </div>

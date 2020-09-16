@@ -2,13 +2,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import api from '../../services/api';
 import Loader from 'react-loader-spinner';
 
-import Header from '../../components/Header';
 import ToggleStats from '../../components/ToggleStats';
 import StationCard, { StationProps, ViewProps } from '../../components/StationCard';
 
 import { Container, StationsStats } from './styles';
 
-const Home = () => {
+const Home: React.FC = () => {
 
   const [ stations, setStations ] = useState([]);
   const [ propsView, setPropsView ] = useState<ViewProps>({
@@ -40,10 +39,26 @@ const Home = () => {
     getStations();
   }, [])
 
+  const handleEditStationName = useCallback(async (stationId: string): Promise<any> => {
+    return console.log(stationId);
+  }, []);
+
+  const handleDeleteStation = useCallback(async (stationId: string): Promise<any> => {
+    const userId = '8c81043e-4889-404a-b7e7-11608ed64524';
+
+    const response = await api.delete('/users/delete', {
+      data: {
+        stationId,
+        userId
+      }
+    });
+
+    console.log(response.data)
+    console.log(stations)
+  }, [stations]);
+
   return (
     <>
-      <Header />
-        
       {!stations.length
       ?
       <div style= {{display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 50}}>
@@ -76,6 +91,8 @@ const Home = () => {
               windGust={station.windGust}
               windSpeed={station.windSpeed}
               propsView={propsView}
+              handleDeleteStation={handleDeleteStation}
+              handleEditStationName={handleEditStationName}
             /> :
             <StationCard
               key={station.stationID}

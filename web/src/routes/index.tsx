@@ -1,19 +1,24 @@
 import React from 'react';
-import { BrowserRouter , Route } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
+
+import Route from './Route';
 
 import Home from '../pages/Home';
-import Register from '../pages/Register';
+import SignIn from '../pages/SignIn';
+import SignUp from '../pages/SignUp';
 import Dashboard from '../pages/Dashboard';
 import About from '../pages/About';
 
-const Routes = () => {
+const Routes: React.FC = () => {
   return (
-    <BrowserRouter>
+    <Switch>
       <Route path='/' exact component={Home} />
-      <Route path='/register' component={Register} />
-      <Route path='/dashboard' component={Dashboard} />
+      <Route path='/signin' component={SignIn} />
+      <Route path='/signup' component={SignUp} />
       <Route path='/about' component={About} />
-    </BrowserRouter>
+      
+      <Route path='/dashboard' component={Dashboard} isPrivate />
+    </Switch>
   )
 };
 

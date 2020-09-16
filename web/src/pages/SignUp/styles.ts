@@ -55,4 +55,23 @@ export const AnimationContainer = styled.div`
       color: var(--text-color)
     }
   }
+
+  > a {
+    color: var(--primary-color);
+    display: block;
+    margin-top: 24px;
+    text-decoration: none;
+    transition: filter 0.2s;
+
+    display: flex;
+    align-items: center;
+
+    svg {
+      margin-right: 16px;
+    }
+
+    &:hover {
+      filter: brightness(120%);
+    }
+  }
 `;

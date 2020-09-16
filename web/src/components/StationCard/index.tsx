@@ -1,7 +1,10 @@
-import React from 'react';
-import { FiTrash2, FiEdit, FiFrown } from 'react-icons/fi';
+import React, { useState, useCallback, useRef } from 'react';
 
-import { Container, CardStats, CardBottom } from './styles';
+import { FiTrash2, FiEdit, FiFrown, FiEdit3 } from 'react-icons/fi';
+import { useAuth } from '../../hooks/auth';
+import api from '../../services/api';
+
+import { Container, CardStats, CardBottom, RenameField } from './styles';
 
 export interface ViewProps {
   temp: boolean,
@@ -34,36 +37,98 @@ export interface StationProps {
   windChill?: number;
   windGust?: number;
   windSpeed?: number;
-  propsView?: ViewProps;
-  handleEditStationName?: any;
-  handleDeleteStation?: any;
 }
 
-const StationCard: React.FC<StationProps> = ({
-  status,
-  stationID,
-  name,
-  url,
-  neighborhood,
-  dewpt,
-  humidity,
-  elev,
-  heatIndex,
-  precipRate,
-  precipTotal,
-  pressure,
-  temp,
-  windChill,
-  windGust,
-  windSpeed,
+export interface RequestProps {
+  station: StationProps;
+  propsView?: ViewProps;
+  handleDeleteStation?: any;
+  user?: {
+    id: string;
+  };
+}
+
+const StationCard: React.FC<RequestProps> = ({
+  station,
   propsView,
-  handleEditStationName,
-  handleDeleteStation
-}: StationProps ) => {
+  handleDeleteStation,
+  user
+}: RequestProps ) => {
+
+  const {
+    status,
+    stationID,
+    name,
+    url,
+    // neighborhood,
+    dewpt,
+    humidity,
+    elev,
+    heatIndex,
+    precipRate,
+    precipTotal,
+    pressure,
+    temp,
+    windChill,
+    windGust,
+    windSpeed
+  } = station;
+
+  const { token } = useAuth();
+  
+  const [inputFocus, setInputFocus] = useState(false);
+  const [rename, setRename] = useState(false);
+  const [stationName, setStationName] = useState(name);
+
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const handleRenameStation = useCallback(() => {
+    setRename(!rename);
+    inputFocus && setInputFocus(!inputFocus);
+  }, [rename, inputFocus]);
+
+  const confirmRenameStation =
+  useCallback(async (stationId: string, newName: string | undefined, currentName: string): Promise<void> => {
+    if (currentName !== newName && newName !== '') {
+      await api.put('/users/rename', {
+          stationId,
+          newName,
+          userId: user?.id
+        },
+        {headers: {
+          'Authorization': `Bearer ${token}`
+        }}
+      );
+      
+      !!newName && setStationName(newName);
+    };
+
+    setRename(false);
+  }, [user, token]);
+
+  const handleInputFocus = useCallback(() => {
+    setInputFocus(!inputFocus)
+  }, [inputFocus]);
+
+  const handleInputBlur = useCallback(() => {
+    setInputFocus(false);
+
+    confirmRenameStation(stationID, inputRef.current?.value, stationName);
+  }, [confirmRenameStation, stationName, stationID]);
+
   return (
     <Container>
         <CardStats>
-          <a href={url}> { name } </a>
+          {rename ?
+          <RenameField inputFocus={inputFocus}>
+            <input ref={inputRef} defaultValue={stationName} type='text' onFocus={handleInputFocus} onBlur={handleInputBlur} />
+            <button type='button' onClick={() => confirmRenameStation(stationID, inputRef.current?.value, stationName)}>
+              <FiEdit3 stroke={inputFocus ? '#1DB954' : 'white'} />
+            </button>
+          </RenameField>
+          : <a href={url}> { stationName } </a>
+          }          
+          
           {status === 'online' ?
           <>
             { propsView?.temp && <p>Temperatura <span>{temp} °C</span></p>}
@@ -88,14 +153,16 @@ const StationCard: React.FC<StationProps> = ({
         <CardBottom>
           <p>ID: {stationID} </p>
           
+          {!!user && 
           <div>
-            <button onClick={handleEditStationName && (() => handleEditStationName(stationID))} type='button'>
+            <button onClick={handleRenameStation} type='button'>
               <FiEdit size={23} />
             </button>
-            <button onClick={handleDeleteStation && (() => handleDeleteStation(stationID))} type='button' >
+            <button onClick={(() => handleDeleteStation(stationID))} type='button' >
               <FiTrash2 size={23} />
             </button>
           </div>
+          }
         </CardBottom>
     </Container>
   )

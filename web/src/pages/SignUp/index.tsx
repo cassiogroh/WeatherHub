@@ -1,10 +1,10 @@
 import React, { useCallback, useRef } from 'react';
 
-import { FiMail, FiUser, FiLock } from 'react-icons/fi';
+import { FiMail, FiUser, FiLock, FiArrowLeft } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import api from '../../services/api';
 
@@ -97,6 +97,11 @@ const SignUp: React.FC = () => {
 
             <Button type='submit'>Cadastrar</Button>
           </Form>
+
+          <Link to="/signin">
+            <FiArrowLeft />
+            Voltar para login
+          </Link>
         </AnimationContainer>
       </Content>
     </Container>

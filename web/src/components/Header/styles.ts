@@ -17,9 +17,9 @@ export const NavBar = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  margin: 1rem 0;
+  margin:   0;
   border: 2px solid var(--divider-color);
-  border-radius: 10px;
+  border-radius: 0 0 10px 10px;
   padding: 10px;
   background-color: var(--bg-form);
 

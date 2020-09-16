@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
   border: 0.2rem solid var(--divider-color);
@@ -27,7 +27,11 @@ export const CardStats = styled.div`
     margin-bottom: 10px;
     padding: 5px;
     border-radius: 10px;
+    text-align: center;
     transition: background-color .2s;
+    
+    height: 28px;
+    overflow: hidden;
     
     &:hover {
     background-color: rgba(0,0,0, 0.2);
@@ -50,7 +54,7 @@ export const CardStats = styled.div`
     }
   }
 
-  div {
+  div:last-child {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -87,10 +91,66 @@ export const CardBottom = styled.div`
     display: flex;
     align-content: center;
     transition: background-color .2s, transform .2s;
+    outline: none;
 
     &:hover {
       transform: scale(1.03);
       background-color: rgba(0,0,0, 0.2);
+    }
+  }
+`;
+
+interface RenameProps {
+  inputFocus: boolean;
+}
+
+export const RenameField = styled.div<RenameProps>`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 10px;
+
+  input {
+    background-color: rgba(0,0,0, 0.1);
+    padding-left: 10px;
+    height: 28px;
+    border-radius: 10px 0 0 10px;
+    border: 1px solid white;
+    border-right: none;
+    outline: none;
+    transition: background-color .2s, border-color .2s;
+    width: 100%;
+
+    &:focus {
+      background-color: rgba(0,0,0, 0.3);
+      border-color: var(--button-color);
+    }
+
+    &:hover {
+      background-color: rgba(0,0,0, 0.275);
+    }
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background-color: rgba(0,0,0, 0.2);
+    border-radius: 0 10px 10px 0;
+    border: 1px solid;
+    border-left: none;
+    outline: none;
+    transition: background-color .2s;
+    transition: background-color .2s, border-color .2s;
+
+    ${props => props.inputFocus ? css`border-color: var(--button-color);` : css`border-color: white`}
+
+    &:hover {
+      background-color: rgba(0,0,0, 0.4);
     }
   }
 `;

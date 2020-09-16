@@ -39,24 +39,6 @@ const Home: React.FC = () => {
     getStations();
   }, [])
 
-  const handleEditStationName = useCallback(async (stationId: string): Promise<any> => {
-    return console.log(stationId);
-  }, []);
-
-  const handleDeleteStation = useCallback(async (stationId: string): Promise<any> => {
-    const userId = '8c81043e-4889-404a-b7e7-11608ed64524';
-
-    const response = await api.delete('/users/delete', {
-      data: {
-        stationId,
-        userId
-      }
-    });
-
-    console.log(response.data)
-    console.log(stations)
-  }, [stations]);
-
   return (
     <>
       {!stations.length
@@ -74,32 +56,12 @@ const Home: React.FC = () => {
             station.status === 'online' ?
             <StationCard
               key={station.stationID}
-              status={station.status}
-              stationID={station.stationID}
-              name={station.name}
-              url={station.url}
-              neighborhood={station.neighborhood}
-              dewpt={station.dewpt}
-              humidity={station.humidity}
-              elev={station.elev}
-              heatIndex={station.heatIndex}
-              precipRate={station.precipRate}
-              precipTotal={station.precipTotal}
-              pressure={station.pressure}
-              temp={station.temp}
-              windChill={station.windChill}
-              windGust={station.windGust}
-              windSpeed={station.windSpeed}
+              station={station}
               propsView={propsView}
-              handleDeleteStation={handleDeleteStation}
-              handleEditStationName={handleEditStationName}
             /> :
             <StationCard
               key={station.stationID}
-              stationID={station.stationID}
-              status={station.status}
-              name={station.name}
-              url={station.url}
+              station={station}
             />
             )
           )}

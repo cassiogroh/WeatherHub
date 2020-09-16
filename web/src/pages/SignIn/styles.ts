@@ -70,7 +70,7 @@ export const AnimationContainer = styled.div`
     }
 
     &:hover {
-      filter: brightness(80%);
+      filter: brightness(120%);
     }
   }
 `;

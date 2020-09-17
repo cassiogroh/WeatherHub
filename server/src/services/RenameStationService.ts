@@ -10,7 +10,7 @@ interface Request {
 }
 
 export default class RenameStationService {
-  public async execute({ stationId, newName, userId }: Request): Promise<string> {
+  public async execute({ stationId, newName, userId }: Request): Promise<void> {
     stationId = stationId.toUpperCase();
 
     const usersRepository = getCustomRepository(UsersRepository);
@@ -32,7 +32,5 @@ export default class RenameStationService {
     user.stations_names.splice(stationIndex, 1, newName);
 
     await usersRepository.save(user);
-
-    return newName;
   }
 }

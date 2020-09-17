@@ -22,12 +22,14 @@ userRouter.post('/', async (request, response) => {
 
 
 // Verify authentication
-userRouter.use(ensureAuthenticated)
+userRouter.use(ensureAuthenticated);
 
 
 // User's dashboard
 userRouter.get('/', async (request, response) => {
-  const { userId } = request.body;
+  const headers = request.headers;
+  
+  const userId = headers.userid as string;
 
   const loadStations = new LoadStationsService();
   const userStations = await loadStations.execute({ userId })
@@ -60,27 +62,29 @@ userRouter.post('/add', async (request, response) => {
 
 // Remove a station from user's dashboard
 userRouter.delete('/delete', async (request, response) => {
-  const { stationId, userId } = request.body;
+  const headers = request.headers;
+
+  const stationId = headers.stationid as string;
+  const userId = headers.userid as string;
 
   const deleteStation = new DeleteStationService();
-  const userStations = await deleteStation.execute({
+  await deleteStation.execute({
     stationId,
     userId
   });
-  return response.status(200).json(userStations);
 })
 
 // Rename a station
-userRouter.put('/rename-station', async (request, response) => {
+userRouter.put('/rename', async (request, response) => {
   const { stationId, newName, userId } = request.body;
 
   const renameStation = new RenameStationService();
-  const userStationsNames = await renameStation.execute({
+  await renameStation.execute({
     stationId,
     newName,
     userId
   });
-  return response.status(200).json(userStationsNames);
+  return response.status(200).json(newName);
 })
 
 export default userRouter;

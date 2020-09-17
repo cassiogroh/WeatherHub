@@ -15,18 +15,8 @@ interface urlArray {
 export default async function handleStationsRequest({ userId }: Request): Promise<urlArray[]> {
 
   const urlArray: urlArray[] = [];
-
-  // Grabing data for home page
-  if (!userId) {
-
-    for (let i = 0; i < apiInfo.stationsId.length; i++) {
-      urlArray[i] = {
-        stationID: apiInfo.stationsId[i],
-        url: getUrl(apiInfo.stationsId[i])
-      }
-    }
-
-  } else {
+  
+  if (!!userId) {
     // Grabing data for use page
     const usersRepository = getCustomRepository(UsersRepository);
 
@@ -38,6 +28,14 @@ export default async function handleStationsRequest({ userId }: Request): Promis
       urlArray[i] = {
         stationID: userStations[i],
         url: getUrl(userStations[i])
+      }
+    }
+  } else {
+    // Grabing data for home page
+    for (let i = 0; i < apiInfo.stationsId.length; i++) {
+      urlArray[i] = {
+        stationID: apiInfo.stationsId[i],
+        url: getUrl(apiInfo.stationsId[i])
       }
     }
   }

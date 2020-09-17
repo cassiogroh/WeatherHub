@@ -12,6 +12,7 @@ interface StationProps {
   stationID: string;
   url: string;
   dewpt: number;
+  humidity: number;
   elev: number;
   heatIndex: number;
   precipRate: number;
@@ -80,6 +81,7 @@ export default async function populateStations({ urlArray, userId }: Request): P
       station.stationID = data.value.observations[0].stationID;
       station.url = `http://www.wunderground.com/personal-weather-station/dashboard?ID=${station.stationID}`
       station.dewpt = dewpt;
+      station.humidity = data.value.observations[0].humidity;
       station.elev = elev;
       station.heatIndex = heatIndex;
       station.precipRate = precipRate;
@@ -113,7 +115,7 @@ export default async function populateStations({ urlArray, userId }: Request): P
       station.url = `http://www.wunderground.com/personal-weather-station/dashboard?ID=${offlineStations[i]}`
 
       if (!userId) {
-        station.name = 'Estação offline'
+        station.name = offlineStations[i];
       } else {
         const stationIndex = user.stations.findIndex(userStationId => userStationId === station.stationID)
 

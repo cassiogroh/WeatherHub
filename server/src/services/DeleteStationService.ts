@@ -9,7 +9,8 @@ interface Request {
 }
 
 export default class DeleteStationService {
-  public async execute({ stationId, userId }: Request): Promise<string[]> {
+  public async execute({ stationId, userId }: Request): Promise<void> {
+    
     stationId = stationId.toUpperCase();
 
     const usersRepository = getCustomRepository(UsersRepository);
@@ -26,7 +27,5 @@ export default class DeleteStationService {
     user.stations_names.splice(stationIndex, 1);
 
     await usersRepository.save(user);
-
-    return user.stations;
   }
 }

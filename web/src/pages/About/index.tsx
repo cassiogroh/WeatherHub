@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Container, Background, AnimationContainer } from './styles';
 
+import ToastContainer from '../../components/ToastContainer';
+
 const About: React.FC = () => {
   return (
     <Container>

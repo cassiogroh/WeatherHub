@@ -77,6 +77,8 @@ const StationCard: React.FC<RequestProps> = ({
   const { token } = useAuth();
   
   const [inputFocus, setInputFocus] = useState(false);
+  const [renameFocus, setRenameFocus] = useState(false);
+  const [deleteFocus, setDeleteFocus] = useState(false);
   const [rename, setRename] = useState(false);
   const [stationName, setStationName] = useState(name);
 
@@ -116,6 +118,18 @@ const StationCard: React.FC<RequestProps> = ({
     confirmRenameStation(stationID, inputRef.current?.value, stationName);
   }, [confirmRenameStation, stationName, stationID]);
 
+  const handleFocus = useCallback((focusedVariable: string) => {
+    focusedVariable === 'renameFocus' ?
+    setRenameFocus(true) :
+    setDeleteFocus(true)
+  }, []);
+
+  const handleBlur = useCallback((focusedVariable: string) => {
+    focusedVariable === 'renameFocus' ?
+    setRenameFocus(false) :
+    setDeleteFocus(false)
+  }, []);
+
   return (
     <Container>
         <CardStats>
@@ -123,7 +137,7 @@ const StationCard: React.FC<RequestProps> = ({
           <RenameField inputFocus={inputFocus}>
             <input ref={inputRef} defaultValue={stationName} type='text' onFocus={handleInputFocus} onBlur={handleInputBlur} />
             <button type='button' onClick={() => confirmRenameStation(stationID, inputRef.current?.value, stationName)}>
-              <FiEdit3 stroke={inputFocus ? '#1DB954' : 'white'} />
+              <FiEdit3 stroke={inputFocus ? '#3FCA87' : 'white'} />
             </button>
           </RenameField>
           : <a href={url}> { stationName } </a>
@@ -155,11 +169,19 @@ const StationCard: React.FC<RequestProps> = ({
           
           {!!user && 
           <div>
-            <button onClick={handleRenameStation} type='button'>
-              <FiEdit size={23} />
+            <button
+              onClick={handleRenameStation}
+              onMouseEnter={() => handleFocus('renameFocus')}
+              onMouseLeave={() => handleBlur('renameFocus')}
+              type='button'>
+              <FiEdit size={23} stroke={renameFocus ? '#3FCA87' : 'white'} />
             </button>
-            <button onClick={(() => handleDeleteStation(stationID))} type='button' >
-              <FiTrash2 size={23} />
+            <button
+              onClick={(() => handleDeleteStation(stationID))}
+              onMouseEnter={() => handleFocus('deleteFocus')}
+              onMouseLeave={() => handleBlur('deleteFocus')}
+              type='button' >
+              <FiTrash2 size={23} stroke={deleteFocus ? '#FF9077' : 'white'} />
             </button>
           </div>
           }

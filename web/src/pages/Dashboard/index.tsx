@@ -63,8 +63,6 @@ const Dashboard: React.FC = () => {
 
   return (
     <>
-      <button type='button' onClick={signOut} style={{backgroundColor: 'transparent'}}>Logout</button>
-
       {!stations.length
       ?
       <div style= {{display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 130}}>
@@ -94,6 +92,8 @@ const Dashboard: React.FC = () => {
             )
           )}
         </StationsStats>
+
+        <button type='button' onClick={signOut} style={{backgroundColor: 'transparent'}}>Logout</button>
       </Container>
       }
     </>

@@ -90,11 +90,10 @@ export const CardBottom = styled.div`
     padding: 4px;
     display: flex;
     align-content: center;
-    transition: background-color .2s, transform .2s;
+    transition: background-color .2s;
     outline: none;
 
     &:hover {
-      transform: scale(1.03);
       background-color: rgba(0,0,0, 0.2);
     }
   }
@@ -117,7 +116,7 @@ export const RenameField = styled.div<RenameProps>`
     padding-left: 10px;
     height: 28px;
     border-radius: 10px 0 0 10px;
-    border: 1px solid white;
+    border: 2px solid transparent;
     border-right: none;
     outline: none;
     transition: background-color .2s, border-color .2s;
@@ -125,7 +124,7 @@ export const RenameField = styled.div<RenameProps>`
 
     &:focus {
       background-color: rgba(0,0,0, 0.3);
-      border-color: var(--button-color);
+      border-color: white;
     }
 
     &:hover {
@@ -141,13 +140,13 @@ export const RenameField = styled.div<RenameProps>`
     height: 28px;
     background-color: rgba(0,0,0, 0.2);
     border-radius: 0 10px 10px 0;
-    border: 1px solid;
+    border: 2px solid transparent;
     border-left: none;
     outline: none;
     transition: background-color .2s;
     transition: background-color .2s, border-color .2s;
 
-    ${props => props.inputFocus ? css`border-color: var(--button-color);` : css`border-color: white`}
+    ${props => props.inputFocus && css`border-color: white;`}
 
     &:hover {
       background-color: rgba(0,0,0, 0.4);

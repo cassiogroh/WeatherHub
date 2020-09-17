@@ -12,16 +12,16 @@ export const Container = styled.footer`
     display: flex;
     align-items: center;
     justify-content: center;
-
     border-radius: 10px;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: transparent;
     padding: 5px;
-    opacity: 15%;
+    opacity: 10%;
 
-    transition: opacity .3s;
+    transition: opacity .3s, background-color .3s;
 
     &:hover {
       opacity: 100%;
+      background-color: rgba(0, 0, 0, 0.2);
     }
 
     a {

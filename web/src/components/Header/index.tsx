@@ -10,7 +10,7 @@ const Header: React.FC = () => {
   const [activateNavbar, setActivateNavbar] = useState(false);
 
   const changeNavbarBackground = useCallback(() => {
-    if (window.scrollY >= 61) {
+    if (window.scrollY >= 30) {
       setActivateNavbar(true);
     } else {
       setActivateNavbar(false);

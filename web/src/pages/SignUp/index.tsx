@@ -54,7 +54,7 @@ const SignUp: React.FC = () => {
       addToast({
         type: 'success',
         title: 'Cadastro realizado!',
-        description: 'Você já pode fazer seu login no GoBarber'
+        description: 'Você já pode fazer seu login no WeatherHub'
       });
 
     } catch (err) {

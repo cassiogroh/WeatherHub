@@ -8,16 +8,16 @@ interface ContainerProps {
 
 const toastTypeVariations = {
   info: css`
-    background: #EBF8FF;
+    background: #333;
     color: #3172B7;
   `,
   success: css`
-    background: #E6FFFA;
-    color: #2E656A;
+    background: #333;
+    color: var(--button-color);
   `,
   error: css`
-  background: #FDDEDE;
-  color: #C53030;
+  background: #333;
+  color: var(--error-color);
 `
 };
 
@@ -25,6 +25,7 @@ export const Container = styled(animated.div)<ContainerProps>`
   width: 360px;
 
   position: relative;
+  z-index: 3;
   padding: 16px 30px 16px 16px;
   border-radius: 10px;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);

@@ -2,14 +2,13 @@ import { createGlobalStyle } from 'styled-components';
 
 export default createGlobalStyle`
   :root {
-    --bg-color              : #252525; /* eee 252525 */
-    --bg-color-dark         : #333;
-    --bg-form               : #3b5998;
+    --bg-color              : #252525;
     --primary-color         : #3b5998;
     --card-primary-color    : #3C58aa;
     --card-secondary-color  : #3b5998;
-    --button-color          : #1DB954;
+    --button-color          : #3FCA87;
     --text-color            : #ddd;
+    --error-color           : #FF9077;
 
     font-size: 62.5%;
   }

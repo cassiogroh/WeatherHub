@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import backgroundImg from '../../assets/sign-up-background.png';
 
 export const Container = styled.div`
+  padding-top: 80px;
 `;
 
 export const Background = styled.div`

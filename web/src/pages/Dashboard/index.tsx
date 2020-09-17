@@ -67,7 +67,7 @@ const Dashboard: React.FC = () => {
 
       {!stations.length
       ?
-      <div style= {{display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 50}}>
+      <div style= {{display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 130}}>
         <p style= {{marginBottom: 20, fontSize: '2.4rem'}}>Carregando estações</p>
         <Loader type='Circles' color='#3b5998' height={100} width={100} />
       </div> 

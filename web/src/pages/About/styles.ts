@@ -5,7 +5,8 @@ import logoImg from '../../assets/logo.png';
 export const Container = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 80px;
+  /* margin-top: 80px; */
+  padding-top: 100px;
 
   @media (max-width: 980px) {
     position: relative;

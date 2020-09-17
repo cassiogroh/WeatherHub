@@ -10,7 +10,8 @@ export const Content = styled.div`
   align-items: center;
   justify-content: center;
 
-  margin-top: 50px;
+  /* margin-top: 50px; */
+  padding-top: 100px;
 `;
 
 const AppearFromLeft = keyframes`

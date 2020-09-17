@@ -6,15 +6,24 @@ export const Container = styled.div`
 `;
 
 export const Background = styled.div`
-  background: url(${backgroundImg}) no-repeat center;
-  background-position-y: 80px;
-  background-size: contain;
-  height: 400px;
-  width: 400px;
-  margin-right: 100px;
+  @media (max-width: 980px) {
+    h1 {
+      width: 0;
+      overflow: hidden;
+    }
+  }
 
-  h1 {
-    text-align: center;
+  @media (min-width: 980px) {
+    background: url(${backgroundImg}) no-repeat center;
+    background-position-y: 80px;
+    background-size: contain;
+    height: 400px;
+    width: 400px;
+    margin-right: 100px;
+
+    h1 {
+      text-align: center;
+    }
   }
 `;
 

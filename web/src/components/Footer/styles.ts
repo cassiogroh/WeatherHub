@@ -1,19 +1,28 @@
 import styled from 'styled-components';
 
 export const Container = styled.footer`
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  padding: 10px;
-  text-align: center;
+  padding: 10px 40%;
 
-  
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
 
   p {
     display: flex;
     align-items: center;
     justify-content: center;
+
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 5px;
+    opacity: 15%;
+
+    transition: opacity .3s;
+
+    &:hover {
+      opacity: 100%;
+    }
 
     a {
       margin: 0 5px;

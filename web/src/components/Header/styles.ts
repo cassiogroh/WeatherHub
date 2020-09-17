@@ -38,6 +38,16 @@ export const NavBar = styled.div`
     }
   }
 
+  @media (max-width: 500px) {
+    padding: 0;
+    
+    div {
+      a {
+        font-size: 1.8rem;
+      }
+    }
+  }
+
   div + div {
     display: flex;
   }

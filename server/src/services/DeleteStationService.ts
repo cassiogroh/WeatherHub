@@ -27,5 +27,7 @@ export default class DeleteStationService {
     user.stations_names.splice(stationIndex, 1);
 
     await usersRepository.save(user);
+
+    return;
   }
 }

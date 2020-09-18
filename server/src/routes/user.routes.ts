@@ -52,13 +52,12 @@ userRouter.post('/add', async (request, response) => {
   const { stationId, userId } = request.body;
 
   const addNewStation = new AddNewStationService();
-  const userStations = await addNewStation.execute({
+  const newStation = await addNewStation.execute({
     stationId,
     userId
   });
-  return response.status(200).json(userStations);
+  return response.status(200).json(newStation);
 })
-
 
 // Remove a station from user's dashboard
 userRouter.delete('/delete', async (request, response) => {
@@ -72,11 +71,13 @@ userRouter.delete('/delete', async (request, response) => {
     stationId,
     userId
   });
+
+  return response.status(200).json({success: 'Station deleted'})
 })
 
 // Rename a station
 userRouter.put('/rename', async (request, response) => {
-  const { stationId, newName, userId } = request.body;
+  const { stationId, newName, userId }= request.body;
 
   const renameStation = new RenameStationService();
   await renameStation.execute({

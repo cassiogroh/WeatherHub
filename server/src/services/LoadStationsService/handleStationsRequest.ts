@@ -5,6 +5,7 @@ import { apiInfo, getUrl } from '../../utils/API_info';
 
 interface Request {
   userId?: string;
+  singleStationId?: string;
 }
 
 interface urlArray {
@@ -12,22 +13,34 @@ interface urlArray {
   url: string;
 }
 
-export default async function handleStationsRequest({ userId }: Request): Promise<urlArray[]> {
+export default async function handleStationsRequest({ userId, singleStationId }: Request): Promise<urlArray[]> {
 
   const urlArray: urlArray[] = [];
-  
+
   if (!!userId) {
     // Grabing data for use page
     const usersRepository = getCustomRepository(UsersRepository);
 
     const user = await usersRepository.checkUserExists({ userId });
 
-    const userStations = user.stations;
+    let userStations: string | string[] = '';
 
-    for (let i = 0; i < userStations.length; i++) {
-      urlArray[i] = {
-        stationID: userStations[i],
-        url: getUrl(userStations[i])
+    if (!singleStationId) {
+      userStations = user.stations;
+
+      for (let i = 0; i < userStations.length; i++) {
+        urlArray[i] = {
+          stationID: userStations[i],
+          url: getUrl(userStations[i])
+        }
+      }
+
+    } else {
+      userStations = user.stations[user.stations.length-1];
+
+      urlArray[0] = {
+        stationID: singleStationId,
+        url: getUrl(singleStationId)
       }
     }
   } else {

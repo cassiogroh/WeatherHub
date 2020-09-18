@@ -4,6 +4,8 @@ import fetch from 'node-fetch';
 
 import UsersRepository from '../repositories/UsersRepository';
 
+import LoadStationsService from './LoadStationsService/LoadStationsService';
+
 import AppError from '../errors/AppError';
 
 interface Request {
@@ -12,8 +14,9 @@ interface Request {
 }
 
 export default class AddNewStationService {
-  public async execute({ stationId, userId }: Request): Promise<string[]> {
+  public async execute({ stationId, userId }: Request): Promise<object> {
     stationId = stationId.toUpperCase();
+    const loadStation = new LoadStationsService();
 
     const usersRepository = getCustomRepository(UsersRepository);
 
@@ -48,6 +51,8 @@ export default class AddNewStationService {
 
     await usersRepository.save(user);
 
-    return user.stations;
+    const newStation = await loadStation.execute({userId, singleStationId: stationId});
+
+    return newStation[0];
   }
 }

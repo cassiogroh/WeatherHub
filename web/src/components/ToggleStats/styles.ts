@@ -10,7 +10,7 @@ export const Container = styled.div`
   }
 
   @media (max-width: 700px) {
-    margin: 20px 0 50px 0;
+    margin: 30px 0 10px 0;
 
     p {
       margin-left: initial;
@@ -21,15 +21,15 @@ export const Container = styled.div`
 export const Options = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: -10px;
 
   position: absolute;
-  top: -5px;
   z-index: 2;
   overflow: hidden;
 
-  border: 2px solid var(--bg-form);
+  border: 2px solid var(--primary-color);
   border-radius: 8px;
-  background-color: var(--bg-form);
+  background-color: var(--primary-color);
 
   max-height: 3.4rem;
   transition: max-height .2s ease-out, border-color .3s, filter .2s;
@@ -52,7 +52,7 @@ export const Options = styled.div`
   }
 
   @media (max-width: 700px) {
-    top: 28px;
+    top: -28px;
   }
 `;
 

@@ -46,6 +46,7 @@ export default createGlobalStyle`
 
   button {
     cursor: pointer;
+    outline: none;
   }
 
   h1 {

@@ -1,11 +1,16 @@
 import React, { useState, useCallback } from 'react';
-import { Link } from 'react-router-dom';
 
 import { useAuth } from '../../hooks/auth';
 
+import Link from './Link';
+
 import { Container, NavBar } from './styles';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  currentPage: string;
+};
+
+const Header: React.FC<HeaderProps> = ({ currentPage }: HeaderProps) => {
   const { user } = useAuth();
   const [activateNavbar, setActivateNavbar] = useState(false);
 
@@ -19,28 +24,28 @@ const Header: React.FC = () => {
 
   window.addEventListener('scroll', changeNavbarBackground);
 
+  const setScrollToZero = useCallback(() => {
+    window.scrollTo(0, 0);
+  }, [])
+
   return (
     <Container>
       <NavBar activateNavbar={activateNavbar}>
         <div>
-          <Link to="/">
-            Home
-          </Link>
+          <Link to="/" pageName='Home' currentPage={currentPage} activateNavbar={activateNavbar} onClick={setScrollToZero} />
         </div>
 
         <div>
           {!!user ? 
-          <Link to='dashboard'>
-            Dashboard
-          </Link>
+          <Link to="dashboard" pageName='Dashboard' currentPage={currentPage} activateNavbar={activateNavbar} onClick={setScrollToZero} />
           : (
             <>
-              <Link to='signin'>Login</Link>
-              <Link to='signup'>Registrar</Link>
+              <Link to="signin" pageName='Login' currentPage={currentPage} activateNavbar={activateNavbar} />
+              <Link to="signup" pageName='Registrar' currentPage={currentPage} activateNavbar={activateNavbar} />
             </>
           )
           }
-          <Link to='about'>Sobre</Link>
+          <Link to="about" pageName='Sobre' currentPage={currentPage} activateNavbar={activateNavbar} />
         </div>
       </NavBar>
     </Container>

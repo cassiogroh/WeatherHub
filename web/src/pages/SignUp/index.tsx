@@ -13,6 +13,7 @@ import getValidationErrors from '../../utils/getValidationErrors';
 
 import fullLogoImg from '../../assets/full-logo.png';
 
+import Header from '../../components/Header';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
@@ -61,7 +62,6 @@ const SignUp: React.FC = () => {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err);
         formRef.current?.setErrors(errors);
-
         return;
       }
 
@@ -75,6 +75,7 @@ const SignUp: React.FC = () => {
 
   return (
     <Container>
+      <Header currentPage='Registrar' />
       <Content>
         <Background>
           <h1>Junte-se a esta comunidade de apaixonados pelo clima!</h1>

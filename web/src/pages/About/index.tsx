@@ -1,20 +1,21 @@
 import React from 'react';
 
-import { Container, Background, AnimationContainer } from './styles';
+import Header from '../../components/Header';
 
-import ToastContainer from '../../components/ToastContainer';
+import { Container, Background, AnimationContainer } from './styles';
 
 const About: React.FC = () => {
   return (
     <Container>
+      <Header currentPage='Sobre'/>
       <AnimationContainer>
-          <h1>Sobre</h1>
+          <h1>Quem somos?</h1>
 
           <br/>
 
           <p>Nascemos da vontade de oferecer às pessoas que gostam de acompanhar informações do clima
             uma maneira mais fácil de fazê-lo. Diariamente, vários amantes do tempo e até mesmo profissionais 
-            trabalham duro para colocar todos os dados em ordem, principalmente no que se trata aos
+            trabalham duro para coletar dados de diferentes fontes e colocá-los ordem, principalmente no que se refere aos
             valores extremos de algumas propriedades atmosféricas.
           </p>
 

@@ -2,6 +2,7 @@ import React, { useState, useCallback, useRef } from 'react';
 
 import { FiTrash2, FiEdit, FiFrown, FiEdit3 } from 'react-icons/fi';
 import { useAuth } from '../../hooks/auth';
+
 import api from '../../services/api';
 
 import { Container, CardStats, CardBottom, RenameField } from './styles';
@@ -75,19 +76,22 @@ const StationCard: React.FC<RequestProps> = ({
   } = station;
 
   const { token } = useAuth();
-  
+
   const [inputFocus, setInputFocus] = useState(false);
   const [renameFocus, setRenameFocus] = useState(false);
   const [deleteFocus, setDeleteFocus] = useState(false);
   const [rename, setRename] = useState(false);
   const [stationName, setStationName] = useState(name);
 
-  const inputRef = useRef<HTMLInputElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleRenameStation = useCallback(() => {
     setRename(!rename);
-    inputFocus && setInputFocus(!inputFocus);
-  }, [rename, inputFocus]);
+
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 5)
+  }, [rename]);
 
   const confirmRenameStation =
   useCallback(async (stationId: string, newName: string | undefined, currentName: string): Promise<void> => {
@@ -135,9 +139,18 @@ const StationCard: React.FC<RequestProps> = ({
         <CardStats>
           {rename ?
           <RenameField inputFocus={inputFocus}>
-            <input ref={inputRef} defaultValue={stationName} type='text' onFocus={handleInputFocus} onBlur={handleInputBlur} />
-            <button type='button' onClick={() => confirmRenameStation(stationID, inputRef.current?.value, stationName)}>
-              <FiEdit3 stroke={inputFocus ? '#3FCA87' : 'white'} />
+            <input
+              ref={inputRef}
+              defaultValue={stationName}
+              type='text'
+              onFocus={handleInputFocus}
+              onBlur={handleInputBlur}
+            />
+            <button
+              type='button'
+              onClick={() => confirmRenameStation(stationID, inputRef.current?.value, stationName)}
+            >
+              <FiEdit3 stroke={inputFocus ? '#3FCA87' : '#ddd'} />
             </button>
           </RenameField>
           : <a href={url}> { stationName } </a>
@@ -174,14 +187,14 @@ const StationCard: React.FC<RequestProps> = ({
               onMouseEnter={() => handleFocus('renameFocus')}
               onMouseLeave={() => handleBlur('renameFocus')}
               type='button'>
-              <FiEdit size={23} stroke={renameFocus ? '#3FCA87' : 'white'} />
+              <FiEdit size={23} stroke={renameFocus ? '#3FCA87' : '#ddd'} />
             </button>
             <button
               onClick={(() => handleDeleteStation(stationID))}
               onMouseEnter={() => handleFocus('deleteFocus')}
               onMouseLeave={() => handleBlur('deleteFocus')}
               type='button' >
-              <FiTrash2 size={23} stroke={deleteFocus ? '#FF9077' : 'white'} />
+              <FiTrash2 size={23} stroke={deleteFocus ? '#FF9077' : '#ddd'} />
             </button>
           </div>
           }

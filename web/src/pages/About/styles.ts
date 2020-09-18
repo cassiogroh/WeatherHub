@@ -5,11 +5,10 @@ import logoImg from '../../assets/logo.png';
 export const Container = styled.div`
   display: flex;
   align-items: center;
-  /* margin-top: 80px; */
-  padding-top: 100px;
+  padding-top: 150px;
 
-  @media (max-width: 980px) {
-    position: relative;
+  @media (max-width: 500px) {
+    padding-top: 100px;
   }
 `;
 
@@ -36,28 +35,38 @@ export const AnimationContainer = styled.div`
   }
 
   @media (max-width: 980px) {
+    margin: 0 auto;
+    width: 60%;
+  }
+
+  @media (max-width: 500px) {
+    margin: 0 auto;
     width: 80%;
   }
+
 `;
 
 export const Background = styled.div`
   background: url(${logoImg}) no-repeat center;
-  background-position-y: 80px;
   background-size: 300px;
-  height: 400px;
-  width: 400px;
+  height: 350px;
+  width: 350px;
 
   @media (max-width: 980px) {
     position: absolute;
     z-index: -1;
     opacity: 20%;
-    left: 40%;
+    left: 50%;
+    top: 50%;
+    margin-left: -175px;
+    margin-top: -175px;
   }
 
   @media (max-width: 500px) {
     background-size: 200px;
-    height: 300px;
-    width: 300px;
-    left: 30%;
+    height: 200px;
+    width: 200px;
+    margin-left: -100px;
+    margin-top: -100px;
   }
 `;

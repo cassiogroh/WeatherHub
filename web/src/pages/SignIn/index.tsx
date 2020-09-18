@@ -11,6 +11,7 @@ import getValidationErrors from '../../utils/getValidationErrors';
 
 import logoImg from '../../assets/full-logo.png';
 
+import Header from '../../components/Header';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
@@ -63,13 +64,14 @@ const SignIn: React.FC = () => {
       addToast({
         type: 'error',
         title: 'Erro na autenticação',
-        description: 'Ocorreu um erro ao fazer login. Cheque suas credenciais.'
+        description: 'Ocorreu um erro ao fazer login. Cheque suas credenciais e tente novamente.'
       });
     }
   }, [signIn, addToast, history]);
 
   return (
     <Container>
+      <Header currentPage='Login' />
       <Content>
         <AnimationContainer>
           <img src={logoImg} alt="WeatherHub" width={150} />

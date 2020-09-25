@@ -34,7 +34,7 @@ export const NavBar = styled.div<NavbarProps>`
   ` :
   css`
   background-color: var(--primary-color);
-  padding: 5px;
+  padding: 3px;
   `}
   
   div {

@@ -96,6 +96,16 @@ const Dashboard: React.FC = () => {
 
   const handleAddStation = useCallback(async (stationId: string | undefined): Promise<void> => {
     stationId = stationId?.toUpperCase();
+
+    if (stationId === '') {
+      addToast({
+        type: 'error',
+        title: 'ID Inválido',
+        description: 'Preencha o campo corretamente.'
+      });
+
+      return;
+    };
     
     const alreadyExists = stations.find(station => station.stationID === stationId);
 

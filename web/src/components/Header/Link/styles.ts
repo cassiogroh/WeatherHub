@@ -36,7 +36,6 @@ export const Container = styled.div<RequestProps>`
       content: '';
       display: block;
       height: 3px;
-      margin-top: 7px;
       border-radius: 10px;
       transition: width .2s ease-out;
 

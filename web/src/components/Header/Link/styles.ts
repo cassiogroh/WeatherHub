@@ -27,21 +27,12 @@ export const Container = styled.div<RequestProps>`
       background-color: rgba(0,0,0, 0.2);
     }
 
-    @media (max-width: 500px) {
-      font-weight: 400;
-      font-size: 1.8rem;
-    }
-
     &::after {
       content: '';
       display: block;
       height: 3px;
       border-radius: 10px;
       transition: width .2s ease-out;
-
-      @media (max-width: 500px) {
-        margin-top: 3px;
-      }
       
       ${props => props.currentPage === props.pageName ?
       css`width: 100%;` :
@@ -55,11 +46,20 @@ export const Container = styled.div<RequestProps>`
       css`
       background: var(--text-color);
       `}
+
+      @media (max-width: 500px) {
+        margin-top: 3px;
+      }
     }
 
     &:hover::after {
       width: 100%;
       transition: width .2s ease-in;
+    }
+
+    @media (max-width: 500px) {
+      font-weight: 400;
+      font-size: 1.8rem;
     }
   }
 `;

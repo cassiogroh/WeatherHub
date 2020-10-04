@@ -1,12 +1,12 @@
 import { getCustomRepository } from 'typeorm';
-import { getUrl } from '../utils/API_info';
+import { getUrl } from '@config/api_info';
 import fetch from 'node-fetch';
 
-import UsersRepository from '../repositories/UsersRepository';
+import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 
 import LoadStationsService from './LoadStationsService/LoadStationsService';
 
-import AppError from '../errors/AppError';
+import AppError from '@shared/errors/AppError';
 
 interface Request {
   stationId: string;

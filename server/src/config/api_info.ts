@@ -3,21 +3,21 @@ export const apiInfo = {
   units: 'm', // Metric system (switch to 'e' for imperial system)
   numericPreicison: 'decimal',
   stationsId: [
-      'ISANTACA85',
-      // 'ISANTACA56',
-      // 'IBRUSQUE2',
-      //  'IBRUSQ14',
-      // 'IBRUSQ12',
-      // 'ISCGUABI2',
-      // 'IGUABIRU5',
-      // 'IGUABIRU6',
-      // 'ISCRIBEI2',
-      // 'IPRESI11',
-      // 'ISCVARGE2',
-      // 'ISCVARGE3',
-      'IBRUSQ17', // Test only (station deactivated)
+    'ISANTACA85',
+    'ISANTACA56',
+    // 'IBRUSQUE2',
+    // 'IBRUSQ14',
+    // 'IBRUSQ12',
+    // 'ISCGUABI2',
+    // 'IGUABIRU5',
+    // 'IGUABIRU6',
+    // 'ISCRIBEI2',
+    // 'IPRESI11',
+    // 'ISCVARGE2',
+    'ISCVARGE3',
+    'IBRUSQ17', // Test only (station deactivated)
   ]
-}
+};
 
 export function getUrl( stationId: string): string {
   const url = `https://api.weather.com/v2/pws/observations/current?stationId=${stationId}&format=json&units=${apiInfo.units}&apiKey=${apiInfo.apiKey}&numericPrecision=${apiInfo.numericPreicison}`;

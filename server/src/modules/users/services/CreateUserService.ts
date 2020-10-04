@@ -1,8 +1,8 @@
 import { getCustomRepository } from 'typeorm';
 import { hash } from 'bcryptjs';
 
-import User from '../models/User';
-import UsersRepository from '../repositories/UsersRepository';
+import User from '@modules/users/infra/typeorm/entities/User';
+import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 
 interface Request {
   name: string;

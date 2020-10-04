@@ -1,7 +1,7 @@
 import { getCustomRepository } from 'typeorm';
 
-import UsersRepository from '../../repositories/UsersRepository';
-import { apiInfo, getUrl } from '../../utils/API_info';
+import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
+import { apiInfo, getUrl } from '@config/api_info';
 
 interface Request {
   userId?: string;

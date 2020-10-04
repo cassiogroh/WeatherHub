@@ -1,7 +1,7 @@
 import { getCustomRepository } from 'typeorm';
 
-import UsersRepository from '../repositories/UsersRepository';
-import AppError from '../errors/AppError';
+import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
+import AppError from '@shared/errors/AppError';
 
 interface Request {
   stationId: string;

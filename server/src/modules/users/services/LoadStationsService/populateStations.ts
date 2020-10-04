@@ -1,10 +1,10 @@
 import { getCustomRepository } from 'typeorm';
 import fetch from 'node-fetch';
 
-import { apiInfo } from '../../utils/API_info';
-import UsersRepository from '../../repositories/UsersRepository';
+import { apiInfo } from '@config/api_info';
+import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 
-import AppError from '../../errors/AppError';
+import AppError from '@shared/errors/AppError';
 
 interface StationProps {
   name: string;
@@ -63,7 +63,7 @@ export default async function populateStations({ urlArray, userId }: Request): P
   fetchedStations.map(data => {
     let station: StationProps = {} as StationProps;
 
-    if (data.status === 'fulfilled' && data.value !== 1) {
+    if (data.status === 'fulfilled' && isNaN(data.value) ) {
       let {
         dewpt,
         elev,

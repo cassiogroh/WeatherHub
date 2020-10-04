@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useRef } from 'react';
 
 import { FiTrash2, FiEdit, FiFrown, FiEdit3 } from 'react-icons/fi';
-import { useAuth } from '../../hooks/auth';
 
 import api from '../../services/api';
 
@@ -44,9 +43,7 @@ export interface RequestProps {
   station: StationProps;
   propsView?: ViewProps;
   handleDeleteStation?: any;
-  user?: {
-    id: string;
-  };
+  user?: object;
 }
 
 const StationCard: React.FC<RequestProps> = ({
@@ -75,11 +72,9 @@ const StationCard: React.FC<RequestProps> = ({
     windSpeed
   } = station;
 
-  const { token } = useAuth();
-
   const [inputFocus, setInputFocus] = useState(false);
-  const [renameFocus, setRenameFocus] = useState(false);
-  const [deleteFocus, setDeleteFocus] = useState(false);
+  const [renameButtonFocus, setRenameButtonFocus] = useState(false);
+  const [deleteButtonFocus, setDeleteButtonFocus] = useState(false);
   const [rename, setRename] = useState(false);
   const [stationName, setStationName] = useState(name);
 
@@ -93,45 +88,47 @@ const StationCard: React.FC<RequestProps> = ({
     }, 5)
   }, [rename]);
 
-  const confirmRenameStation =
+  const confirmRenameStation = 
   useCallback(async (stationId: string, newName: string | undefined, currentName: string): Promise<void> => {
     if (currentName !== newName && newName !== '') {
-      await api.put('/users/rename', {
+      await api.put('/users/rename-station', {
           stationId,
           newName,
-          userId: user?.id
-        },
-        {headers: {
-          'Authorization': `Bearer ${token}`
-        }}
+        }
       );
       
       !!newName && setStationName(newName);
     };
 
     setRename(false);
-  }, [user, token]);
-
-  const handleInputFocus = useCallback(() => {
-    setInputFocus(!inputFocus)
-  }, [inputFocus]);
-
-  const handleInputBlur = useCallback(() => {
-    setInputFocus(false);
-
-    confirmRenameStation(stationID, inputRef.current?.value, stationName);
-  }, [confirmRenameStation, stationName, stationID]);
+  }, []);
 
   const handleFocus = useCallback((focusedVariable: string) => {
-    focusedVariable === 'renameFocus' ?
-    setRenameFocus(true) :
-    setDeleteFocus(true)
+    switch (focusedVariable) {
+      case 'renameInput':
+        return setInputFocus(true);
+      case 'renameButton':
+        return setRenameButtonFocus(true);
+      case 'deleteButton':
+        return setDeleteButtonFocus(true);
+      default:
+        return null;
+    };
   }, []);
 
   const handleBlur = useCallback((focusedVariable: string) => {
-    focusedVariable === 'renameFocus' ?
-    setRenameFocus(false) :
-    setDeleteFocus(false)
+    switch (focusedVariable) {
+      case 'renameInput': {
+        confirmRenameStation(stationID, inputRef.current?.value, stationName);
+        return setInputFocus(false);
+      }
+      case 'renameButton':
+        return setRenameButtonFocus(false);
+      case 'deleteButton':
+        return setDeleteButtonFocus(false);
+      default:
+        return null;
+    }
   }, []);
 
   return (
@@ -143,8 +140,8 @@ const StationCard: React.FC<RequestProps> = ({
               ref={inputRef}
               defaultValue={stationName}
               type='text'
-              onFocus={handleInputFocus}
-              onBlur={handleInputBlur}
+              onFocus={() => handleFocus('renameInput')}
+              onBlur={() => handleBlur('renameInput')}
             />
             <button
               type='button'
@@ -153,23 +150,23 @@ const StationCard: React.FC<RequestProps> = ({
               <FiEdit3 stroke={inputFocus ? '#3FCA87' : '#ddd'} />
             </button>
           </RenameField>
-          : <a href={url}> { stationName } </a>
+          : <a href={url} target='blank'> { stationName } </a>
           }          
           
-          {status === 'online' ?
+          {status === 'online' && !!propsView ?
           <>
-            { propsView?.temp && <p>Temperatura <span>{temp} °C</span></p>}
-            { propsView?.dewpt && <p>Ponto de orvalho <span>{dewpt} °C</span></p>}
-            { propsView?.heatIndex && <p>Índice de calor <span>{heatIndex} °C</span></p>}
-            { propsView?.windChill && <p>Sensação térmica <span>{windChill} °C</span></p>}
-            { propsView?.humidity && <p>Humidade relativa <span>{humidity} %</span></p>}
-            { propsView?.precipTotal && <p>Precipitação Total <span>{precipTotal} mm</span></p>}
-            { propsView?.precipRate && <p>Taxa de precipitação <span>{precipRate} mm/h</span></p>}
-            { propsView?.windGust && <p>Rajada de vento <span>{windGust} km/h</span></p>}
-            { propsView?.windSpeed && <p>Velocidade do vento <span>{windSpeed} km/h</span></p>}
-            { propsView?.pressure && <p>Pressão atmosférica <span>{pressure} hPa</span></p>}
-            { propsView?.elev && <p>Elevação <span>{elev} m</span></p>}
-          </> :          
+            { propsView.temp && <p>Temperatura <span>{temp} °C</span></p>}
+            { propsView.dewpt && <p>Ponto de orvalho <span>{dewpt} °C</span></p>}
+            { propsView.heatIndex && <p>Índice de calor <span>{heatIndex} °C</span></p>}
+            { propsView.windChill && <p>Sensação térmica <span>{windChill} °C</span></p>}
+            { propsView.humidity && <p>Humidade relativa <span>{humidity} %</span></p>}
+            { propsView.precipTotal && <p>Precipitação Total <span>{precipTotal} mm</span></p>}
+            { propsView.precipRate && <p>Taxa de precipitação <span>{precipRate} mm/h</span></p>}
+            { propsView.windGust && <p>Rajada de vento <span>{windGust} km/h</span></p>}
+            { propsView.windSpeed && <p>Velocidade do vento <span>{windSpeed} km/h</span></p>}
+            { propsView.pressure && <p>Pressão atmosférica <span>{pressure} hPa</span></p>}
+            { propsView.elev && <p>Elevação <span>{elev} m</span></p>}
+          </> :
           <div>
             <p>Estação offline</p>
             <FiFrown size={50} />
@@ -184,17 +181,17 @@ const StationCard: React.FC<RequestProps> = ({
           <div>
             <button
               onClick={handleRenameStation}
-              onMouseEnter={() => handleFocus('renameFocus')}
-              onMouseLeave={() => handleBlur('renameFocus')}
+              onMouseEnter={() => handleFocus('renameButton')}
+              onMouseLeave={() => handleBlur('renameButton')}
               type='button'>
-              <FiEdit size={23} stroke={renameFocus ? '#3FCA87' : '#ddd'} />
+              <FiEdit size={23} stroke={renameButtonFocus ? '#3FCA87' : '#ddd'} />
             </button>
             <button
               onClick={(() => handleDeleteStation(stationID))}
-              onMouseEnter={() => handleFocus('deleteFocus')}
-              onMouseLeave={() => handleBlur('deleteFocus')}
+              onMouseEnter={() => handleFocus('deleteButton')}
+              onMouseLeave={() => handleBlur('deleteButton')}
               type='button' >
-              <FiTrash2 size={23} stroke={deleteFocus ? '#FF9077' : '#ddd'} />
+              <FiTrash2 size={23} stroke={deleteButtonFocus ? '#FF9077' : '#ddd'} />
             </button>
           </div>
           }

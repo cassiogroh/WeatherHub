@@ -54,15 +54,10 @@ const Home: React.FC = () => {
 
         <StationsStats>
           {stations.map((station: StationProps) => (
-            station.status === 'online' ?
             <StationCard
               key={station.stationID}
               station={station}
-              propsView={propsView}
-            /> :
-            <StationCard
-              key={station.stationID}
-              station={station}
+              propsView={station.status === 'online' ? propsView : undefined}
             />
             )
           )}

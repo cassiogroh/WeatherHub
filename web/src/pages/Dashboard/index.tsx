@@ -43,12 +43,7 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const getStations = async() => {
 
-      const loadedStations = await api.get('/users', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'userId': user.id
-        }
-      });
+      const loadedStations = await api.get('/users');
       setStations(loadedStations.data);
     }
     getStations();
@@ -67,11 +62,9 @@ const Dashboard: React.FC = () => {
       return
     }
       try {
-        await api.delete<void>('/users/delete', {
+        await api.delete<void>('/users/delete-station', {
           headers: {
-            'Authorization': `Bearer ${token}`,
-            'stationId': stationId,
-            'userId': user.id
+            'stationId': stationId
           }
         });
 
@@ -92,7 +85,7 @@ const Dashboard: React.FC = () => {
         return;
       }
 
-  }, [user.id, token, addToast, stations]);
+  }, [addToast, stations]);
 
   const handleAddStation = useCallback(async (stationId: string | undefined): Promise<void> => {
     stationId = stationId?.toUpperCase();
@@ -122,14 +115,9 @@ const Dashboard: React.FC = () => {
     }
 
     try {
-      const response = await api.post('users/add', {
-          stationId,
-          userId: user.id
-        },
-        {headers: {
-          'Authorization': `Bearer ${token}`
-        }}
-      );
+      const response = await api.post('users/add-station', {
+        stationId
+      });
 
       addToast({
         type: 'success',
@@ -148,7 +136,7 @@ const Dashboard: React.FC = () => {
     }
 
     setTriggerAddLoader(false)
-  }, [user.id, token, addToast, stations]);
+  }, [addToast, stations]);
 
   return (
     <>
@@ -165,17 +153,10 @@ const Dashboard: React.FC = () => {
 
         <StationsStats>
           {stations.map((station: StationProps) => (
-            station.status === 'online' ?
             <StationCard
               key={station.stationID}
               station={station}
-              propsView={propsView}
-              handleDeleteStation={handleDeleteStation}
-              user={user}
-            /> :
-            <StationCard
-              key={station.stationID}
-              station={station}
+              propsView={station.status === 'online' ? propsView : undefined}
               handleDeleteStation={handleDeleteStation}
               user={user}
             />

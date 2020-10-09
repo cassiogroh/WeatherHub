@@ -91,7 +91,7 @@ const StationCard: React.FC<RequestProps> = ({
   const confirmRenameStation = 
   useCallback(async (stationId: string, newName: string | undefined, currentName: string): Promise<void> => {
     if (currentName !== newName && newName !== '') {
-      await api.put('/users/rename-station', {
+      await api.put('/users/stations', {
           stationId,
           newName,
         }
@@ -129,7 +129,7 @@ const StationCard: React.FC<RequestProps> = ({
       default:
         return null;
     }
-  }, []);
+  }, [confirmRenameStation, stationID, stationName]);
 
   return (
     <Container>

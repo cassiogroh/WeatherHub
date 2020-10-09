@@ -43,7 +43,7 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const getStations = async() => {
 
-      const loadedStations = await api.get('/users');
+      const loadedStations = await api.get('/users/stations');
       setStations(loadedStations.data);
     }
     getStations();
@@ -62,7 +62,7 @@ const Dashboard: React.FC = () => {
       return
     }
       try {
-        await api.delete<void>('/users/delete-station', {
+        await api.delete<void>('/users/stations', {
           headers: {
             'stationId': stationId
           }
@@ -115,7 +115,7 @@ const Dashboard: React.FC = () => {
     }
 
     try {
-      const response = await api.post('users/add-station', {
+      const response = await api.post('users/stations', {
         stationId
       });
 

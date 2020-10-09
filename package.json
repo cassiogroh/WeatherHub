@@ -1,0 +1,6 @@
+{
+  "name": "@monorepo/weatherhub",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "cassiogroh <cassio_groh@hotmail.com>",
+}

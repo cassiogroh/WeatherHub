@@ -1,21 +1,21 @@
-import populateStations from './populateStations';
-import handleStationsRequest from './handleStationsRequest';
+import { container } from 'tsyringe';
+
+import HandleStationsRequest from './HandleStationsRequest';
+import PopulateStations from './PopulateStations';
 
 interface Request {
   userId?: string;
   singleStationId?: string;
 }
 
-class LoadStationsService {
-
+export default class LoadStationsService {
   public async execute({ userId, singleStationId }: Request) {
+    const handleStationsRequest = container.resolve(HandleStationsRequest);
+    const populateStations = container.resolve(PopulateStations);
 
-    const urlArray = await handleStationsRequest({ userId, singleStationId })
-
-    const stationsArray = await populateStations({ urlArray, userId });
+    const urlArray = await handleStationsRequest.execute({ userId, singleStationId });
+    const stationsArray = await populateStations.execute({ urlArray, userId });
 
     return stationsArray;
   }
 }
-
-export default LoadStationsService;

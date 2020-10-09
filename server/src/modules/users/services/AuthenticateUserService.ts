@@ -1,9 +1,11 @@
-import { getCustomRepository } from 'typeorm';
-import { compare } from 'bcryptjs';
+import { injectable, inject } from 'tsyringe';
 import { sign } from 'jsonwebtoken';
+import { classToClass } from 'class-transformer';
 
 import User from '@modules/users/infra/typeorm/entities/User';
-import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
+import IUsersRepository from '../repositories/IUsersRepository';
+import IHashProvider from '../providers/HashProvider/models/IHashProvider';
+
 import authConfig from '@config/auth';
 
 import AppError from '@shared/errors/AppError';
@@ -18,21 +20,24 @@ interface Response {
   token: string;
 }
 
+@injectable()
 export default class AuthenticateUserService {
-  public async execute({ email, password }: Request): Promise<Response> {
-    const usersRepository = getCustomRepository(UsersRepository);
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
 
-    const user = await usersRepository.findOne({
-      where: { email }
-    });
+    @inject('HashProvider')
+    private hashProvider: IHashProvider,
+  ) {}
+
+  public async execute({ email, password }: Request): Promise<Response> {
+    const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
       throw new AppError('Incorrect e-mail/password combination', 401);
     }
 
-    const passwordMatched = await compare(password, user.password);
-
-    delete user.password;
+    const passwordMatched = await this.hashProvider.compareHash(password, user.password);
 
     if (!passwordMatched) {
       throw new AppError('Incorrect e-mail/password combination', 401);
@@ -46,7 +51,7 @@ export default class AuthenticateUserService {
     });
 
     return {
-      user,
+      user: classToClass(user),
       token
     };
   }

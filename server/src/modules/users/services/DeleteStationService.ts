@@ -1,6 +1,6 @@
-import { getCustomRepository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 
-import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
+import IUsersRepository from '../repositories/IUsersRepository';
 import AppError from '@shared/errors/AppError';
 
 interface Request {
@@ -8,14 +8,18 @@ interface Request {
   userId: string;
 }
 
+@injectable()
 export default class DeleteStationService {
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository
+  ) {}
+
   public async execute({ stationId, userId }: Request): Promise<void> {
     
     stationId = stationId.toUpperCase();
 
-    const usersRepository = getCustomRepository(UsersRepository);
-
-    const user = await usersRepository.checkUserExists({ userId });
+    const user = await this.usersRepository.checkUserExists(userId);
 
     const stationIndex = user.stations.findIndex(station => station === stationId);
 
@@ -26,7 +30,7 @@ export default class DeleteStationService {
     user.stations.splice(stationIndex, 1);
     user.stations_names.splice(stationIndex, 1);
 
-    await usersRepository.save(user);
+    await this.usersRepository.save(user);
 
     return;
   }

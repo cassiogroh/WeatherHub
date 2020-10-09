@@ -1,6 +1,7 @@
-import { getCustomRepository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 
-import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
+import IUsersRepository from '@modules/users/repositories/IUsersRepository';
+
 import { apiInfo, getUrl } from '@config/api_info';
 
 interface Request {
@@ -13,45 +14,51 @@ interface urlArray {
   url: string;
 }
 
-export default async function handleStationsRequest({ userId, singleStationId }: Request): Promise<urlArray[]> {
+@injectable()
+export default class HandleStationsRequest {
+  constructor (
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+  ) {};
 
-  const urlArray: urlArray[] = [];
+  public async execute({ userId, singleStationId}: Request): Promise<urlArray[]> {
+    const urlArray: urlArray[] = [];
 
-  if (!!userId) {
-    // Grabing data for use page
-    const usersRepository = getCustomRepository(UsersRepository);
+    if (!!userId) {
+      // Grabing data for user page
 
-    const user = await usersRepository.checkUserExists({ userId });
+      const user = await this.usersRepository.checkUserExists(userId);
 
-    let userStations: string | string[] = '';
+      let userStations: string | string[] = '';
 
-    if (!singleStationId) {
-      userStations = user.stations;
+      if (!singleStationId) {
+        userStations = user.stations;
 
-      for (let i = 0; i < userStations.length; i++) {
-        urlArray[i] = {
-          stationID: userStations[i],
-          url: getUrl(userStations[i])
+        for (let i = 0; i < userStations.length; i++) {
+          urlArray[i] = {
+            stationID: userStations[i],
+            url: getUrl(userStations[i])
+          }
+        }
+
+      } else {
+        userStations = user.stations[user.stations.length-1];
+
+        urlArray[0] = {
+          stationID: singleStationId,
+          url: getUrl(singleStationId)
         }
       }
-
     } else {
-      userStations = user.stations[user.stations.length-1];
+      // Grabing data for home page
+      for (let i = 0; i < apiInfo.stationsId.length; i++) {
+        urlArray[i] = {
+          stationID: apiInfo.stationsId[i],
+          url: getUrl(apiInfo.stationsId[i])
+        }
+      }
+    }
 
-      urlArray[0] = {
-        stationID: singleStationId,
-        url: getUrl(singleStationId)
-      }
-    }
-  } else {
-    // Grabing data for home page
-    for (let i = 0; i < apiInfo.stationsId.length; i++) {
-      urlArray[i] = {
-        stationID: apiInfo.stationsId[i],
-        url: getUrl(apiInfo.stationsId[i])
-      }
-    }
+    return urlArray;
   }
-
-  return urlArray;
 }

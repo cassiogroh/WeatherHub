@@ -1,19 +1,23 @@
-import { getCustomRepository } from 'typeorm';
+import { injectable, inject } from 'tsyringe';
 
-import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
+import IUsersRepository from '../repositories/IUsersRepository';
 
 interface Request {
   userId: string;
 }
 
+@injectable()
 export default class DeleteUserService {
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository
+  ) {}
+  
   public async execute({ userId }: Request): Promise<string> {
 
-    const usersRepository = getCustomRepository(UsersRepository);
+    const user = await this.usersRepository.checkUserExists(userId);
 
-    const user = await usersRepository.checkUserExists({ userId });
-
-    await usersRepository.remove(user);
+    await this.usersRepository.remove(user);
 
     return user.name;
   }

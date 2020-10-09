@@ -1,7 +1,8 @@
-import { getCustomRepository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
+
+import IUsersRepository from '../repositories/IUsersRepository';
 
 import AppError from '@shared/errors/AppError';
-import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 
 interface Request {
   stationId: string;
@@ -9,13 +10,17 @@ interface Request {
   userId: string;
 }
 
+@injectable()
 export default class RenameStationService {
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository
+  ) {}
+
   public async execute({ stationId, newName, userId }: Request): Promise<void> {
     stationId = stationId.toUpperCase();
 
-    const usersRepository = getCustomRepository(UsersRepository);
-
-    const user = await usersRepository.checkUserExists({ userId });
+    const user = await this.usersRepository.checkUserExists(userId);
 
     const stationIndex = user.stations.findIndex(station => station === stationId);
 
@@ -31,6 +36,8 @@ export default class RenameStationService {
 
     user.stations_names.splice(stationIndex, 1, newName);
 
-    await usersRepository.save(user);
+    await this.usersRepository.save(user);
+
+    return;
   }
 }

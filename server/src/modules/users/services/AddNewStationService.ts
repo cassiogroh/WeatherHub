@@ -1,8 +1,8 @@
-import { getCustomRepository } from 'typeorm';
-import { getUrl } from '@config/api_info';
+import { container, inject, injectable } from 'tsyringe';
 import fetch from 'node-fetch';
 
-import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
+import { getUrl } from '@config/api_info';
+import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 
 import LoadStationsService from './LoadStationsService/LoadStationsService';
 
@@ -13,14 +13,18 @@ interface Request {
   userId: string;
 }
 
+@injectable()
 export default class AddNewStationService {
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository
+  ) {}
+
   public async execute({ stationId, userId }: Request): Promise<object> {
     stationId = stationId.toUpperCase();
-    const loadStation = new LoadStationsService();
+    const loadStation = container.resolve(LoadStationsService);
 
-    const usersRepository = getCustomRepository(UsersRepository);
-
-    const user = await usersRepository.checkUserExists({ userId });
+    const user = await this.usersRepository.checkUserExists(userId);
 
     const checkStationExists = (): void => {
       const stationExists = user.stations.find(station => station === stationId);
@@ -49,7 +53,7 @@ export default class AddNewStationService {
     user.stations.push(stationId);
     user.stations_names.push(response.observations[0].neighborhood);
 
-    await usersRepository.save(user);
+    await this.usersRepository.save(user);
 
     const newStation = await loadStation.execute({userId, singleStationId: stationId});
 

@@ -1,8 +1,8 @@
-import { getCustomRepository } from 'typeorm';
-import { hash } from 'bcryptjs';
+import { injectable, inject } from 'tsyringe';
 
 import User from '@modules/users/infra/typeorm/entities/User';
-import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
+import IUsersRepository from '../repositories/IUsersRepository';
+import IHashProvider from '../providers/HashProvider/models/IHashProvider';
 
 interface Request {
   name: string;
@@ -10,15 +10,22 @@ interface Request {
   password: string;
 }
 
+@injectable()
 export default class CreateUserService {
+  constructor (
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+
+    @inject('HashProvider')
+    private hashProvider: IHashProvider,
+  ) {};
+
   public async execute({ name, email, password }: Request): Promise<User> {
-    const usersRepository = getCustomRepository(UsersRepository);
+    await this.usersRepository.checkEmailExists(email);
 
-    await usersRepository.checkEmailExists({ email });
+    const hashedPassword = await this.hashProvider.generateHash(password);
 
-    const hashedPassword = await hash(password, 8);
-
-    const user = usersRepository.create({
+    const user = await this.usersRepository.create({
       name,
       email,
       password: hashedPassword,
@@ -26,10 +33,6 @@ export default class CreateUserService {
       stations_names: ['Brusque - Centro']
     })
 
-    await usersRepository.save(user);
-
-    delete user.password;
-
     return user;
-  }
-}
+  };
+};

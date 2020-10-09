@@ -1,4 +1,5 @@
 import { Request, Response} from 'express';
+import { container } from 'tsyringe';
 
 // index, show, create, update, delete
 
@@ -11,7 +12,7 @@ export default class StationsController {
   public async index (request: Request, response: Response): Promise<Response> {
     const userId = request.user.id
 
-    const loadStations = new LoadStationsService();
+    const loadStations = container.resolve(LoadStationsService);
     const userStations = await loadStations.execute({ userId })
     return response.status(200).json(userStations)
   };
@@ -20,7 +21,7 @@ export default class StationsController {
     const userId = request.user.id
     const { stationId } = request.body;
 
-    const addNewStation = new AddNewStationService();
+    const addNewStation = container.resolve(AddNewStationService);
     const newStation = await addNewStation.execute({
       stationId,
       userId
@@ -34,7 +35,7 @@ export default class StationsController {
 
     const stationId = headers.stationid as string;
 
-    const deleteStation = new DeleteStationService();
+    const deleteStation = container.resolve(DeleteStationService);
     await deleteStation.execute({
       stationId,
       userId
@@ -47,7 +48,7 @@ export default class StationsController {
     const userId = request.user.id
     const { stationId, newName }= request.body;
 
-    const renameStation = new RenameStationService();
+    const renameStation = container.resolve(RenameStationService);
     await renameStation.execute({
       stationId,
       newName,

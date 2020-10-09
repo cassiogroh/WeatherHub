@@ -1,9 +1,9 @@
 <h1 align="center">
-  <img alt="Logo" src=".github/logo.svg" width="200px">
+  <img alt="Logo" src=".github/logo.png" width="200px">
 </h1>
 
 <h3 align="center">
-  App to show weather conditions in any given place
+  App to show weather conditions on any given places through data provided from weather stations
 </h3>
 
 <p align="center">The best way to keep track of weather on your area!</p>
@@ -35,7 +35,7 @@
 </p>
 
 <p align="center">
-  <img alt="WeatherHub" src=".github/webView.jpg" width="70%">
+  <img alt="WeatherHub" src=".github/webView.png" width="70%">
 </p>
 
 ## 💇🏻‍♂️ About the project
@@ -53,11 +53,11 @@ Technologies used to develop API
 - [Node.js](https://nodejs.org/en/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Express](https://expressjs.com/pt-br/)
-<!-- - [Multer](https://github.com/expressjs/multer) -->
 - [TypeORM](https://typeorm.io/#/)
 - [JWT-token](https://jwt.io/)
 - [uuid v4](https://github.com/thenativeweb/uuidv4/)
 - [PostgreSQL](https://www.postgresql.org/)
+<!-- - [Multer](https://github.com/expressjs/multer) -->
 <!-- - [Jest](https://jestjs.io/) -->
 <!-- - [Husky](https://github.com/typicode/husky) -->
 
@@ -69,9 +69,9 @@ Technologies used to develop frontend web
  - [React-icons](https://react-icons.github.io/react-icons/)
  - [React-spring](https://www.react-spring.io/)
  - [Unform](https://github.com/Rocketseat/unform)
- <!-- - [Jest](https://jestjs.io/) -->
  - [Yup](https://www.npmjs.com/package/yup)
  - [uuid v4](https://github.com/thenativeweb/uuidv4/)
+ <!-- - [Jest](https://jestjs.io/) -->
 
 ## 📝 License
 

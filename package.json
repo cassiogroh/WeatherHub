@@ -1,6 +1,26 @@
 {
-  "name": "@monorepo/weatherhub",
+  "name": "weatherhub",
   "version": "1.0.0",
-  "main": "index.js",
+  "private": true,
+  "main": "index.ts",
+  "license": "UNLICENSED",
+  "repository": "https://github.com/cassiogroh/WeatherHub.git",
   "author": "cassiogroh <cassio_groh@hotmail.com>",
+  "scripts": {
+    "build:web": "cd ./packages/web && yarn run react-scripts build",
+    "build": "cd ./packages/server && yarn build",
+    "start": "cd ./packages/server && yarn start"
+  },
+  "devDependencies": {
+    "typescript": "^4.0.2"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/typeorm",
+      "**/typeorm/**"
+    ]
+  }
 }

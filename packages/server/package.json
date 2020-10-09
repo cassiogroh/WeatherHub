@@ -1,7 +1,10 @@
 {
-  "name": "weatherhub_server",
+  "name": "@weatherhub/server",
   "version": "1.0.0",
+  "private": true,
   "main": "index.js",
+  "license": "UNLICENSED",
+  "author": "Cassio Groh <cassio_groh@hotmail.com>",
   "scripts": {
     "build": "tsc",
     "dev:server": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore node_modules src/shared/infra/http/server.ts",
@@ -9,8 +12,6 @@
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "test": "jest"
   },
-  "author": "Cassio Groh",
-  "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.766.0",
     "bcryptjs": "^2.4.3",
@@ -47,11 +48,9 @@
     "@types/node-fetch": "^2.5.7",
     "@types/nodemailer": "^6.4.0",
     "@types/redis": "^2.8.27",
-    "jest": "^26.4.2",
-    "nodemon": "^2.0.4",
+    "jest": "^24.9.0",
     "ts-jest": "^26.4.1",
     "ts-node-dev": "^1.0.0-pre.62",
-    "tsconfig-paths": "^3.9.0",
-    "typescript": "^4.0.2"
+    "tsconfig-paths": "^3.9.0"
   }
 }

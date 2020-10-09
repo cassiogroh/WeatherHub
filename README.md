@@ -3,10 +3,10 @@
 </h1>
 
 <h3 align="center">
-  App to show weather conditions on any given places through data provided from weather stations
+  App to show weather conditions on any given places
 </h3>
 
-<p align="center">The best way to keep track of weather on your area!</p>
+<p align="center">The best way to keep track of weather on your region!</p>
 
 <p align="center">
   <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/cassiogroh/WeatherHub?color=%233B5998">
@@ -35,7 +35,7 @@
 </p>
 
 <p align="center">
-  <img alt="WeatherHub" src=".github/webView.png" width="70%">
+  <img alt="WeatherHub" src=".github/view.png" width="70%">
 </p>
 
 ## 💇🏻‍♂️ About the project

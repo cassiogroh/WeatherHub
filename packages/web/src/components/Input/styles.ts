@@ -45,6 +45,16 @@ export const Container = styled.div<ContainerProps>`
     padding-left: 10px;
     outline: none;
 
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover, 
+    &:-webkit-autofill:focus {
+      background-color: yellow;
+      border: 0;
+      -webkit-text-fill-color: #F4EDE8;
+      -webkit-box-shadow: 0 0 0px 1000px #333 inset;
+      box-shadow: 0 0 0px 1000px #333 inset;
+    }
+
     &::placeholder {
       color: #666360;
     }

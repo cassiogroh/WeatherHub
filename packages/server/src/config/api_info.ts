@@ -4,10 +4,10 @@ export const apiInfo = {
   numericPreicison: 'decimal',
   stationsId: [
     'ISANTACA85',
-    // 'ISANTACA56',
-    // 'IBRUSQUE2',
-    // 'IBRUSQ14',
-    // 'IBRUSQ12',
+    'ISANTACA56',
+    'IBRUSQUE2',
+    'IBRUSQ14',
+    'IBRUSQ12',
     'ISCGUABI2',
     // 'IGUABIRU5',
     // 'IGUABIRU6',
@@ -15,7 +15,7 @@ export const apiInfo = {
     // 'IPRESI11',
     // 'ISCVARGE2',
     // 'ISCVARGE3',
-    'IBRUSQ17', // Test only (station deactivated)
+    // 'IBRUSQ17', // Test only (station deactivated)
   ]
 };
 

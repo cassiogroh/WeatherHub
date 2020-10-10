@@ -1,5 +1,5 @@
 export const apiInfo = {
-  apiKey: '5ab387f9a952492eb387f9a952392ec0',
+  apiKey: process.env.WU_API_KEY,
   units: 'm', // Metric system (switch to 'e' for imperial system)
   numericPreicison: 'decimal',
   stationsId: [

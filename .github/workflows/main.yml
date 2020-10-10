@@ -59,7 +59,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd ~/app/WeatherHub/packages/server
+            cd ~/app/WeatherHub
             yarn
         
       
@@ -72,7 +72,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd ~/app/WeatherHub
+            cd ~/app/WeatherHub/packages/server
             ./node_modules/.bin/typeorm migration:run
       
       # Restart no servidor Node.js

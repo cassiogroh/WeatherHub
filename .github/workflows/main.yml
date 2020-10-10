@@ -48,7 +48,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
           source: ".,!node_modules"
-          target: "~/app/weatherhub/packages/server"
+          target: "~/app/WeatherHub/packages/server"
           
       # Executar yarn na Digital Ocean
       - name: Install dependencies on Digital Ocean
@@ -59,7 +59,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd ~/app/weatherhub/packages/server
+            cd ~/app/WeatherHub/packages/server
             yarn
         
       
@@ -72,7 +72,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd ~/app/weatherhub
+            cd ~/app/WeatherHub
             ./node_modules/.bin/typeorm migration:run
       
       # Restart no servidor Node.js

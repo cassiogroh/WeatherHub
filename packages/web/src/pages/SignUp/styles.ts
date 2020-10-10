@@ -6,7 +6,18 @@ export const Container = styled.div`
   padding-top: 80px;
 `;
 
+const AppearFromBehind = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
 export const Background = styled.div`
+  animation: ${AppearFromBehind} 2s;
+
   @media (max-width: 980px) {
     h1 {
       width: 0;

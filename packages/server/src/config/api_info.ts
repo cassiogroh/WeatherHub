@@ -8,13 +8,13 @@ export const apiInfo = {
     // 'IBRUSQUE2',
     // 'IBRUSQ14',
     // 'IBRUSQ12',
-    // 'ISCGUABI2',
+    'ISCGUABI2',
     // 'IGUABIRU5',
     // 'IGUABIRU6',
     // 'ISCRIBEI2',
-    'IPRESI11',
-    'ISCVARGE2',
-    'ISCVARGE3',
+    // 'IPRESI11',
+    // 'ISCVARGE2',
+    // 'ISCVARGE3',
     'IBRUSQ17', // Test only (station deactivated)
   ]
 };

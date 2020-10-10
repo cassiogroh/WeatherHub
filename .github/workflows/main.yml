@@ -48,7 +48,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
           source: ".,!node_modules"
-          target: "~/app/WeatherHub/packages/server"
+          target: "~/app/WeatherHub"
           
       # Executar yarn na Digital Ocean
       - name: Install dependencies on Digital Ocean

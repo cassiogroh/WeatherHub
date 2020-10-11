@@ -8,6 +8,7 @@ import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import Dashboard from '../pages/Dashboard';
 import About from '../pages/About';
+import NotFound from '../pages/NotFound';
 
 const Routes: React.FC = () => {
   return (
@@ -18,6 +19,8 @@ const Routes: React.FC = () => {
       <Route path='/about' component={About} />
       
       <Route path='/dashboard' component={Dashboard} isPrivate />
+
+      <Route component={NotFound}/>
     </Switch>
   )
 };

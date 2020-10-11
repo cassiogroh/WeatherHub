@@ -48,30 +48,19 @@ This app provides weather information with ease, linked to the world famous webs
 
 ## 🚀 Technologies
 
-Technologies used to develop API
+Technologies used to develop this application
 
-- [Node.js](https://nodejs.org/en/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Express](https://expressjs.com/pt-br/)
-- [TypeORM](https://typeorm.io/#/)
-- [JWT-token](https://jwt.io/)
-- [uuid v4](https://github.com/thenativeweb/uuidv4/)
-- [PostgreSQL](https://www.postgresql.org/)
-<!-- - [Multer](https://github.com/expressjs/multer) -->
-<!-- - [Jest](https://jestjs.io/) -->
-<!-- - [Husky](https://github.com/typicode/husky) -->
-
-Technologies used to develop frontend web
- - [ReactJS](https://reactjs.org/)
- - [Typescript](https://www.typescriptlang.org/)
- - [Axios](https://github.com/axios/axios)
- - [Styled-components](https://styled-components.com/)
- - [React-icons](https://react-icons.github.io/react-icons/)
- - [React-spring](https://www.react-spring.io/)
- - [Unform](https://github.com/Rocketseat/unform)
- - [Yup](https://www.npmjs.com/package/yup)
- - [uuid v4](https://github.com/thenativeweb/uuidv4/)
- <!-- - [Jest](https://jestjs.io/) -->
+|                         API                        |                            Web                            |
+|:--------------------------------------------------:|:---------------------------------------------------------:|
+| [Node.js](https://nodejs.org/en/)                  | [ReactJS](https://reactjs.org/)                           |
+| [TypeScript](https://www.typescriptlang.org/)      | [Typescript](https://www.typescriptlang.org/)             |
+| [Express](https://expressjs.com/pt-br/)            | [Axios](https://github.com/axios/axios)                   |
+| [TypeORM](https://typeorm.io/#/)                   | [Styled-components](https://styled-components.com/)       |
+| [JWT-token](https://jwt.io/)                       | [React-icons](https://react-icons.github.io/react-icons/) |
+| [uuid v4](https://github.com/thenativeweb/uuidv4/) | [React-spring](https://www.react-spring.io/)              |
+| [PostgreSQL](https://www.postgresql.org/)          | [Unform](https://github.com/Rocketseat/unform)            |
+|                                                    | [uuid v4](https://github.com/thenativeweb/uuidv4/)        |
+|                                                    | [Yup](https://www.npmjs.com/package/yup)                  |
 
 ## 📝 License
 

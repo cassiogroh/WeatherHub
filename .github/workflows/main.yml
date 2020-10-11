@@ -62,7 +62,6 @@ jobs:
             cd ~/app/WeatherHub
             yarn
         
-      
       # Executar as migrations do Typeorm
       - name: Run typeorm migrations
         uses: appleboy/ssh-action@master

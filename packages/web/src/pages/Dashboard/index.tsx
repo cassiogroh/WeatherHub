@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, FormEvent } from 'react';
 import Loader from 'react-loader-spinner';
+import { useHistory } from 'react-router-dom';
 
 import api from '../../services/api';
 
 import Header from '../../components/Header';
+import ProfileHeader from '../../components/ProfileHeader';
 import ToggleStats from '../../components/ToggleStats';
 import StationCard, { StationProps, ViewProps } from '../../components/StationCard';
 
@@ -13,10 +15,10 @@ import { useToast } from '../../hooks/toast';
 import { Container, StationsStats } from './styles';
 
 const Dashboard: React.FC = () => {
-  const { user, token, signOut } = useAuth();
+  const history = useHistory();
+  const { user } = useAuth();
   const { addToast } = useToast();
-  const inputRef = useRef<HTMLInputElement>(null);
-
+  
   const [ stations, setStations ] = useState<StationProps[]>([]);
   const [ triggerAddLoader, setTriggerAddLoader ] = useState(false);
   const [ propsView, setPropsView ] = useState<ViewProps>({
@@ -33,21 +35,21 @@ const Dashboard: React.FC = () => {
     elev: false,
   });
   
+  useEffect(() => {
+    api.get('/users/stations').then(response => {
+      setStations(response.data)
+    }).catch(err => {
+      console.log(err);
+      history.push('/signin');
+    });
+  }, [user.id, history]);
+
   const handleInputCheck = useCallback((value: boolean, propName: keyof(typeof propsView)): void => {
     const changedPropsView = {...propsView};
     changedPropsView[propName] = value;
 
     setPropsView(changedPropsView);
   }, [propsView]);
-
-  useEffect(() => {
-    const getStations = async() => {
-
-      const loadedStations = await api.get('/users/stations');
-      setStations(loadedStations.data);
-    }
-    getStations();
-  }, [user.id, token]);
 
   const handleDeleteStation = useCallback(async (stationId: string): Promise<void> => {
     stationId = stationId.toUpperCase();
@@ -87,8 +89,8 @@ const Dashboard: React.FC = () => {
 
   }, [addToast, stations]);
 
-  const handleAddStation = useCallback(async (stationId: string | undefined): Promise<void> => {
-    stationId = stationId?.toUpperCase();
+  const handleAddStation = useCallback(async (event: FormEvent, stationId: string): Promise<void> => {
+    event.preventDefault();
 
     if (stationId === '') {
       addToast({
@@ -149,7 +151,12 @@ const Dashboard: React.FC = () => {
       </div> 
       :
       <Container triggerAddLoader={triggerAddLoader}>
-        <ToggleStats handleInputCheck={handleInputCheck} />
+        <ProfileHeader currentPage='Estações' />
+
+        <ToggleStats
+          handleInputCheck={handleInputCheck}
+          handleAddStation={handleAddStation}
+        />
 
         <StationsStats>
           {stations.map((station: StationProps) => (
@@ -163,13 +170,6 @@ const Dashboard: React.FC = () => {
             )
           )}
         </StationsStats>
-
-        <button type='button' onClick={signOut} style={{backgroundColor: 'transparent'}}>Logout</button>
-        
-        <div>
-          <input type="text" ref={inputRef} style={{color: 'black', marginBottom: 50}}/>
-          <button type='button' onClick={() => handleAddStation(inputRef.current?.value)} style={{backgroundColor: 'black'}}>Adicionar</button>
-        </div>
 
         <main>
           <p style= {{marginBottom: 20, fontSize: '2.4rem'}}>Aguarde</p>

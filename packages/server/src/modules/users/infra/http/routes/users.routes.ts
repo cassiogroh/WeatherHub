@@ -16,4 +16,7 @@ usersRouter.use(ensureAuthenticated);
 // Delete a user
 usersRouter.delete('/', usersController.delete);
 
+// Update user/s profile
+usersRouter.put('/', usersController.update);
+
 export default usersRouter;

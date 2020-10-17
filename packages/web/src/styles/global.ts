@@ -34,6 +34,7 @@ export default createGlobalStyle`
   button,
   textarea,
   p, a {
+    outline: none;
     font-family: 'Roboto Slab', serif;
     font-size: 1.6rem;
     font-weight: 400;

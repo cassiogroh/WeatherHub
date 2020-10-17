@@ -12,9 +12,4 @@ routes.use('/users', usersRouter);
 routes.use('/users/stations', stationsRouter);
 routes.use('/sessions', sessionsRouter)
 
-// Wildcard
-routes.get(['/*', '/*/*', '/*/*/*'], (request, response) => {
-  response.sendFile('index.html');
-});
-
 export default routes;

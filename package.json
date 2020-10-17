@@ -8,6 +8,8 @@
   "author": "cassiogroh <cassio_groh@hotmail.com>",
   "scripts": {
     "build:web": "cd ./packages/web && yarn run react-scripts build",
+    "web": "cd ./packages/web && yarn start",
+    "dev": "cd ./packages/server && yarn dev:server",
     "build": "cd ./packages/server && yarn build",
     "start": "cd ./packages/server && yarn start"
   },

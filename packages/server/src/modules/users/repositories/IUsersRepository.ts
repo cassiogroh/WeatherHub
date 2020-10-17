@@ -4,6 +4,7 @@ import ICreateUserDTO from '../dtos/ICreateUserDTO';
 export default interface IUsersRepository {
   checkUserExists(userId: string): Promise<User>;
   checkEmailExists(email: string): Promise<void>;
+  findById(user_id: string): Promise<User | undefined>;
   findByEmail(email: string): Promise<User | undefined>;
   create(data: ICreateUserDTO): Promise<User>;
   save(user: User): Promise<User>;

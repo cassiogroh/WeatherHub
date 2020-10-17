@@ -9,7 +9,7 @@ export const Container = styled.div`
     margin-left: auto;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 900px) {
     margin: 30px 0 10px 0;
 
     p {
@@ -51,8 +51,58 @@ export const Options = styled.div`
     border-radius: 8px 8px 0 0;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 900px) {
     top: -28px;
+  }
+`;
+
+export const AddStationForm = styled.form`
+  display: flex;
+  margin-top: -10px;
+  left: 197px;
+
+  position: absolute;
+  z-index: 2;
+
+  input {
+    border: 0;
+    border-radius: 8px 0 0 8px;
+    color: #fff;
+    background-color: #3b5998;
+    height: 3.4rem;
+    padding: 10px;
+    width: 150px;
+
+    &::placeholder {
+      color: #AAA;
+    }
+  }
+
+  button {
+    height: 3.4rem;
+    width: 3.4rem;
+    border-radius: 0 8px 8px 0;
+    border: 0;
+    background: #EEE;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: background-color .2s, box-shadow .2s;
+    
+    &:hover {
+      background-color: #fff;
+      box-shadow: 0 0 5px #FFF;
+    }
+  }
+
+  @media (max-width: 900px) {
+    top: -28px;
+
+    input {
+      width: 130px;
+    }
   }
 `;
 

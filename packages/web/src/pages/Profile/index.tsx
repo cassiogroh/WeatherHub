@@ -92,14 +92,24 @@ const Profile: React.FC = () => {
         const errors = getValidationErrors(err)
         formRef.current?.setErrors(errors);
 
-        return;
-      }
+        addToast({
+          type: 'error',
+          title: 'Erro na atualização do perfil.',
+          description: 'Tente novamente.'
+        });
 
-      addToast({
-        type: 'error',
-        title: 'Erro na atualização',
-        description: 'Ocorreu um erro ao atualizar o perfil. Tente novamente.'
-      });
+        return;
+      } else {
+        addToast({
+          type: 'info',
+          title: 'A sessão expirou.',
+          description: 'Faça login novamente.'
+        });
+
+        localStorage.removeItem('@WeatherHub:token');
+        localStorage.removeItem('@WeatherHub:user');
+        history.push('/signin');
+      }
     }
   }, [addToast, history, updateUser]);
 

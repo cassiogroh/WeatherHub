@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 
 import { useAuth } from '../../hooks/auth';
 
@@ -11,7 +11,8 @@ interface HeaderProps {
 };
 
 const Header: React.FC<HeaderProps> = ({ currentPage }: HeaderProps) => {
-  const { user } = useAuth();
+  const user = localStorage.getItem('@WeatherHub:user');
+
   const [activateNavbar, setActivateNavbar] = useState(false);
 
   const changeNavbarBackground = useCallback(() => {

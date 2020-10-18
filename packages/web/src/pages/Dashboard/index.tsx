@@ -39,10 +39,17 @@ const Dashboard: React.FC = () => {
     api.get('/users/stations').then(response => {
       setStations(response.data)
     }).catch(err => {
-      console.log(err);
+      localStorage.removeItem('@WeatherHub:token');
+      localStorage.removeItem('@WeatherHub:user');
       history.push('/signin');
+
+      addToast({
+        type: 'info',
+        title: 'A sessão expirou.',
+        description: 'Faça login novamente.'
+      });
     });
-  }, [user.id, history]);
+  }, [user.id, history, addToast]);
 
   const handleInputCheck = useCallback((value: boolean, propName: keyof(typeof propsView)): void => {
     const changedPropsView = {...propsView};

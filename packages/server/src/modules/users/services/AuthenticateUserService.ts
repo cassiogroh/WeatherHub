@@ -1,5 +1,5 @@
 import { injectable, inject } from 'tsyringe';
-import { sign } from 'jsonwebtoken';
+import { decode, sign } from 'jsonwebtoken';
 import { classToClass } from 'class-transformer';
 
 import User from '@modules/users/infra/typeorm/entities/User';

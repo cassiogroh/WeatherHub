@@ -1,6 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
-
-import { useAuth } from '../../hooks/auth';
+import React, { useState, useCallback } from 'react';
 
 import Link from './Link';
 

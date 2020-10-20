@@ -10,20 +10,22 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   propName: string;
   handleInputCheck(value: boolean | undefined, name: string): void;
   checked?: boolean;
+  disabled?: boolean;
 }
 
-const InputOption: React.FC<InputProps> = ({ name, propName, handleInputCheck, checked = false}) => {
+const InputOption: React.FC<InputProps> = ({ name, propName, handleInputCheck, checked = false, disabled = false}) => {
   const inputRef =  useRef<HTMLInputElement>(null);
 
   return (
-    <Container>
+    <Container disabled={disabled}>
       <input
+        disabled={disabled}
         type='checkbox'
         ref={inputRef}
         onClick={() => handleInputCheck(inputRef.current?.checked, propName)}
         defaultChecked={checked}
       />
-      {name}
+      <p>{name}</p>
     </Container>
   )
 }

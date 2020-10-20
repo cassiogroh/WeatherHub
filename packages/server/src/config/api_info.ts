@@ -2,13 +2,14 @@ export const apiInfo = {
   apiKey: process.env.WU_API_KEY,
   units: 'm', // Metric system (switch to 'e' for imperial system)
   numericPreicison: 'decimal',
+  language: 'pt-BR',
   stationsId: [
-    'ISANTACA85',
-    'ISANTACA56',
-    'IBRUSQUE2',
-    'IBRUSQ14',
-    'IBRUSQ12',
-    'ISCGUABI2',
+    // 'ISANTACA85',
+    // 'ISANTACA56',
+    // 'IBRUSQUE2',
+    // 'IBRUSQ14',
+    // 'IBRUSQ12',
+    // 'ISCGUABI2',
     // 'IGUABIRU5',
     // 'IGUABIRU6',
     // 'ISCRIBEI2',
@@ -19,22 +20,20 @@ export const apiInfo = {
   ]
 };
 
-export function getUrl( stationId: string): string {
+export function getCurrentConditionsUrl( stationId: string): string {
   const url = `https://api.weather.com/v2/pws/observations/current?stationId=${stationId}&format=json&units=${apiInfo.units}&apiKey=${apiInfo.apiKey}&numericPrecision=${apiInfo.numericPreicison}`;
   return url;
 }
 
-// Available info
-// dewpt
-// elev
-// heatIndex
-// precipRate
-// precipTotal
-// pressure
-// temp
-// windChill
-// windGust
-// windSpeed
+export function getHistoricUrl( stationId: string): string {
+  const url = `https://api.weather.com/v2/pws/dailysummary/7day?stationId=${stationId}&format=json&units=${apiInfo.units}&apiKey=${apiInfo.apiKey}&numericPrecision=${apiInfo.numericPreicison}`;
+  return url;
+}
+
+export function getGeoCodeUrl( latitude: number, longitude: number): string {
+  const url = `https://api.weather.com/v3/wx/forecast/daily/5day?geocode=${latitude},${longitude}&format=json&units=${apiInfo.units}&language=${apiInfo.language}&apiKey=${apiInfo.apiKey}`;
+  return url;
+}
 
 // ESTAÇÕES
 

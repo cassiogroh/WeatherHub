@@ -7,7 +7,7 @@ import api from '../../services/api';
 import Header from '../../components/Header';
 import ProfileHeader from '../../components/ProfileHeader';
 import ToggleStats from '../../components/ToggleStats';
-import StationCard, { StationProps, ViewProps } from '../../components/StationCard';
+import StationCard, { StationCurrentProps, StationHistoricProps, ViewProps } from '../../components/StationCard';
 
 import { useAuth } from '../../hooks/auth';
 import { useToast } from '../../hooks/toast';
@@ -18,9 +18,16 @@ const Dashboard: React.FC = () => {
   const history = useHistory();
   const { user } = useAuth();
   const { addToast } = useToast();
-  
-  const [ stations, setStations ] = useState<StationProps[]>([]);
+
+  const [ stationsCurrent, setStationsCurrent ] = useState<StationCurrentProps[]>([]);
+  const [ stationsHistoric, setStationsHistoric ] = useState<StationHistoricProps[]>([]);
   const [ triggerAddLoader, setTriggerAddLoader ] = useState(false);
+
+  // ToggleStats component
+  const [toggleInputSlider, setToggleInputSlider] = useState(false);
+  const [minStatus, setMinStatus] = useState(false);
+  const [medStatus, setMedStatus] = useState(true);
+  const [maxStatus, setMaxStatus] = useState(false);
   const [ propsView, setPropsView ] = useState<ViewProps>({
     temp: true,
     dewpt: false,
@@ -37,8 +44,10 @@ const Dashboard: React.FC = () => {
   
   useEffect(() => {
     api.get('/users/stations').then(response => {
-      setStations(response.data)
-    }).catch(err => {
+      setStationsCurrent(response.data[0]);
+      setStationsHistoric(response.data[1]);
+    })
+    .catch(err => {
       localStorage.removeItem('@WeatherHub:token');
       localStorage.removeItem('@WeatherHub:user');
       history.push('/signin');
@@ -61,7 +70,7 @@ const Dashboard: React.FC = () => {
   const handleDeleteStation = useCallback(async (stationId: string): Promise<void> => {
     stationId = stationId.toUpperCase();
 
-    if (stations.length === 1) {
+    if (stationsCurrent.length === 1) {
       addToast({
         type: 'error',
         title: 'ID: ' + stationId,
@@ -83,7 +92,7 @@ const Dashboard: React.FC = () => {
           description: 'Estação removida com sucesso'
         });
         
-        setStations(state => state.filter(station => station.stationID !== stationId));
+        setStationsCurrent(state => state.filter(station => station.stationID !== stationId));
       } catch {
         addToast({
           type: 'error',
@@ -94,7 +103,7 @@ const Dashboard: React.FC = () => {
         return;
       }
 
-  }, [addToast, stations]);
+  }, [addToast, stationsCurrent]);
 
   const handleAddStation = useCallback(async (event: FormEvent, stationId: string): Promise<void> => {
     event.preventDefault();
@@ -109,7 +118,7 @@ const Dashboard: React.FC = () => {
       return;
     };
     
-    const alreadyExists = stations.find(station => station.stationID === stationId);
+    const alreadyExists = stationsCurrent.find(station => station.stationID === stationId);
 
     if (!!alreadyExists) {
       addToast({
@@ -134,7 +143,10 @@ const Dashboard: React.FC = () => {
         description: 'Estação adicionada com sucesso!'
       });
 
-      setStations(oldStations => [...oldStations, response.data]);
+      console.log(response.data)
+
+      setStationsCurrent(oldStations => [...oldStations, response.data[0][0]]);
+      setStationsHistoric(oldStations => [...oldStations, response.data[1][1]]);
 
     } catch {
       addToast({
@@ -145,12 +157,14 @@ const Dashboard: React.FC = () => {
     }
 
     setTriggerAddLoader(false)
-  }, [addToast, stations]);
+  }, [addToast, stationsCurrent]);
 
   return (
     <>
       <Header currentPage='Dashboard' />
-      {!stations.length
+      <ProfileHeader currentPage='Estações' />
+
+      {!stationsCurrent.length
       ?
       <div style= {{display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 130}}>
         <p style= {{marginBottom: 20, fontSize: '2.4rem'}}>Carregando estações</p>
@@ -158,23 +172,34 @@ const Dashboard: React.FC = () => {
       </div> 
       :
       <Container triggerAddLoader={triggerAddLoader}>
-        <ProfileHeader currentPage='Estações' />
-
         <ToggleStats
           handleInputCheck={handleInputCheck}
           handleAddStation={handleAddStation}
+          toggleInputSlider={toggleInputSlider}
+          setToggleInputSlider={setToggleInputSlider}
+          minStatus={minStatus}
+          setMinStatus={setMinStatus}
+          medStatus={medStatus}
+          setMedStatus={setMedStatus}
+          maxStatus={maxStatus}
+          setMaxStatus={setMaxStatus}
         />
 
         <StationsStats>
-          {stations.map((station: StationProps) => (
+          {stationsCurrent.map((station: StationCurrentProps, index: number) => (
             <StationCard
               key={station.stationID}
-              station={station}
+              currentData={station}
+              historicData={stationsHistoric[index]}
               propsView={station.status === 'online' ? propsView : undefined}
               handleDeleteStation={handleDeleteStation}
               user={user}
+              currentOrHistoric={toggleInputSlider}
+              minStatus={minStatus}
+              medStatus={medStatus}
+              maxStatus={maxStatus}
             />
-            )
+          )
           )}
         </StationsStats>
 

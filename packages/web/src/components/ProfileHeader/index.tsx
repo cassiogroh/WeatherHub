@@ -21,6 +21,10 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ currentPage }) => {
     history.push('profile')
   }, [history]);
 
+  const handleNavigateToInfo = useCallback(() => {
+    history.push('info')
+  }, [history]);
+
   return (
     <Container>
       <Button
@@ -44,7 +48,17 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ currentPage }) => {
       </Button>
 
       <Button
+        currentPage={currentPage}
+        pageName='Info'
         position={3}
+        type='button'
+        onClick={handleNavigateToInfo}
+      >
+        <p>Info</p>
+      </Button>
+
+      <Button
+        position={4}
         type='button'
         onClick={signOut}
       >

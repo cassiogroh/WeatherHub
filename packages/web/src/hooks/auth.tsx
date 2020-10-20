@@ -39,21 +39,31 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
   const history = useHistory();
-  const [ data, setData ] = useState<AuthState>(() => {
+  const [ data, setData ] = useState<AuthState>( () => {
     const token = localStorage.getItem('@WeatherHub:token');
     const user = localStorage.getItem('@WeatherHub:user');
 
-    const expiration = token && decode(token) as TokenProps;
+    if (token && user) {
+      const expiration = decode(token) as TokenProps;
 
-    if (token && user && expiration && expiration.exp*1000 > Date.now()) {
-      api.defaults.headers.authorization = `Bearer ${token}`;
-      return { token, user: JSON.parse(user) };
-    } else {
-      localStorage.removeItem('@WeatherHub:token');
-      localStorage.removeItem('@WeatherHub:user');
+      if (expiration.exp*1000 > Date.now()) {
+        api.defaults.headers.authorization = `Bearer ${token}`;
+        return { token, user: JSON.parse(user) };
+      } else {
+        const { id } = JSON.parse(user);
+
+        api.put('sessions', { id }).then(response => {
+          const { token, user } = response.data;
+    
+          localStorage.setItem('@WeatherHub:token', token);
+          localStorage.setItem('@WeatherHub:user', JSON.stringify(user));
       
-      history.push('/');
-    };
+          api.defaults.headers.authorization = `Bearer ${token}`;
+      
+          setData({ token, user });
+        })
+      }
+    }
 
     return {} as AuthState;
   });

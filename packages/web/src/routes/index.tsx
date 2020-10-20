@@ -10,6 +10,7 @@ import About from '../pages/About';
 
 import Dashboard from '../pages/Dashboard';
 import Profile from '../pages/Profile';
+import Info from '../pages/Info';
 
 import NotFound from '../pages/NotFound';
 
@@ -23,6 +24,7 @@ const Routes: React.FC = () => {
       
       <Route path='/dashboard' component={Dashboard} isPrivate />
       <Route path='/profile' component={Profile} isPrivate />
+      <Route path='/info' component={Info} isPrivate />
 
       <Route component={NotFound}/>
     </Switch>

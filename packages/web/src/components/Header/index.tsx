@@ -14,7 +14,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }: HeaderProps) => {
   const [activateNavbar, setActivateNavbar] = useState(false);
 
   const changeNavbarBackground = useCallback(() => {
-    if (window.scrollY >= 30) {
+    if (window.scrollY >= 25) {
       setActivateNavbar(true);
     } else {
       setActivateNavbar(false);

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
@@ -18,10 +18,73 @@ export const Container = styled.div`
   }
 `;
 
+export const OptionsHeader = styled.header`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  padding: 5px 2px;
+  margin: 0 5px 5px;
+  background-color: rgba(0,0,0, 0.2);
+  border-radius: 5px;
+
+  p {
+    background: none;
+    margin: 0;
+    padding: 0 ;
+  }
+
+  div {
+    position: relative;
+    display: inline-block;
+    width: 47px;
+    height: 26px;
+  }
+
+  div input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  div span {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #FFF;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 34px;
+  }
+
+  div span:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: var(--primary-color);
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+  }
+
+  div input:checked + span:before {
+    -webkit-transform: translateX(20px);
+    -ms-transform: translateX(20px);
+    transform: translateX(20px);
+  }
+`;
+
 export const Options = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: -10px;
+  padding-bottom: 10px;
 
   position: absolute;
   z-index: 2;
@@ -35,17 +98,17 @@ export const Options = styled.div`
   transition: max-height .2s ease-out, border-color .3s, filter .2s;
 
   &:hover {
-    max-height: 320px;
+    max-height: 370px;
     border-color: #fff;
     filter: brightness(113%);
     transition: max-height .2s ease-in;
 
-    p {
+    > p:first-child {
       background-color: rgba(0,0,0, 0.2);
     }
   }
 
-  p {
+  > p:first-child {
     padding: 5px;
     margin-bottom: 10px;
     border-radius: 8px 8px 0 0;
@@ -54,6 +117,53 @@ export const Options = styled.div`
   @media (max-width: 900px) {
     top: -28px;
   }
+`;
+
+interface HistoricProps {
+  minStatus: boolean;
+  medStatus: boolean;
+  maxStatus: boolean;
+  toggleInputSlider: boolean;
+}
+
+export const HistoricOptions = styled.div<HistoricProps>`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 3px;
+  transition: opacity .3s, visibility .3s;
+  opacity: 0;
+  visibility: hidden;
+
+  ${props => props.toggleInputSlider && css`opacity: 1; visibility: visible;`};
+
+  p {
+    margin: 0 2px;
+    padding: 4px;
+    border-radius: 5px;
+    background-color: rgba(0,0,0, 0.07);
+    cursor: pointer;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  p:first-child {
+    ${props => props.minStatus && css`background-color: rgba(0,0,0, 0.2)`}
+  }
+
+  p:first-child + p {
+    ${props => props.medStatus && css`background-color: rgba(0,0,0, 0.2)`}
+  }
+
+  p:last-child {
+    ${props => props.maxStatus && css`background-color: rgba(0,0,0, 0.2)`}
+  }
+  
 `;
 
 export const AddStationForm = styled.form`

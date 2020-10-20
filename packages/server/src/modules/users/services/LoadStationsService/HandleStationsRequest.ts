@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe';
 
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 
-import { apiInfo, getUrl } from '@config/api_info';
+import { apiInfo, getCurrentConditionsUrl, getHistoricUrl } from '@config/api_info';
 
 interface Request {
   userId?: string;
@@ -11,7 +11,8 @@ interface Request {
 
 interface urlArray {
   stationID: string;
-  url: string;
+  urlCurrent: string;
+  urlHistoric: string;
 }
 
 @injectable()
@@ -29,7 +30,7 @@ export default class HandleStationsRequest {
 
       const user = await this.usersRepository.checkUserExists(userId);
 
-      let userStations: string | string[] = '';
+      let userStations: string | string[];
 
       if (!singleStationId) {
         userStations = user.stations;
@@ -37,16 +38,18 @@ export default class HandleStationsRequest {
         for (let i = 0; i < userStations.length; i++) {
           urlArray[i] = {
             stationID: userStations[i],
-            url: getUrl(userStations[i])
+            urlCurrent: getCurrentConditionsUrl(userStations[i]),
+            urlHistoric: getHistoricUrl(userStations[i])
           }
         }
 
-      } else {
+      } else { // used when adding a station to dashboard
         userStations = user.stations[user.stations.length-1];
 
         urlArray[0] = {
           stationID: singleStationId,
-          url: getUrl(singleStationId)
+          urlCurrent: getCurrentConditionsUrl(singleStationId),
+            urlHistoric: getHistoricUrl(singleStationId)
         }
       }
     } else {
@@ -54,7 +57,8 @@ export default class HandleStationsRequest {
       for (let i = 0; i < apiInfo.stationsId.length; i++) {
         urlArray[i] = {
           stationID: apiInfo.stationsId[i],
-          url: getUrl(apiInfo.stationsId[i])
+          urlCurrent: getCurrentConditionsUrl(apiInfo.stationsId[i]),
+          urlHistoric: getHistoricUrl(apiInfo.stationsId[i])
         }
       }
     }

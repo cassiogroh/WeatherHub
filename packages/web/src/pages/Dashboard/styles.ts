@@ -5,7 +5,6 @@ interface RequestProps {
 }
 
 export const Container = styled.div<RequestProps>`
-  padding-top: 70px;
   margin-bottom: 20px;
 
   main {

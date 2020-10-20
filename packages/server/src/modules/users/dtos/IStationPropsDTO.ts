@@ -1,0 +1,43 @@
+export default interface IStationPropsDTO {
+  name: string;
+  neighborhood: string;
+  stationID: string;
+  url: string;
+  dewpt: number;
+  humidity: number;
+  elev: number;
+  heatIndex: number;
+  precipRate: number;
+  precipTotal: number;
+  pressure: number;
+  temp: number;
+  windChill: number;
+  windGust: number;
+  windSpeed: number;
+  status: 'online' | 'offline';
+
+  humidityHigh: number;
+  humidityLow: number;
+  humidityAvg: number;
+  tempHigh: number;
+  tempLow: number;
+  tempAvg: number;
+  windspeedHigh: number;
+  windspeedLow: number;
+  windspeedAvg: number;
+  windgustHigh: number;
+  windgustLow: number;
+  windgustAvg: number;
+  dewptHigh: number;
+  dewptLow: number;
+  dewptAvg: number;
+  windchillHigh: number;
+  windchillLow: number;
+  windchillAvg: number;
+  heatindexHigh: number;
+  heatindexLow: number;
+  heatindexAvg: number;
+  pressureMax: number;
+  pressureMin: number;
+  pressureTrend: number;
+}

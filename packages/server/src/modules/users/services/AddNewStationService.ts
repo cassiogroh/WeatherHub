@@ -1,7 +1,7 @@
 import { container, inject, injectable } from 'tsyringe';
 import fetch from 'node-fetch';
 
-import { getUrl } from '@config/api_info';
+import { getCurrentConditionsUrl, getHistoricUrl } from '@config/api_info';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 
 import LoadStationsService from './LoadStationsService/LoadStationsService';
@@ -35,7 +35,7 @@ export default class AddNewStationService {
 
     const checkStationIsValid = async (): Promise<any> => {
       const response = 
-      await fetch(getUrl(stationId))
+      await fetch(getCurrentConditionsUrl(stationId))
       .catch(err => {
         throw new AppError('Invalid station ID or station is currently offline', 401);
       });
@@ -57,6 +57,6 @@ export default class AddNewStationService {
 
     const newStation = await loadStation.execute({userId, singleStationId: stationId});
 
-    return newStation[0];
+    return newStation;
   }
 }

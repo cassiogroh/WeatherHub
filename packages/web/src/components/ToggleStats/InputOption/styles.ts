@@ -1,6 +1,10 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const Container = styled.label`
+interface ContainerProps {
+  disabled: boolean;
+}
+
+export const Container = styled.label<ContainerProps>`
   display: flex;
   align-items: center;
   justify-content: left;
@@ -15,5 +19,14 @@ export const Container = styled.label`
   input {
     margin-right: 5px;
     margin-left: 3px;
+
+    ${props => props.disabled && css`opacity: 0.5`}
+  }
+
+  p {
+    margin: 0 !important;
+    transition: opacity .3s;
+    
+    ${props => props.disabled && css`opacity: 0.5`}
   }
 `;

@@ -1,20 +1,40 @@
-import React, { FormEvent, useMemo, useRef, useState } from 'react';
+import React, { FormEvent, useCallback, useMemo, useRef, useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
-import { format } from 'date-fns';
+import { format, isAfter, getDate, getMonth, getYear } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
 import InputOption from './InputOption';
+import { useToast } from '../../hooks/toast';
 
-import { Container, Options, AddStationForm } from './styles';
+import { Container, Options, OptionsHeader, HistoricOptions, AddStationForm } from './styles';
 
 interface Request {
   handleInputCheck(value: boolean | undefined, name: string): void;
   handleAddStation?(event: FormEvent, inputValue: string): void;
+  toggleInputSlider: boolean;
+  setToggleInputSlider(toggle: boolean): void;
+  minStatus: boolean;
+  setMinStatus(toggle: boolean): void;
+  medStatus: boolean;
+  setMedStatus(toggle: boolean): void;
+  maxStatus: boolean;
+  setMaxStatus(toggle: boolean): void;
 }
 
-const ToggleStats: React.FC<Request> = ({handleInputCheck, handleAddStation}: Request) => {
+const ToggleStats: React.FC<Request> = ({
+  handleInputCheck,
+  handleAddStation,
+  toggleInputSlider,
+  setToggleInputSlider,
+  minStatus,
+  setMinStatus,
+  medStatus,
+  setMedStatus,
+  maxStatus,
+  setMaxStatus
+}: Request) => {
   const inputRef = useRef<HTMLInputElement>(null);
-
+  const { addToast } = useToast();
   const [inputValue, setInputValue] = useState('');
 
   const formattedDate = useMemo(() => {
@@ -25,24 +45,61 @@ const ToggleStats: React.FC<Request> = ({handleInputCheck, handleAddStation}: Re
     );
 
     return date;
-  }, [])
+  }, []);
+
+  const isQuarterAfterMidnight = useCallback(() => {
+    const now = Date.now();
+    const quarterAfterMidnight = new Date(getYear(now), getMonth(now), getDate(now), 0, 15, 0);
+
+    const permitedTime = isAfter(now, quarterAfterMidnight);
+
+    if (!permitedTime) {
+      addToast({
+        type: 'info',
+        title: 'Aguarde',
+        description: 'Dados históricos estão disponíveis apenas após 00:15 h'
+      })
+    };
+
+    return permitedTime;
+  }, [addToast]);
 
   return (
     <Container>
       <Options>
         <p>Opções de visualização</p>
+
+        <OptionsHeader>
+          <p>Atual</p>
+          <div>
+            <input onChange={console.log} type="checkbox" checked={toggleInputSlider} />
+            <span onClick={() => {
+              // Allow toggle only after 00:15h
+              isQuarterAfterMidnight() && setToggleInputSlider(!toggleInputSlider)
+            }}>
+            </span>
+          </div>
+          <p>Histórico</p>
+        </OptionsHeader>
+
+        <HistoricOptions toggleInputSlider={toggleInputSlider} minStatus={minStatus} medStatus={medStatus} maxStatus={maxStatus}>
+          <p onClick={() => setMinStatus(!minStatus)}>Mín</p>
+          <p onClick={() => setMedStatus(!medStatus)}>Méd</p>
+          <p onClick={() => setMaxStatus(!maxStatus)}>Máx</p>
+        </HistoricOptions>
       
-        <InputOption name='Temperatura' propName={'temp'} handleInputCheck={handleInputCheck} checked={true} />
+        <InputOption name='Temperatura' propName={'temp'} handleInputCheck={handleInputCheck} checked />
         <InputOption name='Ponto de orvalho' propName={'dewpt'} handleInputCheck={handleInputCheck} />
         <InputOption name='Índice de calor' propName={'heatIndex'} handleInputCheck={handleInputCheck} />
         <InputOption name='Sensação térmica' propName={'windChill'} handleInputCheck={handleInputCheck} />
-        <InputOption name='Humidade relativa' propName={'humidity'} handleInputCheck={handleInputCheck} checked={true} />
-        <InputOption name='Precipitação total' propName={'precipTotal'} handleInputCheck={handleInputCheck} checked={true} />
-        <InputOption name='Taxa de precipitação' propName={'precipRate'} handleInputCheck={handleInputCheck} />
+        <InputOption name='Humidade relativa' propName={'humidity'} handleInputCheck={handleInputCheck} checked />
+        <InputOption name='Precipitação total' propName={'precipTotal'} handleInputCheck={handleInputCheck} checked disabled={toggleInputSlider} />
+        <InputOption name='Taxa de precipitação' propName={'precipRate'} handleInputCheck={handleInputCheck} disabled={toggleInputSlider} />
         <InputOption name='Rajada de vento' propName={'windGust'} handleInputCheck={handleInputCheck} />
         <InputOption name='Velocidade do vento' propName={'windSpeed'} handleInputCheck={handleInputCheck} />
         <InputOption name='Pressão atmosférica' propName={'pressure'} handleInputCheck={handleInputCheck} />
-        <InputOption name='Elevação' propName={'elev'} handleInputCheck={handleInputCheck} />
+        <InputOption name='Elevação' propName={'elev'} handleInputCheck={handleInputCheck} disabled={toggleInputSlider} />
+        <span></span>
       </Options>
 
       {

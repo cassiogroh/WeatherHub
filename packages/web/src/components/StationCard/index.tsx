@@ -20,7 +20,7 @@ export interface ViewProps {
   elev: boolean,
 }
 
-export interface StationProps {
+export interface StationCurrentProps {
   status: 'online' | 'offline';
   stationID: string;
   name: string;
@@ -39,18 +39,55 @@ export interface StationProps {
   windSpeed?: number;
 }
 
+export interface StationHistoricProps {
+  humidityHigh?: number;
+  humidityLow?: number;
+  humidityAvg?: number;
+  tempHigh?: number;
+  tempLow?: number;
+  tempAvg?: number;
+  windspeedHigh?: number;
+  windspeedLow?: number;
+  windspeedAvg?: number;
+  windgustHigh?: number;
+  windgustLow?: number;
+  windgustAvg?: number;
+  dewptHigh?: number;
+  dewptLow?: number;
+  dewptAvg?: number;
+  windchillHigh?: number;
+  windchillLow?: number;
+  windchillAvg?: number;
+  heatindexHigh?: number;
+  heatindexLow?: number;
+  heatindexAvg?: number;
+  pressureMax?: number;
+  pressureMin?: number;
+  pressureTrend?: number;
+}
+
 export interface RequestProps {
-  station: StationProps;
+  currentData: StationCurrentProps;
+  historicData: StationHistoricProps;
   propsView?: ViewProps;
   handleDeleteStation?: any;
   user?: object;
+  currentOrHistoric: boolean; // false=current true=historic
+  minStatus: boolean;
+  medStatus: boolean;
+  maxStatus: boolean;
 }
 
 const StationCard: React.FC<RequestProps> = ({
-  station,
+  currentData,
+  historicData,
   propsView,
   handleDeleteStation,
-  user
+  user,
+  currentOrHistoric,
+  minStatus,
+  medStatus,
+  maxStatus,
 }: RequestProps ) => {
 
   const {
@@ -70,7 +107,35 @@ const StationCard: React.FC<RequestProps> = ({
     windChill,
     windGust,
     windSpeed
-  } = station;
+  } = currentData;
+
+  if (historicData) {
+    var {
+      humidityHigh,
+      humidityLow,
+      humidityAvg,
+      tempHigh,
+      tempLow,
+      tempAvg,
+      windspeedHigh,
+      windspeedLow,
+      windspeedAvg,
+      windgustHigh,
+      windgustLow,
+      windgustAvg,
+      dewptHigh,
+      dewptLow,
+      dewptAvg,
+      windchillHigh,
+      windchillLow,
+      windchillAvg,
+      heatindexHigh,
+      heatindexLow,
+      heatindexAvg,
+      pressureMax,
+      pressureMin,
+    } = historicData;
+  }
 
   const [inputFocus, setInputFocus] = useState(false);
   const [renameButtonFocus, setRenameButtonFocus] = useState(false);
@@ -153,7 +218,7 @@ const StationCard: React.FC<RequestProps> = ({
           : <a href={url} target='blank'> { stationName } </a>
           }          
           
-          {status === 'online' && !!propsView ?
+          {status === 'online' && !!propsView && currentOrHistoric===false ?
           <>
             { propsView.temp && <p>Temperatura <span>{temp} °C</span></p>}
             { propsView.dewpt && <p>Ponto de orvalho <span>{dewpt} °C</span></p>}
@@ -166,11 +231,54 @@ const StationCard: React.FC<RequestProps> = ({
             { propsView.windSpeed && <p>Velocidade do vento <span>{windSpeed} km/h</span></p>}
             { propsView.pressure && <p>Pressão atmosférica <span>{pressure} hPa</span></p>}
             { propsView.elev && <p>Elevação <span>{elev} m</span></p>}
-          </> :
-          <div>
-            <p>Estação offline</p>
-            <FiFrown size={50} />
-          </div>
+          </> : (
+            status === 'online' && !!propsView && currentOrHistoric===true ?
+            <>
+              { propsView.temp && <h4>Temperatura</h4>}
+              { propsView.temp && minStatus && <p>Mín <span>{tempLow} °C</span></p>}
+              { propsView.temp && medStatus && <p>Méd <span>{tempAvg} °C</span></p>}
+              { propsView.temp && maxStatus && <p>Máx <span>{tempHigh} °C</span></p>}
+
+              { propsView.dewpt && <h4>Ponto de orvalho</h4>}
+              { propsView.dewpt && minStatus && <p>Mín <span>{dewptLow} °C</span></p>}
+              { propsView.dewpt && medStatus && <p>Méd <span>{dewptAvg} °C</span></p>}
+              { propsView.dewpt && maxStatus && <p>Máx <span>{dewptHigh} °C</span></p>}
+
+              { propsView.heatIndex && <h4>Índice de calor</h4>}
+              { propsView.heatIndex && minStatus && <p>Mín <span>{heatindexLow} °C</span></p>}
+              { propsView.heatIndex && medStatus && <p>Méd <span>{heatindexAvg} °C</span></p>}
+              { propsView.heatIndex && maxStatus && <p>Máx <span>{heatindexHigh} °C</span></p>}
+
+              { propsView.windChill && <h4>Sensação térmica</h4>}
+              { propsView.windChill && minStatus && <p>Mín <span>{windchillLow} °C</span></p>}
+              { propsView.windChill && medStatus && <p>Méd <span>{windchillAvg} °C</span></p>}
+              { propsView.windChill && maxStatus && <p>Máx <span>{windchillHigh} °C</span></p>}
+
+              { propsView.humidity && <h4>Humidade relativa</h4>}
+              { propsView.humidity && minStatus && <p>Mín <span>{humidityLow} %</span></p>}
+              { propsView.humidity && medStatus && <p>Méd <span>{humidityAvg} %</span></p>}
+              { propsView.humidity && maxStatus && <p>Máx <span>{humidityHigh} %</span></p>}
+
+              { propsView.windGust && <h4>Rajada de vento</h4>}
+              { propsView.windGust && minStatus && <p>Mín <span>{windgustLow} km/h</span></p>}
+              { propsView.windGust && medStatus && <p>Méd <span>{windgustAvg} km/h</span></p>}
+              { propsView.windGust && maxStatus && <p>Máx <span>{windgustHigh} km/h</span></p>}
+
+              { propsView.windSpeed && <h4>Velocidade do vento</h4>}
+              { propsView.windSpeed && minStatus && <p>Mín <span>{windspeedLow} km/h</span></p>}
+              { propsView.windSpeed && medStatus && <p>Méd <span>{windspeedAvg} km/h</span></p>}
+              { propsView.windSpeed && maxStatus && <p>Máx <span>{windspeedHigh} km/h</span></p>}
+
+              { propsView.pressure && <h4>Pressão atmosférica</h4>}
+              { propsView.pressure && minStatus && <p>Mín <span>{pressureMin} hPa</span></p>}
+              { propsView.pressure && maxStatus && <p>Máx <span>{pressureMax} hPa</span></p>}
+            </>
+            :
+            <div>
+              <p>Estação offline</p>
+              <FiFrown size={50} />
+            </div>
+          )
         }
         </CardStats>
 

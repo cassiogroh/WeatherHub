@@ -1,14 +1,17 @@
 import { Request, Response} from 'express';
-import { container } from 'tsyringe';
 
-import LoadStationsService from '@modules/users/services/LoadStationsService/LoadStationsService';
+import GetForecastService from '@modules/users/services/GetForecastService';
+import { container } from 'tsyringe';
 
 export default class HomeController {
   
-  public async index (request: Request, response: Response): Promise<Response> {
-    const loadStationsService = container.resolve(LoadStationsService);
-    
-    const loadedStations = await loadStationsService.execute({});
-    return response.json(loadedStations);
+  public async show (request: Request, response: Response): Promise<Response> {
+    const { latitude, longitude } = request.headers;
+
+    const getForecast = container.resolve(GetForecastService);
+
+    const { forecastToday, daylyForecast } = await getForecast.execute({ latitude, longitude });
+
+    return response.json([ forecastToday, daylyForecast ]);
   };
 };

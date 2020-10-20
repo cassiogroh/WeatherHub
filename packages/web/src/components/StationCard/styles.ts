@@ -38,6 +38,15 @@ export const CardStats = styled.div`
     }
   }
 
+  h4 {
+    font-weight: 400;
+    text-align: center;
+    background-color: rgba(0,0,0, 0.2);
+    border-radius: 10px;
+    padding: 2px;
+    margin: 2px 0;
+  }
+
   p {
     display: flex;
     justify-content: space-between;

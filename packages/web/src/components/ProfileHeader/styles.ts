@@ -4,6 +4,8 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  padding-top: 70px;
 `;
 
 interface ButtonProps {
@@ -16,9 +18,7 @@ const handleBorderRadius = (position: number) => {
   switch (position) {
     case 1:
       return css`border-radius: 8px 0 0 8px;`
-    case 2:
-      return css`border-radius: 0;`
-    case 3:
+    case 4:
       return css`border-radius: 0 8px 8px 0;`
     default:
       return css`border-radius: 0;`
@@ -32,7 +32,7 @@ export const Button = styled.button<ButtonProps>`
   margin: 0 0 20px;
   padding: 10px;
   border: none;
-  width: 25%;
+  width: 18%;
 
   display: flex;
   justify-content: center;

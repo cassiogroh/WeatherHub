@@ -166,7 +166,7 @@ const Profile: React.FC = () => {
 
           <Button type='submit'>Confirmar alterações</Button>
         </Form>
-      <p>Conta criada em: {user_since}</p>
+        <p>Conta criada em: {user_since}</p>
       </Content>
     </Container>
   )

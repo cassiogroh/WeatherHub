@@ -25,9 +25,9 @@ const Dashboard: React.FC = () => {
 
   // ToggleStats component
   const [toggleInputSlider, setToggleInputSlider] = useState(false);
-  const [minStatus, setMinStatus] = useState(false);
-  const [medStatus, setMedStatus] = useState(true);
-  const [maxStatus, setMaxStatus] = useState(false);
+  const [minStatus, setMinStatus] = useState(true);
+  const [medStatus, setMedStatus] = useState(false);
+  const [maxStatus, setMaxStatus] = useState(true);
   const [ propsView, setPropsView ] = useState<ViewProps>({
     temp: true,
     dewpt: false,

@@ -5,10 +5,13 @@ export const Container = styled.div`
   margin-bottom: 50px;
 `;
 
-export const StationsStats = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1rem;
+export const AskLocation = styled.div`
+  text-align: center;
+  padding-top: 100px;
+
+  h2 {
+    font-weight: 400;
+  }
 `;
 
 export const ForecastTodayContainer = styled.div`
@@ -69,6 +72,8 @@ export const ForecastTodayContainer = styled.div`
         padding: 1px;
         overflow: hidden;
         font-size: 1.4rem;
+        text-align: justify;
+        text-justify: inter-word;
         transition: background-color .3s;
 
         &:hover {

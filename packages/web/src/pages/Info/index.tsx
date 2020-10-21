@@ -3,13 +3,18 @@ import React from 'react';
 import Header from '../../components/Header';
 import ProfileHeader from '../../components/ProfileHeader';
 
-import { Container, InfoContainer } from './styles';
+import { Container, InfoIds, InfoContainer } from './styles';
 
 const Info: React.FC = () => {
   return (
     <Container>
       <Header currentPage='Dashboard' />
       <ProfileHeader currentPage='Info' />
+
+      <InfoIds>
+        <h3>Onde encontro ID's para mais estações?</h3>
+        <p>Atualmente suportamos somente a busca de ID's provenientes do site <a href="https://www.wunderground.com/">wunderground.com</a>, porém estamos trabalhando para melhorar a sua experiência e trazer também outras fontes, bem como facilitar o acesso e busca a outras estações.</p>
+      </InfoIds>
 
       <InfoContainer>
         <div>

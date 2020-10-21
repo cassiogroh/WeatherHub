@@ -36,7 +36,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }: HeaderProps) => {
 
         <div>
           {!!user ? 
-          <Link to="dashboard" pageName='Dashboard' currentPage={currentPage} activateNavbar={activateNavbar} onClick={setScrollToZero} />
+          <Link to="dashboard" pageName='Painel do usuário' currentPage={currentPage} activateNavbar={activateNavbar} onClick={setScrollToZero} />
           : (
             <>
               <Link to="signin" pageName='Login' currentPage={currentPage} activateNavbar={activateNavbar} />

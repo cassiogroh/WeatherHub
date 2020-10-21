@@ -161,7 +161,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <>
-      <Header currentPage='Dashboard' />
+      <Header currentPage='Painel do usuário' />
       <ProfileHeader currentPage='Estações' />
 
       {!stationsCurrent.length

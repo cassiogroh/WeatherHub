@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, FormEvent } from 'react';
 import Loader from 'react-loader-spinner';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 
 import api from '../../services/api';
 
@@ -15,7 +15,7 @@ import { useToast } from '../../hooks/toast';
 import { Container, StationsStats } from './styles';
 
 const Dashboard: React.FC = () => {
-  const history = useHistory();
+  // const history = useHistory();
   const { user } = useAuth();
   const { addToast } = useToast();
 
@@ -47,18 +47,18 @@ const Dashboard: React.FC = () => {
       setStationsCurrent(response.data[0]);
       setStationsHistoric(response.data[1]);
     })
-    .catch(err => {
-      localStorage.removeItem('@WeatherHub:token');
-      localStorage.removeItem('@WeatherHub:user');
-      history.push('/signin');
+    // .catch(err => {
+    //   localStorage.removeItem('@WeatherHub:token');
+    //   localStorage.removeItem('@WeatherHub:user');
+    //   history.push('/signin');
 
-      addToast({
-        type: 'info',
-        title: 'A sessão expirou.',
-        description: 'Faça login novamente.'
-      });
-    });
-  }, [user.id, history, addToast]);
+    //   addToast({
+    //     type: 'info',
+    //     title: 'A sessão expirou.',
+    //     description: 'Faça login novamente.'
+    //   });
+    // });
+  }, []);
 
   const handleInputCheck = useCallback((value: boolean, propName: keyof(typeof propsView)): void => {
     const changedPropsView = {...propsView};

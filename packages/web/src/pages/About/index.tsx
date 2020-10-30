@@ -21,7 +21,7 @@ const About: React.FC = () => {
 
           <br/>
 
-          <p>Com o ©WeaterHub, fica muito mais fácil monitorar sua rede de estações ou acompanhar o clima
+          <p>Com o ©WeatherHub, fica muito mais fácil monitorar sua rede de estações ou acompanhar o clima
             em determinada região. Com todas as suas estações meteorológicas preferidas, juntinhas, em um
             só lugar, é possível identificar rapidinho onde está chovendo, ou onde as temperaturas
             estão despencando.

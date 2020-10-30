@@ -24,7 +24,7 @@ const Info: React.FC = () => {
 
         <div>
           <h3>Elevação</h3>
-          <p>Altituda de um ponto na superfície da terra em relação ao nível do mar.</p>
+          <p>Altitude de um ponto na superfície da terra em relação ao nível do mar.</p>
         </div>
 
         <div>
@@ -59,7 +59,7 @@ const Info: React.FC = () => {
 
         <div>
           <h3>Rajada de vento</h3>
-          <p>É um vento forte e de curta duração, geralmente de três a 20 segundos. Sua observação é feita em comparação à velocidade média do vento dentro de um período de tempo, por exemplo: se em um intervalo de dez minutos essa velocidade média foi de 33 km/h, a rajada pode ser constatada em um momento de cinco segundos em que esse vento atingiu 60 km/h ou mais.</p>
+          <p>É um vento forte e de curta duração, geralmente de três a vinte segundos. Sua observação é feita em comparação à velocidade média do vento dentro de um período de tempo, por exemplo: se em um intervalo de dez minutos essa velocidade média foi de 33 km/h, a rajada pode ser constatada em um momento de cinco segundos em que esse vento atingiu 60 km/h ou mais.</p>
         </div>
 
         <div>

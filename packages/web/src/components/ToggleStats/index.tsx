@@ -6,7 +6,8 @@ import { ptBR } from 'date-fns/locale';
 import InputOption from './InputOption';
 import { useToast } from '../../hooks/toast';
 
-import { Container, Options, OptionsHeader, HistoricOptions, AddStationForm } from './styles';
+import { Container, Options, OptionsHeader, HistoricOptions, ExclusiveButton, AddStationForm } from './styles';
+import { useAuth } from '../../hooks/auth';
 
 interface Request {
   handleInputCheck(value: boolean | undefined, name: string): void;
@@ -19,6 +20,7 @@ interface Request {
   setMedStatus(toggle: boolean): void;
   maxStatus: boolean;
   setMaxStatus(toggle: boolean): void;
+  copyData(): void;
 }
 
 const ToggleStats: React.FC<Request> = ({
@@ -31,9 +33,11 @@ const ToggleStats: React.FC<Request> = ({
   medStatus,
   setMedStatus,
   maxStatus,
-  setMaxStatus
+  setMaxStatus,
+  copyData
 }: Request) => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const { user } = useAuth();
   const { addToast } = useToast();
   const [inputValue, setInputValue] = useState('');
 
@@ -99,6 +103,15 @@ const ToggleStats: React.FC<Request> = ({
         <InputOption name='Velocidade do vento' propName={'windSpeed'} handleInputCheck={handleInputCheck} />
         <InputOption name='Pressão atmosférica' propName={'pressure'} handleInputCheck={handleInputCheck} />
         <InputOption name='Elevação' propName={'elev'} handleInputCheck={handleInputCheck} disabled={toggleInputSlider} />
+        {
+          (user.email === 'cirogroh@yahoo.com.br' || user.email === 'cassiogroh@gmail.com') &&
+          <ExclusiveButton
+            onClick={copyData}
+            type='button'
+          >
+            Copiar dados
+          </ExclusiveButton>
+        }
         <span></span>
       </Options>
 

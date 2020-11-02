@@ -98,7 +98,7 @@ export const Options = styled.div`
   transition: max-height .2s ease-out, border-color .3s, filter .2s;
 
   &:hover {
-    max-height: 370px;
+    max-height: 400px;
     border-color: #fff;
     filter: brightness(113%);
     transition: max-height .2s ease-in;
@@ -164,6 +164,21 @@ export const HistoricOptions = styled.div<HistoricProps>`
     ${props => props.maxStatus && css`background-color: rgba(0,0,0, 0.2)`}
   }
   
+`;
+
+export const ExclusiveButton = styled.button`
+  padding: 5px;
+  border-radius: 10px;
+  background-color: rgba(0,0,0, 0.2);
+  color: #FFF;
+  width: fit-content;
+  margin: 5px auto;
+  border: 0;
+  transition: background-color .2s;
+
+  &:hover {
+    background-color: rgba(0,0,0, 0.4);
+  }
 `;
 
 export const AddStationForm = styled.form`

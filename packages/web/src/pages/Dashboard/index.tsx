@@ -191,12 +191,20 @@ const Dashboard: React.FC = () => {
     document.execCommand("copy");
     document.body.removeChild(dummy);
     
-    addToast({
-      type: 'success',
-      title: 'Dados copiados!'
-    });
+    if (stationsCurrent.length >= 12) {
+      addToast({
+        type: 'success',
+        title: 'Dados copiados!'
+      });
+    } else {
+      addToast({
+        type: 'error',
+        title: 'Erro ao copiar',
+        description: 'Organize as 12 estações para copiar os dados.'
+      });
+    }
 
-  }, [data, addToast]);
+  }, [stationsCurrent, data, addToast]);
 
   return (
     <>

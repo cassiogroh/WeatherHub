@@ -170,17 +170,11 @@ const Dashboard: React.FC = () => {
         d.push({
           low: String(stationData.tempLow).replace(/\./g, ','),
           max: String(stationData.tempHigh).replace(/\./g, ','),
-          prec: String(stationsCurrent[index].precipTotal).replace(/\./g, ',')
+          prec: Number(stationsCurrent[index].precipTotal) === 0 ? '' : String(stationsCurrent[index].precipTotal)
         });
         return true;
       });
-    } catch (err) {
-      addToast({
-        type: 'info',
-        title: 'Atualize a página',
-        description: 'Atualize a página para habilitar a cópia de dados históricos.'
-      });
-    };
+    } catch (err) {};
 
     let formattedData = '';
 

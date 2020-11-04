@@ -170,7 +170,7 @@ const Dashboard: React.FC = () => {
         d.push({
           low: String(stationData.tempLow).replace(/\./g, ','),
           max: String(stationData.tempHigh).replace(/\./g, ','),
-          prec: Number(stationsCurrent[index].precipTotal) === 0 ? '' : String(stationsCurrent[index].precipTotal)
+          prec: Number(stationsCurrent[index].precipTotal) === 0 ? '' : String(stationsCurrent[index].precipTotal).replace(/\./g, ',')
         });
         return true;
       });

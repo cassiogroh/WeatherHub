@@ -52,7 +52,7 @@ export default class PopulateStations{
     isQuarterAfterMidnight() &&
     (
       StationsHistoricData = await Promise.allSettled(
-        urlArray.map((urls, index) =>
+        urlArray.map((urls) =>
           fetch(urls.urlHistoric)
             .then(response => response.json())
             .catch(err => console.log('Error fetching historic data: ', err))
@@ -84,20 +84,22 @@ export default class PopulateStations{
           windSpeed
         } = data.value.observations[0][unitSystem];
 
+        let { humidity } = data.value.observations[0]
+
         station.neighborhood = data.value.observations[0].neighborhood;
         station.stationID = data.value.observations[0].stationID;
         station.url = `http://www.wunderground.com/personal-weather-station/dashboard?ID=${station.stationID}`
-        station.dewpt = dewpt.toFixed(1);
-        station.humidity = data.value.observations[0].humidity.toFixed(1);
-        station.elev = elev.toFixed(1);
-        station.heatIndex = heatIndex.toFixed(1);
-        station.precipRate = precipRate.toFixed(1);
-        station.precipTotal = precipTotal.toFixed(1);
-        station.pressure = pressure.toFixed(1);
-        station.temp = temp.toFixed(1);
-        station.windChill = windChill.toFixed(1);
-        station.windGust = windGust.toFixed(1);
-        station.windSpeed = windSpeed.toFixed(1);
+        station.dewpt = dewpt || dewpt === 0 ? dewpt.toFixed(1) : null;
+        station.humidity = humidity || humidity === 0 ? humidity.toFixed(1) : null;
+        station.elev = elev || elev === 0 ? elev.toFixed(1) : null;
+        station.heatIndex = heatIndex || heatIndex === 0 ? heatIndex.toFixed(1) : null;
+        station.precipRate = precipRate || precipRate === 0 ? precipRate.toFixed(1) : null;
+        station.precipTotal = precipTotal || precipTotal === 0 ? precipTotal.toFixed(1) : null;
+        station.pressure = pressure || pressure === 0 ? pressure.toFixed(1) : null;
+        station.temp = temp || temp === 0 ? temp.toFixed(1) : null;
+        station.windChill = windChill || windChill === 0 ? windChill.toFixed(1) : null;
+        station.windGust = windGust || windGust === 0 ? windGust.toFixed(1) : null;
+        station.windSpeed = windSpeed || windSpeed === 0 ? windSpeed.toFixed(1) : null;
         station.status = 'online';
 
         if (!userId) {
@@ -139,61 +141,74 @@ export default class PopulateStations{
 
     isQuarterAfterMidnight() && StationsHistoricData ?
     StationsHistoricData.map(data => {
-      let station: StationProps = {} as StationProps;
+      let station: StationProps[] = [] as StationProps[];
 
       if (data.status === 'fulfilled' && isNaN(data.value) ) {
-        let {
-          tempHigh,
-          tempLow,
-          tempAvg,
-          windspeedHigh,
-          windspeedLow,
-          windspeedAvg,
-          windgustHigh,
-          windgustLow,
-          windgustAvg,
-          dewptHigh,
-          dewptLow,
-          dewptAvg,
-          windchillHigh,
-          windchillLow,
-          windchillAvg,
-          heatindexHigh,
-          heatindexLow,
-          heatindexAvg,
-          pressureMax,
-          pressureMin,
-        }
-        = data.value.summaries[6][unitSystem];
+        
+        data.value.summaries.map((historicData: any) => {
+          let stationHistoric: StationProps = {} as StationProps;
 
-        station.humidityHigh = data.value.summaries[6].humidityHigh.toFixed(1);
-        station.humidityLow = data.value.summaries[6].humidityLow.toFixed(1);
-        station.humidityAvg = data.value.summaries[6].humidityAvg.toFixed(1);
-        station.tempHigh = tempHigh.toFixed(1);
-        station.tempLow = tempLow.toFixed(1);
-        station.tempAvg = tempAvg.toFixed(1);
-        station.windspeedHigh = windspeedHigh.toFixed(1);
-        station.windspeedLow = windspeedLow.toFixed(1);
-        station.windspeedAvg = windspeedAvg.toFixed(1);
-        station.windgustHigh = windgustHigh.toFixed(1);
-        station.windgustLow = windgustLow.toFixed(1);
-        station.windgustAvg = windgustAvg.toFixed(1);
-        station.dewptHigh = dewptHigh.toFixed(1);
-        station.dewptLow = dewptLow.toFixed(1);
-        station.dewptAvg = dewptAvg.toFixed(1);
-        station.windchillHigh = windchillHigh.toFixed(1);
-        station.windchillLow = windchillLow.toFixed(1);
-        station.windchillAvg = windchillAvg.toFixed(1);
-        station.heatindexHigh = heatindexHigh.toFixed(1);
-        station.heatindexLow = heatindexLow.toFixed(1);
-        station.heatindexAvg = heatindexAvg.toFixed(1);
-        station.pressureMax = pressureMax.toFixed(1);
-        station.pressureMin = pressureMin.toFixed(1);
+          let {
+            tempHigh,
+            tempLow,
+            tempAvg,
+            windspeedHigh,
+            windspeedLow,
+            windspeedAvg,
+            windgustHigh,
+            windgustLow,
+            windgustAvg,
+            dewptHigh,
+            dewptLow,
+            dewptAvg,
+            windchillHigh,
+            windchillLow,
+            windchillAvg,
+            heatindexHigh,
+            heatindexLow,
+            heatindexAvg,
+            pressureMax,
+            pressureMin,
+          }
+          = historicData[unitSystem];
+  
+          let {
+            humidityLow,
+            humidityAvg,
+            humidityHigh
+          } = historicData;
+  
+          stationHistoric.humidityHigh = humidityHigh || humidityHigh === 0 ? humidityHigh.toFixed(1) : null;
+          stationHistoric.humidityLow = humidityLow || humidityLow === 0 ? humidityLow.toFixed(1) : null;
+          stationHistoric.humidityAvg = humidityAvg || humidityAvg === 0 ? humidityAvg.toFixed(1) : null;
+          stationHistoric.tempHigh = tempHigh || tempHigh === 0 ? tempHigh.toFixed(1) : null;
+          stationHistoric.tempLow = tempLow || tempLow === 0 ? tempLow.toFixed(1) : null;
+          stationHistoric.tempAvg = tempAvg || tempAvg === 0 ? tempAvg.toFixed(1) : null;
+          stationHistoric.windspeedHigh = windspeedHigh || windspeedHigh === 0 ? windspeedHigh.toFixed(1) : null;
+          stationHistoric.windspeedLow = windspeedLow || windspeedLow === 0 ? windspeedLow.toFixed(1) : null;
+          stationHistoric.windspeedAvg = windspeedAvg || windspeedAvg === 0 ? windspeedAvg.toFixed(1) : null;
+          stationHistoric.windgustHigh = windgustHigh || windgustHigh === 0 ? windgustHigh.toFixed(1) : null;
+          stationHistoric.windgustLow = windgustLow || windgustLow === 0 ? windgustLow.toFixed(1) : null;
+          stationHistoric.windgustAvg = windgustAvg || windgustAvg === 0 ? windgustAvg.toFixed(1) : null;
+          stationHistoric.dewptHigh = dewptHigh || dewptHigh === 0 ? dewptHigh.toFixed(1) : null;
+          stationHistoric.dewptLow = dewptLow || dewptLow === 0 ? dewptLow.toFixed(1) : null;
+          stationHistoric.dewptAvg = dewptAvg || dewptAvg === 0 ? dewptAvg.toFixed(1) : null;
+          stationHistoric.windchillHigh = windchillHigh || windchillHigh === 0 ? windchillHigh.toFixed(1) : null;
+          stationHistoric.windchillLow = windchillLow || windchillLow === 0 ? windchillLow.toFixed(1) : null;
+          stationHistoric.windchillAvg = windchillAvg || windchillAvg === 0 ? windchillAvg.toFixed(1) : null;
+          stationHistoric.heatindexHigh = heatindexHigh || heatindexHigh === 0 ? heatindexHigh.toFixed(1) : null;
+          stationHistoric.heatindexLow = heatindexLow || heatindexLow === 0 ? heatindexLow.toFixed(1) : null;
+          stationHistoric.heatindexAvg = heatindexAvg || heatindexAvg === 0 ? heatindexAvg.toFixed(1) : null;
+          stationHistoric.pressureMax = pressureMax || pressureMax === 0 ? pressureMax.toFixed(1) : null;
+          stationHistoric.pressureMin = pressureMin || pressureMin === 0 ? pressureMin.toFixed(1) : null;
+  
+          station.push(stationHistoric);
+        })
 
         stationsHistoricArray.push(station);
       }
-    }) :
-    stationsHistoricArray = [{...Array(stationsCurrentArray.length).keys()}];
+    })
+    : stationsHistoricArray = [{...Array(stationsCurrentArray.length).keys()}];
 
     return [stationsCurrentArray, stationsHistoricArray];
   }

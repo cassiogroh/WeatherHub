@@ -20,11 +20,12 @@ const Dashboard: React.FC = () => {
   const { addToast } = useToast();
 
   const [ stationsCurrent, setStationsCurrent ] = useState<StationCurrentProps[]>([]);
-  const [ stationsHistoric, setStationsHistoric ] = useState<StationHistoricProps[]>([]);
+  const [ stationsHistoric, setStationsHistoric ] = useState<Array<StationHistoricProps[]>>([]);
   const [ triggerAddLoader, setTriggerAddLoader ] = useState(false);
 
   // ToggleStats component
   const [toggleInputSlider, setToggleInputSlider] = useState(false);
+  const [currentHistoricDay, setCurrentHistoricDay] = useState(0);
   const [minStatus, setMinStatus] = useState(true);
   const [medStatus, setMedStatus] = useState(false);
   const [maxStatus, setMaxStatus] = useState(true);
@@ -168,8 +169,8 @@ const Dashboard: React.FC = () => {
     try {
       stationsHistoric.map((stationData, index) => {
         d.push({
-          low: String(stationData.tempLow).replace(/\./g, ','),
-          max: String(stationData.tempHigh).replace(/\./g, ','),
+          low: String(stationData[currentHistoricDay].tempLow).replace(/\./g, ','),
+          max: String(stationData[currentHistoricDay].tempHigh).replace(/\./g, ','),
           prec: Number(stationsCurrent[index].precipTotal) === 0 ? '' : String(stationsCurrent[index].precipTotal).replace(/\./g, ',')
         });
         return true;
@@ -181,7 +182,7 @@ const Dashboard: React.FC = () => {
     if (d.length >= 12) formattedData = `${d[0].low};${d[0].max};;${d[0].prec};;;${d[1].low};${d[1].max};;${d[1].prec};;;${d[2].low};${d[2].max};;${d[2].prec};;;${d[3].low};${d[3].max};;${d[3].prec};;;${d[4].low};${d[4].max};;${d[4].prec};;;;;;;;${d[5].low};${d[5].max};;${d[5].prec};;;${d[6].low};${d[6].max};;${d[6].prec};;;${d[7].low};${d[7].max};;${d[7].prec};;;;;;;;${d[8].low};${d[8].max};;${d[8].prec};;;;;${d[9].low};${d[9].max};;${d[9].prec};;;;;${d[10].low};${d[10].max};;${d[10].prec};;;${d[11].low};${d[11].max};;${d[11].prec}`;
 
     return formattedData;
-  }, [stationsHistoric, stationsCurrent]);
+  }, [stationsHistoric, stationsCurrent, currentHistoricDay]);
 
   const copyData = useCallback(() => {
     const dummy = document.createElement("textarea");
@@ -232,6 +233,8 @@ const Dashboard: React.FC = () => {
           maxStatus={maxStatus}
           setMaxStatus={setMaxStatus}
           copyData={copyData}
+          currentHistoricDay={currentHistoricDay}
+          setCurrentHistoricDay={setCurrentHistoricDay}
         />
 
         <StationsStats>
@@ -247,6 +250,7 @@ const Dashboard: React.FC = () => {
               minStatus={minStatus}
               medStatus={medStatus}
               maxStatus={maxStatus}
+              currentHistoricDay={currentHistoricDay + 6}
             />
           )
           )}

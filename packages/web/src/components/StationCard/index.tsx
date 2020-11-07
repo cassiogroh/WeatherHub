@@ -68,7 +68,7 @@ export interface StationHistoricProps {
 
 export interface RequestProps {
   currentData: StationCurrentProps;
-  historicData: StationHistoricProps;
+  historicData: Array<StationHistoricProps>;
   propsView?: ViewProps;
   handleDeleteStation?: any;
   user?: object;
@@ -76,6 +76,7 @@ export interface RequestProps {
   minStatus: boolean;
   medStatus: boolean;
   maxStatus: boolean;
+  currentHistoricDay: number;
 }
 
 const StationCard: React.FC<RequestProps> = ({
@@ -88,6 +89,7 @@ const StationCard: React.FC<RequestProps> = ({
   minStatus,
   medStatus,
   maxStatus,
+  currentHistoricDay
 }: RequestProps ) => {
 
   const {
@@ -134,7 +136,7 @@ const StationCard: React.FC<RequestProps> = ({
       heatindexAvg,
       pressureMax,
       pressureMin,
-    } = historicData;
+    } = historicData[currentHistoricDay];
   }
 
   const [inputFocus, setInputFocus] = useState(false);
@@ -232,7 +234,7 @@ const StationCard: React.FC<RequestProps> = ({
             { propsView.pressure && <p>Pressão atmosférica <span>{pressure} hPa</span></p>}
             { propsView.elev && <p>Elevação <span>{elev} m</span></p>}
           </> : (
-            status === 'online' && !!propsView && currentOrHistoric===true ?
+            status === 'online' && !!propsView && currentOrHistoric ?
             <>
               { propsView.temp && <h4>Temperatura</h4>}
               { propsView.temp && minStatus && <p>Mín <span>{tempLow} °C</span></p>}

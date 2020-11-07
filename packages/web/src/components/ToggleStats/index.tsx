@@ -1,5 +1,5 @@
 import React, { FormEvent, useCallback, useMemo, useRef, useState } from 'react';
-import { FiPlus } from 'react-icons/fi';
+import { FiArrowLeftCircle, FiArrowRightCircle, FiPlus } from 'react-icons/fi';
 import { format, isAfter, getDate, getMonth, getYear } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
@@ -21,6 +21,8 @@ interface Request {
   maxStatus: boolean;
   setMaxStatus(toggle: boolean): void;
   copyData(): void;
+  currentHistoricDay: number;
+  setCurrentHistoricDay: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const ToggleStats: React.FC<Request> = ({
@@ -34,7 +36,9 @@ const ToggleStats: React.FC<Request> = ({
   setMedStatus,
   maxStatus,
   setMaxStatus,
-  copyData
+  copyData,
+  currentHistoricDay,
+  setCurrentHistoricDay
 }: Request) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { user } = useAuth();
@@ -50,6 +54,23 @@ const ToggleStats: React.FC<Request> = ({
 
     return date;
   }, []);
+
+  const currentHistoricDayView = useMemo(() => {
+    const now = Date.now();
+    const date = format(
+      new Date(getYear(now), getMonth(now), getDate(now) + currentHistoricDay),
+      `dd'/'MMM'`,
+      { locale: ptBR }
+    );
+
+    return date;
+  }, [currentHistoricDay]);
+
+  const changeDay = useCallback((change: number) => {
+    if (currentHistoricDay + change <= 0 && currentHistoricDay + change >= -6) {
+      setCurrentHistoricDay(oldState => oldState + change);
+    }
+  }, [currentHistoricDay, setCurrentHistoricDay]);
 
   const isQuarterAfterMidnight = useCallback(() => {
     const now = Date.now();
@@ -76,8 +97,8 @@ const ToggleStats: React.FC<Request> = ({
         <OptionsHeader>
           <p>Atual</p>
           <div>
-            <input onChange={console.log} type="checkbox" checked={toggleInputSlider} />
-            <span onClick={() => {
+            <input title='Trocar modo de visualização' onChange={console.log} type="checkbox" checked={toggleInputSlider} />
+            <span title='Trocar modo de visualização' onClick={() => {
               // Allow toggle only after 00:15h
               isQuarterAfterMidnight() && setToggleInputSlider(!toggleInputSlider)
             }}>
@@ -87,9 +108,17 @@ const ToggleStats: React.FC<Request> = ({
         </OptionsHeader>
 
         <HistoricOptions toggleInputSlider={toggleInputSlider} minStatus={minStatus} medStatus={medStatus} maxStatus={maxStatus}>
-          <p onClick={() => setMinStatus(!minStatus)}>Mín</p>
-          <p onClick={() => setMedStatus(!medStatus)}>Méd</p>
-          <p onClick={() => setMaxStatus(!maxStatus)}>Máx</p>
+          <div>
+            <p title='Mínimas' onClick={() => setMinStatus(!minStatus)}>Mín</p>
+            <p title='Médias' onClick={() => setMedStatus(!medStatus)}>Méd</p>
+            <p title='Máximas' onClick={() => setMaxStatus(!maxStatus)}>Máx</p>
+          </div>
+
+          <div>
+            <FiArrowLeftCircle title='Dia anterior' size={20} color='#FFF' onClick={() => changeDay(-1)} />
+            <p>{currentHistoricDayView}</p>
+            <FiArrowRightCircle title='Próximo dia'  size={20} color='#FFF' onClick={() => changeDay(1)} />
+          </div>
         </HistoricOptions>
       
         <InputOption name='Temperatura' propName={'temp'} handleInputCheck={handleInputCheck} checked />
@@ -104,7 +133,7 @@ const ToggleStats: React.FC<Request> = ({
         <InputOption name='Pressão atmosférica' propName={'pressure'} handleInputCheck={handleInputCheck} />
         <InputOption name='Elevação' propName={'elev'} handleInputCheck={handleInputCheck} disabled={toggleInputSlider} />
         {
-          (user.email === 'cirogroh@yahoo.com.br' || user.email === 'cassiogroh@gmail.com') &&
+          user.email === 'cirogroh@yahoo.com.br' &&
           <ExclusiveButton
             onClick={copyData}
             type='button'

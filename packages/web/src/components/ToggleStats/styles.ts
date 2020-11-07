@@ -98,7 +98,7 @@ export const Options = styled.div`
   transition: max-height .2s ease-out, border-color .3s, filter .2s;
 
   &:hover {
-    max-height: 400px;
+    max-height: 430px;
     border-color: #fff;
     filter: brightness(113%);
     transition: max-height .2s ease-in;
@@ -127,17 +127,20 @@ interface HistoricProps {
 }
 
 export const HistoricOptions = styled.div<HistoricProps>`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0 3px;
+  flex-direction: column;
+  margin: 0 3px 5px;
   transition: opacity .3s, visibility .3s;
   opacity: 0;
-  visibility: hidden;
+  display: none;
 
-  ${props => props.toggleInputSlider && css`opacity: 1; visibility: visible;`};
+  ${props => props.toggleInputSlider && css`opacity: 1; display: flex;`};
 
-  p {
+  div:first-child {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  div:first-child p {
     margin: 0 2px;
     padding: 4px;
     border-radius: 5px;
@@ -152,16 +155,39 @@ export const HistoricOptions = styled.div<HistoricProps>`
     user-select: none;
   }
 
-  p:first-child {
+  div:first-child p:first-child {
     ${props => props.minStatus && css`background-color: rgba(0,0,0, 0.2)`}
   }
 
-  p:first-child + p {
+  div:first-child p:first-child + p {
     ${props => props.medStatus && css`background-color: rgba(0,0,0, 0.2)`}
   }
 
-  p:last-child {
+  div:first-child p:last-child {
     ${props => props.maxStatus && css`background-color: rgba(0,0,0, 0.2)`}
+  }
+
+  div + div {
+    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    p {
+      margin: 0;
+      cursor: default;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+        user-select: none;
+    }
+
+    svg {
+      margin: 0 10px;
+      cursor: pointer;
+    }
   }
   
 `;

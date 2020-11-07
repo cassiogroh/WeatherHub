@@ -37,8 +37,7 @@ export default class PopulateStations{
     const isQuarterAfterMidnight = () => {
       const now = Date.now();
       const quarterAfterMidnight = new Date(getYear(now), getMonth(now), getDate(now), 0, 15, 0);
-      const permitedTime = isAfter(now, quarterAfterMidnight);
-      return permitedTime;
+      return isAfter(now, quarterAfterMidnight);
     }
 
     const StationsCurrentData = await Promise.allSettled(

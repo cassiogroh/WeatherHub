@@ -28,7 +28,7 @@ export interface ForecastToday {
   expectedRain: number;
   windPhrase: string;
   temperatureMin: number;
-  temperatureMax: number;
+  temperatureMax: number | null;
   sunriseTimeLocal: string;
   sunsetTimeLocal: string;
   moonPhase: string;
@@ -40,7 +40,7 @@ interface Request {
   longitude: any;
 }
 
-export default class LoadStationsService {
+export default class GetForecastService {
   public async execute({ latitude, longitude }: Request) {
     const url = getGeoCodeUrl(latitude, longitude);
 
@@ -84,7 +84,7 @@ export default class LoadStationsService {
       forecastToday.expectedRain = qpf[0] === null ? qpf[1] : qpf[0];
       forecastToday.windPhrase = windPhrase[0] === null ? windPhrase[1] : windPhrase[0];
       forecastToday.temperatureMin = temperatureMin[0];
-      forecastToday.temperatureMax = temperatureMax[0];
+      forecastToday.temperatureMax = temperatureMax[0] ? temperatureMax[0] : null;
       forecastToday.sunriseTimeLocal = sunriseTimeLocal[0];
       forecastToday.sunsetTimeLocal = sunsetTimeLocal[0];
       forecastToday.moonPhase = moonPhase[0];

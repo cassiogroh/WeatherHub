@@ -169,8 +169,8 @@ const Dashboard: React.FC = () => {
     try {
       stationsHistoric.map((stationData, index) => {
         d.push({
-          low: String(stationData[currentHistoricDay].tempLow).replace(/\./g, ','),
-          max: String(stationData[currentHistoricDay].tempHigh).replace(/\./g, ','),
+          low: String(stationData[currentHistoricDay + 6].tempLow).replace(/\./g, ','),
+          max: String(stationData[currentHistoricDay + 6].tempHigh).replace(/\./g, ','),
           prec: Number(stationsCurrent[index].precipTotal) === 0 ? '' : String(stationsCurrent[index].precipTotal).replace(/\./g, ',')
         });
         return true;

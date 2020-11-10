@@ -171,7 +171,7 @@ const Dashboard: React.FC = () => {
         d.push({
           low: String(stationData[currentHistoricDay + 6].tempLow).replace(/\./g, ','),
           max: String(stationData[currentHistoricDay + 6].tempHigh).replace(/\./g, ','),
-          prec: Number(stationsCurrent[index].precipTotal) === 0 ? '' : String(stationsCurrent[index].precipTotal).replace(/\./g, ',')
+          prec: Number(stationData[currentHistoricDay + 6].precipTotalHistoric) === 0 ? '' : String(stationData[currentHistoricDay + 6].precipTotalHistoric).replace(/\./g, ',')
         });
         return true;
       });

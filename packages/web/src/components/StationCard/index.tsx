@@ -64,6 +64,7 @@ export interface StationHistoricProps {
   pressureMax?: number;
   pressureMin?: number;
   pressureTrend?: number;
+  precipTotalHistoric?: number;
 }
 
 export interface RequestProps {
@@ -136,6 +137,7 @@ const StationCard: React.FC<RequestProps> = ({
       heatindexAvg,
       pressureMax,
       pressureMin,
+      precipTotalHistoric,
     } = historicData[currentHistoricDay];
   }
 
@@ -260,6 +262,9 @@ const StationCard: React.FC<RequestProps> = ({
               { propsView.humidity && minStatus && <p>Mín <span>{humidityLow} %</span></p>}
               { propsView.humidity && medStatus && <p>Méd <span>{humidityAvg} %</span></p>}
               { propsView.humidity && maxStatus && <p>Máx <span>{humidityHigh} %</span></p>}
+
+              { propsView.precipTotal && <h4>Precipitação</h4>}
+              { propsView.precipTotal && minStatus && <p>Total <span>{precipTotalHistoric} mm</span></p>}
 
               { propsView.windGust && <h4>Rajada de vento</h4>}
               { propsView.windGust && minStatus && <p>Mín <span>{windgustLow} km/h</span></p>}

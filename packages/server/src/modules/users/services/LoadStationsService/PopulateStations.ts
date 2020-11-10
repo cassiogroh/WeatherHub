@@ -54,7 +54,7 @@ export default class PopulateStations{
       StationsHistoricData = await Promise.allSettled(
         urlArray.map((urls) =>
           fetch(urls.urlHistoric)
-            .then(response => response.json())
+            .then(response => {return response.json()})
             .catch(err => console.log('Error fetching historic data: ', err))
         )
       )
@@ -147,6 +147,7 @@ export default class PopulateStations{
         
         data.value.summaries.map((historicData: any) => {
           let stationHistoric: StationProps = {} as StationProps;
+          console.log(historicData)
 
           let {
             tempHigh,
@@ -169,6 +170,7 @@ export default class PopulateStations{
             heatindexAvg,
             pressureMax,
             pressureMin,
+            precipTotal
           }
           = historicData[unitSystem];
   
@@ -201,6 +203,7 @@ export default class PopulateStations{
           stationHistoric.heatindexAvg = heatindexAvg || heatindexAvg === 0 ? heatindexAvg.toFixed(1) : '--';
           stationHistoric.pressureMax = pressureMax || pressureMax === 0 ? pressureMax.toFixed(1) : '--';
           stationHistoric.pressureMin = pressureMin || pressureMin === 0 ? pressureMin.toFixed(1) : '--';
+          stationHistoric.precipTotalHistoric = precipTotal || precipTotal === 0 ? precipTotal.toFixed(1) : '--';
   
           station.push(stationHistoric);
         })

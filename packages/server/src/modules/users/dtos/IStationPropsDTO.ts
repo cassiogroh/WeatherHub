@@ -39,5 +39,5 @@ export default interface IStationPropsDTO {
   heatindexAvg: number;
   pressureMax: number;
   pressureMin: number;
-  pressureTrend: number;
+  precipTotalHistoric: number;
 }

@@ -126,7 +126,7 @@ const ToggleStats: React.FC<Request> = ({
         <InputOption name='Índice de calor' propName={'heatIndex'} handleInputCheck={handleInputCheck} />
         <InputOption name='Sensação térmica' propName={'windChill'} handleInputCheck={handleInputCheck} />
         <InputOption name='Humidade relativa' propName={'humidity'} handleInputCheck={handleInputCheck} checked />
-        <InputOption name='Precipitação total' propName={'precipTotal'} handleInputCheck={handleInputCheck} checked disabled={toggleInputSlider} />
+        <InputOption name='Precipitação total' propName={'precipTotal'} handleInputCheck={handleInputCheck} checked />
         <InputOption name='Taxa de precipitação' propName={'precipRate'} handleInputCheck={handleInputCheck} disabled={toggleInputSlider} />
         <InputOption name='Rajada de vento' propName={'windGust'} handleInputCheck={handleInputCheck} />
         <InputOption name='Velocidade do vento' propName={'windSpeed'} handleInputCheck={handleInputCheck} />

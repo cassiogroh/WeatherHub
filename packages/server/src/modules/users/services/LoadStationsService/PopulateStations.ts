@@ -30,7 +30,7 @@ export default class PopulateStations{
       var user = await this.usersRepository.checkUserExists(userId);
     }
 
-    const unitSystem = apiInfo.units === 'm' ? 'metric' : 'imperial'; // Gets the unit system used to read data fetched
+    const unitSystem = apiInfo.units === 'm' ? 'metric' : 'imperial';
 
     const offlineStations: string[] = [];
 
@@ -147,7 +147,6 @@ export default class PopulateStations{
         
         data.value.summaries.map((historicData: any) => {
           let stationHistoric: StationProps = {} as StationProps;
-          console.log(historicData)
 
           let {
             tempHigh,
@@ -207,6 +206,39 @@ export default class PopulateStations{
   
           station.push(stationHistoric);
         })
+
+        stationsHistoricArray.push(station);
+      } else {
+        let stationHistoric: StationProps = {} as StationProps;
+
+        for (let index = 0; index < 7; index++) {
+          stationHistoric.humidityHigh = '--';
+          stationHistoric.humidityLow = '--';
+          stationHistoric.humidityAvg = '--';
+          stationHistoric.tempHigh = '--';
+          stationHistoric.tempLow = '--';
+          stationHistoric.tempAvg = '--';
+          stationHistoric.windspeedHigh = '--';
+          stationHistoric.windspeedLow = '--';
+          stationHistoric.windspeedAvg = '--';
+          stationHistoric.windgustHigh = '--';
+          stationHistoric.windgustLow = '--';
+          stationHistoric.windgustAvg = '--';
+          stationHistoric.dewptHigh = '--';
+          stationHistoric.dewptLow = '--';
+          stationHistoric.dewptAvg = '--';
+          stationHistoric.windchillHigh = '--';
+          stationHistoric.windchillLow = '--';
+          stationHistoric.windchillAvg = '--';
+          stationHistoric.heatindexHigh = '--';
+          stationHistoric.heatindexLow = '--';
+          stationHistoric.heatindexAvg = '--';
+          stationHistoric.pressureMax = '--';
+          stationHistoric.pressureMin = '--';
+          stationHistoric.precipTotalHistoric = '--';
+
+          station.push(stationHistoric);
+        }
 
         stationsHistoricArray.push(station);
       }

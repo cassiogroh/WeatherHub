@@ -112,7 +112,7 @@ const StationCard: React.FC<RequestProps> = ({
     windSpeed
   } = currentData;
 
-  if (historicData) {
+  if (historicData[currentHistoricDay].humidityHigh) {
     var {
       humidityHigh,
       humidityLow,

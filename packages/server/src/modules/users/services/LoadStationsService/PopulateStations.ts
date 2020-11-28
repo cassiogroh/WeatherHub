@@ -143,7 +143,7 @@ export default class PopulateStations{
     StationsHistoricData.map(data => {
       let station: StationProps[] = [] as StationProps[];
 
-      if (data.status === 'fulfilled' && isNaN(data.value) ) {
+      if (data.status === 'fulfilled' && isNaN(data.value) && data.value) {
         
         data.value.summaries.map((historicData: any) => {
           let stationHistoric: StationProps = {} as StationProps;

@@ -1,4 +1,4 @@
-import React, { FormEvent, useCallback, useMemo, useRef, useState } from 'react';
+import React, { FormEvent, useCallback, useMemo, useRef } from 'react';
 import { FiArrowLeftCircle, FiArrowRightCircle, FiPlus } from 'react-icons/fi';
 import { format, isAfter, getDate, getMonth, getYear } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -23,6 +23,8 @@ interface Request {
   copyData(): void;
   currentHistoricDay: number;
   setCurrentHistoricDay: React.Dispatch<React.SetStateAction<number>>;
+  inputValue: string;
+  setInputValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const ToggleStats: React.FC<Request> = ({
@@ -38,12 +40,13 @@ const ToggleStats: React.FC<Request> = ({
   setMaxStatus,
   copyData,
   currentHistoricDay,
-  setCurrentHistoricDay
+  setCurrentHistoricDay,
+  inputValue,
+  setInputValue,
 }: Request) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { user } = useAuth();
   const { addToast } = useToast();
-  const [inputValue, setInputValue] = useState('');
 
   const formattedDate = useMemo(() => {
     const date = format(

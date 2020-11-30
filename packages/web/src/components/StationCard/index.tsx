@@ -40,31 +40,31 @@ export interface StationCurrentProps {
 }
 
 export interface StationHistoricProps {
-  humidityHigh?: number;
-  humidityLow?: number;
-  humidityAvg?: number;
-  tempHigh?: number;
-  tempLow?: number;
-  tempAvg?: number;
-  windspeedHigh?: number;
-  windspeedLow?: number;
-  windspeedAvg?: number;
-  windgustHigh?: number;
-  windgustLow?: number;
-  windgustAvg?: number;
-  dewptHigh?: number;
-  dewptLow?: number;
-  dewptAvg?: number;
-  windchillHigh?: number;
-  windchillLow?: number;
-  windchillAvg?: number;
-  heatindexHigh?: number;
-  heatindexLow?: number;
-  heatindexAvg?: number;
-  pressureMax?: number;
-  pressureMin?: number;
-  pressureTrend?: number;
-  precipTotalHistoric?: number;
+  humidityHigh: number | string;
+  humidityLow: number | string;
+  humidityAvg: number | string;
+  tempHigh: number | string;
+  tempLow: number | string;
+  tempAvg: number | string;
+  windspeedHigh: number | string;
+  windspeedLow: number | string;
+  windspeedAvg: number | string;
+  windgustHigh: number | string;
+  windgustLow: number | string;
+  windgustAvg: number | string;
+  dewptHigh: number | string;
+  dewptLow: number | string;
+  dewptAvg: number | string;
+  windchillHigh: number | string;
+  windchillLow: number | string;
+  windchillAvg: number | string;
+  heatindexHigh: number | string;
+  heatindexLow: number | string;
+  heatindexAvg: number | string;
+  pressureMax: number | string;
+  pressureMin: number | string;
+  pressureTrend: number | string;
+  precipTotalHistoric: number | string;
 }
 
 export interface RequestProps {

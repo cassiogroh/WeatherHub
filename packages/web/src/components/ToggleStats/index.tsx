@@ -136,7 +136,7 @@ const ToggleStats: React.FC<Request> = ({
         <InputOption name='Pressão atmosférica' propName={'pressure'} handleInputCheck={handleInputCheck} />
         <InputOption name='Elevação' propName={'elev'} handleInputCheck={handleInputCheck} disabled={toggleInputSlider} />
         {
-          user.email === 'cirogroh@yahoo.com.br' &&
+          (user.email === 'cirogroh@yahoo.com.br' || user.email === 'cassiogroh@gmail.com') &&
           <ExclusiveButton
             onClick={copyData}
             type='button'

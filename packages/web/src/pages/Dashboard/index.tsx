@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useCallback, FormEvent, useMemo } from 'react';
+import React, { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import Loader from 'react-loader-spinner';
-
-import api from '../../services/api';
-
 import Header from '../../components/Header';
 import ProfileHeader from '../../components/ProfileHeader';
-import ToggleStats from '../../components/ToggleStats';
 import StationCard, { StationCurrentProps, StationHistoricProps, ViewProps } from '../../components/StationCard';
-
+import ToggleStats from '../../components/ToggleStats';
 import { useAuth } from '../../hooks/auth';
 import { useToast } from '../../hooks/toast';
-
+import api from '../../services/api';
 import { Container, StationsStats } from './styles';
+
+
+
+
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
@@ -46,6 +46,7 @@ const Dashboard: React.FC = () => {
     api.get('/users/stations').then(response => {
       setStationsCurrent(response.data[0]);
       setStationsHistoric(response.data[1]);
+      console.log(response.data[1])
     })
   }, []);
 
@@ -150,18 +151,18 @@ const Dashboard: React.FC = () => {
 
   const data = useMemo(() => {
     interface dataInfo {
-      low: string;
-      max: string;
-      prec: string;
+      low: string | number;
+      max: string | number;
+      prec: string | number;
     }
     let d: dataInfo[] = [] as dataInfo[];
 
     try {
       stationsHistoric.map((stationData, index) => {
         d.push({
-          low: String(stationData[currentHistoricDay + 6].tempLow).replace(/\./g, ','),
-          max: String(stationData[currentHistoricDay + 6].tempHigh).replace(/\./g, ','),
-          prec: Number(stationData[currentHistoricDay + 6].precipTotalHistoric) === 0 ? '' : String(stationData[currentHistoricDay + 6].precipTotalHistoric).replace(/\./g, ',')
+          low:  typeof stationData[currentHistoricDay + 6].tempLow === 'number' ? String(stationData[currentHistoricDay + 6].tempLow).replace(/\./g, ',') : stationData[currentHistoricDay + 6].tempLow,
+          max: typeof stationData[currentHistoricDay + 6] === 'number' ? String(stationData[currentHistoricDay + 6].tempHigh).replace(/\./g, ',') : stationData[currentHistoricDay + 6].tempHigh,
+          prec: Number(stationData[currentHistoricDay + 6].precipTotalHistoric) === 0 || typeof stationData[currentHistoricDay + 6].precipTotalHistoric === 'string' ? '' : String(stationData[currentHistoricDay + 6].precipTotalHistoric).replace(/\./g, ',')
         });
         return true;
       });

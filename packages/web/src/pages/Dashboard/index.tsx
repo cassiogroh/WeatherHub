@@ -46,7 +46,6 @@ const Dashboard: React.FC = () => {
     api.get('/users/stations').then(response => {
       setStationsCurrent(response.data[0]);
       setStationsHistoric(response.data[1]);
-      console.log(response.data[1])
     })
   }, []);
 
@@ -160,9 +159,9 @@ const Dashboard: React.FC = () => {
     try {
       stationsHistoric.map((stationData, index) => {
         d.push({
-          low:  typeof stationData[currentHistoricDay + 6].tempLow === 'number' ? String(stationData[currentHistoricDay + 6].tempLow).replace(/\./g, ',') : stationData[currentHistoricDay + 6].tempLow,
-          max: typeof stationData[currentHistoricDay + 6] === 'number' ? String(stationData[currentHistoricDay + 6].tempHigh).replace(/\./g, ',') : stationData[currentHistoricDay + 6].tempHigh,
-          prec: Number(stationData[currentHistoricDay + 6].precipTotalHistoric) === 0 || typeof stationData[currentHistoricDay + 6].precipTotalHistoric === 'string' ? '' : String(stationData[currentHistoricDay + 6].precipTotalHistoric).replace(/\./g, ',')
+          low: String(stationData[currentHistoricDay + 6].tempLow).replace(/\./g, ','),
+          max: String(stationData[currentHistoricDay + 6].tempHigh).replace(/\./g, ','),
+          prec: Number(stationData[currentHistoricDay + 6].precipTotalHistoric) === 0 ? '' : String(stationData[currentHistoricDay + 6].precipTotalHistoric).replace(/\./g, ',')
         });
         return true;
       });

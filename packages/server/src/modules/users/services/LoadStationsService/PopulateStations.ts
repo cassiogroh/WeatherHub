@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import fetch from 'node-fetch';
-import { isAfter, getDate, getMonth, getYear } from 'date-fns';
+import { isAfter, getDate, getMonth, getYear, subDays } from 'date-fns';
 
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import StationProps from '@modules/users/dtos/IStationPropsDTO';
@@ -146,16 +146,25 @@ export default class PopulateStations{
       if (data.status === 'fulfilled' && isNaN(data.value) && data.value) {
         
         const indexToReplace: number[] = [];
+        const seven_days_ago = subDays(new Date(), 6);
 
-        if (data.value.summaries.length !== 7) {
+        if (data.value.summaries.length < 7) {
           for (let i = 0; i < data.value.summaries.length - 1; i++) {
             const date1 = new Date(data.value.summaries[i].obsTimeLocal).getDate();
             const date2 = new Date(data.value.summaries[i + 1].obsTimeLocal).getDate();
 
-            if (date2 !== date1 + 1) {
+            if (date2 > date1 + 1) {
               indexToReplace.push(i+1);
             }
           }
+        }
+
+        if (new Date(data.value.summaries[0].obsTimeLocal).getDate() !== seven_days_ago.getDate()) {
+          indexToReplace.push(0);
+        }
+
+        if (new Date(data.value.summaries[data.value.summaries.length - 1].obsTimeLocal).getDate() !== new Date().getDate()) {
+          indexToReplace.push(7);
         }
 
         indexToReplace.length &&
@@ -190,8 +199,7 @@ export default class PopulateStations{
               windspeedLow: null,
             }
           })
-        })
-
+        });
 
         data.value.summaries.map((historicData: any, index: number) => {
           let stationHistoric: StationProps = {} as StationProps;

@@ -24,9 +24,6 @@ const Home: React.FC = () => {
     const latitude = location.latitude;
     const longitude = location.longitude;
 
-    // process.env.REACT_APP_GOOGLE_GEOCODE_API_KEY
-    // Get address to show on top of forecast
-
     const response = await api.get('/', {
       headers: {
         latitude: latitude,

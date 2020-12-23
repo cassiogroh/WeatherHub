@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  margin-bottom: 50px;
+  padding-bottom: 50px;
 `;
 
 export const InfoIds = styled.div`

@@ -165,7 +165,14 @@ const Dashboard: React.FC = () => {
         });
         return true;
       });
-    } catch (err) {};
+    } catch (err) {
+      console.log(err)
+      d.push({
+        low: '',
+        max: '',
+        prec: ''
+      });
+    };
 
     let formattedData = '';
 

@@ -21,7 +21,6 @@ export const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    height: 100%;
     margin: 0;
     border-radius: 10px;
   }
@@ -92,7 +91,7 @@ export const Container = styled.div`
     align-items: center;
 
     width: 100%;
-    line-height: 10px;;
+    line-height: 10px;
     font-size: 1.4rem;
     text-align: center;
     border-radius: 10px;

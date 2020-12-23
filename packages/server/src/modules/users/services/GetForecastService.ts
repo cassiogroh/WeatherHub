@@ -56,18 +56,33 @@ export default class GetForecastService {
       moonPhase,
     } = response;
 
-    const {
-      iconCode,
-      dayOrNight,
-      daypartName,
-      temperature,
-      temperatureHeatIndex,
-      temperatureWindChill,
-      relativeHumidity,
-      precipChance,
-      qpf,
-      windPhrase,
-    } = response.daypart[0];
+    if (response.daypart) {
+      var {
+        iconCode,
+        dayOrNight,
+        daypartName,
+        temperature,
+        temperatureHeatIndex,
+        temperatureWindChill,
+        relativeHumidity,
+        precipChance,
+        qpf,
+        windPhrase,
+      } = response.daypart[0];
+    } else {
+      var
+        iconCode,
+        dayOrNight,
+        daypartName,
+        temperature,
+        temperatureHeatIndex,
+        temperatureWindChill,
+        relativeHumidity,
+        precipChance,
+        qpf,
+        windPhrase
+      = null;
+    }
 
     const forecastToday: ForecastToday = {} as ForecastToday;
     const daylyForecast: object[] = [];
